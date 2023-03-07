@@ -1,6 +1,23 @@
 window.config = {
   routerBasename: '/',
-  // whiteLabeling: {},
+  // whiteLabeling
+  whiteLabeling: {
+    createLogoComponentFn: function(React) {
+      return React.createElement(
+        'a',
+        {
+          target: '_self',
+          rel: 'noopener noreferrer',
+          className: 'text-purple-600 line-through',
+          href: 'https://neuralsight.ai',
+        },
+        React.createElement('img', {
+          src: '../assets/Gif_Logo.gif',
+          className: 'w-10 h-10',
+        })
+      );
+    },
+  },
   extensions: [],
   modes: [],
   customizationService: {
