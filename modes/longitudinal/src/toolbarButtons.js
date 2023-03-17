@@ -295,6 +295,23 @@ const toolbarButtons = [
       ],
     },
   },
+  // NeuralSight AIProbe
+  {
+    id: 'AIProbe',
+    type: 'ohif.action',
+    props: {
+      icon: 'tool-ai-probe',
+      label: 'AIProbe',
+      type: 'action',
+      commands: [
+        {
+          commandName: 'showUploadViewportModal',
+          commandOptions: {},
+          context: 'CORNERSTONE',
+        },
+      ],
+    },
+  },
   {
     id: 'Layout',
     type: 'ohif.layoutSelector',

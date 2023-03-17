@@ -279,6 +279,7 @@ const toolbarButtons = [
       ],
     },
   },
+
   {
     id: 'Capture',
     type: 'ohif.action',
@@ -289,6 +290,23 @@ const toolbarButtons = [
       commands: [
         {
           commandName: 'showDownloadViewportModal',
+          commandOptions: {},
+          context: 'CORNERSTONE',
+        },
+      ],
+    },
+  },
+  // NeuralSight AIProbe
+  {
+    id: 'AIProbe',
+    type: 'ohif.action',
+    props: {
+      icon: 'tool-ai-probe',
+      label: 'AIProbe',
+      type: 'action',
+      commands: [
+        {
+          commandName: 'showUploadViewportModal',
           commandOptions: {},
           context: 'CORNERSTONE',
         },
