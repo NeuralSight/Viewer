@@ -54,6 +54,7 @@ const extensionDependencies = {
   '@ohif/extension-cornerstone-dicom-seg': '^3.0.0',
   '@ohif/extension-dicom-pdf': '^3.0.1',
   '@ohif/extension-dicom-video': '^3.0.1',
+  'neuralsight-tools': '0.1.0',
 };
 
 function modeFactory() {
@@ -116,6 +117,7 @@ function modeFactory() {
         'WindowLevel',
         'Pan',
         'Capture',
+        'AIProbe',
         'Layout',
         'MPR',
         'Crosshairs',

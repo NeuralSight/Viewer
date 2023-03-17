@@ -121,6 +121,7 @@ function modeFactory() {
         'MPR',
         'Crosshairs',
         'MoreTools',
+        'AIProbe',
       ]);
     },
     onModeExit: ({ servicesManager }) => {
