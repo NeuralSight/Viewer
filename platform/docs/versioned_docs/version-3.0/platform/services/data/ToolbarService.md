@@ -210,6 +210,16 @@ to create `MeasurementTools` nested button
           toolName: 'EllipticalRoi',
         }
       },
+      // AIProbe tool
+      {
+        id: 'AIProbe',
+        icon:'tool-ai-probe',
+        label: 'AIProbe',
+        type:'tool',
+        commandOption: {
+          toolName: 'AIProbeRoi'
+        }
+      }
     ],
   },
 }
