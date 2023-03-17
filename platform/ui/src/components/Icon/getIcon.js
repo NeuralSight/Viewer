@@ -71,6 +71,11 @@ import notificationsError from './../../assets/icons/notifications-error.svg';
 import notificationsSuccess from './../../assets/icons/notifications-success.svg';
 
 /** Tools */
+
+/**Neural sight Tools */
+import toolAIProbe from './../../assets/icons/tool-magic-stick.svg';
+
+/**Ohif Tools */
 import toolZoom from './../../assets/icons/tool-zoom.svg';
 import toolCapture from './../../assets/icons/tool-capture.svg';
 import toolLayout from './../../assets/icons/tool-layout.svg';
@@ -143,7 +148,6 @@ const ICONS = {
   'icon-pause': iconPause,
   'info-action': infoAction,
   'info-link': infoLink,
-  'arrow-left': arrowLeft,
   'launch-arrow': launchArrow,
   'launch-info': launchInfo,
   link: link,
@@ -188,6 +192,13 @@ const ICONS = {
   'notifications-warning': notificationsWarning,
 
   /** Tools */
+
+  /**NeuralSight Tools
+   * Going to use this for neuralsight tools
+   */
+  'tool-ai-probe': toolAIProbe,
+
+  /**Ohif Custom Tools */
   'tool-zoom': toolZoom,
   'tool-capture': toolCapture,
   'tool-layout': toolLayout,
