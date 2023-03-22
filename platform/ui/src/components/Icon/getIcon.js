@@ -70,12 +70,14 @@ import notificationsWarning from './../../assets/icons/notifications-warning.svg
 import notificationsError from './../../assets/icons/notifications-error.svg';
 import notificationsSuccess from './../../assets/icons/notifications-success.svg';
 
-/** Tools */
+/**Neural sight Icon */
+import aiReport from './../../assets/icons/ai-report.svg';
+import aiSetting from './../../assets/icons/ai-setting.svg';
 
-/**Neural sight Tools */
+/**Tools */
 import toolAIProbe from './../../assets/icons/tool-magic-stick.svg';
 
-/**Ohif Tools */
+/** Tools */
 import toolZoom from './../../assets/icons/tool-zoom.svg';
 import toolCapture from './../../assets/icons/tool-capture.svg';
 import toolLayout from './../../assets/icons/tool-layout.svg';
@@ -191,14 +193,16 @@ const ICONS = {
   'notifications-success': notificationsSuccess,
   'notifications-warning': notificationsWarning,
 
-  /** Tools */
-
-  /**NeuralSight Tools
-   * Going to use this for neuralsight tools
+  /**NeuralSight
+   * Going to use this for neuralsight
    */
+
+  'ai-report': aiReport,
+  'ai-setting': aiSetting,
+  /**Tools */
   'tool-ai-probe': toolAIProbe,
 
-  /**Ohif Custom Tools */
+  /** Tools */
   'tool-zoom': toolZoom,
   'tool-capture': toolCapture,
   'tool-layout': toolLayout,
