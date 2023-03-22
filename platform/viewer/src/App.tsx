@@ -151,7 +151,7 @@ App.defaultProps = {
      */
     showLoadingIndicator: true,
     showStudyList: true,
-    oidc: [],
+    oidc: [], //openid connection
     extensions: [],
   },
   defaultExtensions: [],
