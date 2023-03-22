@@ -11,7 +11,7 @@ import {
   ReferenceLinesTool,
 } from '@cornerstonejs/tools';
 import { ServicesManager } from '@ohif/core';
-import NeuralSightViewportUploadForm from '../../../neuralsight-extensions/neuralsight-tools/src/utils/NeuralSightViewportUploadForm';
+// import NeuralSightViewportUploadForm from 'extension-neuralsight-tools';
 import CornerstoneViewportDownloadForm from './utils/CornerstoneViewportDownloadForm';
 import callInputDialog from './utils/callInputDialog';
 import { setColormap } from './utils/colormap/transferFunctionHelpers';
@@ -199,28 +199,6 @@ const commandsModule = ({ servicesManager }) => {
         uiModalService.show({
           content: CornerstoneViewportDownloadForm,
           title: 'Download High Quality Image',
-          contentProps: {
-            activeViewportIndex,
-            onClose: uiModalService.hide,
-            cornerstoneViewportService,
-          },
-        });
-      }
-    },
-    /**
-     *  Neuralsight edits
-     * showUploadImage TODO:Later even
-     */
-
-    showUploadViewportModal: () => {
-      // viewportGridService gets the active ViewPort
-      const { activeViewportIndex } = viewportGridService.getState();
-      //
-      const { uiModalService } = servicesManager.services;
-      if (uiModalService) {
-        uiModalService.show({
-          title: 'Upload A CT Image for AI probing',
-          content: NeuralSightViewportUploadForm,
           contentProps: {
             activeViewportIndex,
             onClose: uiModalService.hide,
