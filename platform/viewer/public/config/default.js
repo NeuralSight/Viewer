@@ -1,5 +1,18 @@
 window.config = {
-  routerBasename: '/',
+  routerBasename: '/', //router base name
+  // oidc: [
+  //   {
+  //     // ~ REQUIRED
+  //     // Authorization Server URL
+  //     authority: 'http://localhost:4001/auth/realms/ohif', //neuralsight is the authority here
+  //     client_id: 'ohif-viewer',
+  //     redirect_uri: 'http://localhost:3000', // `OHIFStandaloneViewer.js` i think this where to redirect
+  //     response_type: 'code', // "Authorization Code Flow"
+  //     scope: 'openid', // email profile openid
+  //     // ~ OPTIONAL
+  //     post_logout_redirect_uri: 'http://localhost:4001/auth',
+  //   },
+  // ],
   // whiteLabeling
   whiteLabeling: {
     createLogoComponentFn: function(React) {
