@@ -45,6 +45,11 @@ const dicomSeg = {
   panel: '@ohif/extension-cornerstone-dicom-seg.panelModule.panelSegmentation',
 };
 
+const neuralSight = {
+  aiReport: 'extension-neuralsight-tools.panelModule.aiReport',
+  aiSettings: 'extension-neuralsight-tools.panelModule.aiSettings',
+};
+
 const extensionDependencies = {
   // Can derive the versions at least process.env.from npm_package_version
   '@ohif/extension-default': '^3.0.0',
@@ -54,7 +59,7 @@ const extensionDependencies = {
   '@ohif/extension-cornerstone-dicom-seg': '^3.0.0',
   '@ohif/extension-dicom-pdf': '^3.0.1',
   '@ohif/extension-dicom-video': '^3.0.1',
-  'neuralsight-tools': '0.1.0',
+  'extension-neuralsight-tools': '0.1.0',
 };
 
 function modeFactory() {
@@ -163,7 +168,12 @@ function modeFactory() {
             id: ohif.layout,
             props: {
               leftPanels: [tracked.thumbnailList],
-              rightPanels: [dicomSeg.panel, tracked.measurements],
+              rightPanels: [
+                neuralSight.aiSettings,
+                neuralSight.aiReport,
+                dicomSeg.panel,
+                tracked.measurements,
+              ],
               // rightPanelDefaultClosed: true, // optional prop to start with collapse panels
               viewports: [
                 {
