@@ -295,6 +295,7 @@ const toolbarButtons = [
       ],
     },
   },
+  // neuralsight.aiToolBarBtn
   // NeuralSight AIProbe
   {
     id: 'AIProbe',
@@ -307,7 +308,7 @@ const toolbarButtons = [
         {
           commandName: 'showUploadViewportModal',
           commandOptions: {},
-          context: 'CORNERSTONE',
+          context: 'NEURALSIGHT',
         },
       ],
     },
