@@ -1,10 +1,28 @@
 import React from 'react';
-import { ButtonGroup } from '@ohif/ui';
+import { Select } from '@ohif/ui';
+import { SelectType } from '../../../data';
 
-type Props = {};
-
-const Select = (props: Props) => {
-  return <div>Select</div>;
+type Props = {
+  selectData: SelectType[];
+  onChange: (value: SelectType) => void;
+  value: SelectType | null;
+  id: string;
 };
 
-export default Select;
+const SelectModels = ({ selectData, onChange, value, id }: Props) => {
+  return (
+    <div>
+      <Select
+        id={id}
+        isClearable={false}
+        onChange={onChange}
+        options={selectData}
+        menuPlacement="auto"
+        value={value}
+        placeholder={'Select Model...'}
+      />
+    </div>
+  );
+};
+
+export default SelectModels;
