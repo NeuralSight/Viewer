@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import getGridWidthClass from '../../utils/getGridWidthClass'
+import getGridWidthClass from '../../utils/getGridWidthClass';
 
 import {
   InputText,
@@ -41,7 +41,7 @@ const InputGroup = ({
   const renderFieldInputComponent = ({
     name,
     displayName,
-    inputProps,
+    options,
     isSortable,
     inputType,
   }) => {
@@ -94,7 +94,7 @@ const InputGroup = ({
             onLabelClick={onLabelClick}
             value={values[name]}
             onChange={handleFieldChange}
-            options={inputProps.options}
+            options={options}
           />
         );
       case 'DateRange':
@@ -155,7 +155,7 @@ InputGroup.propTypes = {
       isSortable: PropTypes.bool.isRequired,
       gridCol: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
         .isRequired,
-      option: PropTypes.arrayOf(
+      options: PropTypes.arrayOf(
         PropTypes.shape({
           value: PropTypes.string,
           label: PropTypes.string,
