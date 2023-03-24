@@ -63,6 +63,7 @@ const extensionDependencies = {
 };
 
 function modeFactory() {
+  let _activatePanelTriggersSubscriptions = [];
   return {
     // TODO: We're using this as a route segment
     // We should not be.
@@ -77,6 +78,8 @@ function modeFactory() {
         measurementService,
         toolbarService,
         toolGroupService,
+        panelService,
+        segmentationService,
       } = servicesManager.services;
 
       measurementService.clearMeasurements();
@@ -128,6 +131,28 @@ function modeFactory() {
         'Crosshairs',
         'MoreTools',
       ]);
+
+      // // ActivatePanel event trigger for when a segmentation or measurement is added.
+      // // Do not force activation so as to respect the state the user may have left the UI in.
+      // _activatePanelTriggersSubscriptions = [
+      //   ...panelService.addActivatePanelTriggers(dicomSeg.panel, [
+      //     {
+      //       sourcePubSubService: segmentationService,
+      //       sourceEvents: [
+      //         segmentationService.EVENTS.SEGMENTATION_PIXEL_DATA_CREATED,
+      //       ],
+      //     },
+      //   ]),
+      //   ...panelService.addActivatePanelTriggers(tracked.measurements, [
+      //     {
+      //       sourcePubSubService: measurementService,
+      //       sourceEvents: [
+      //         measurementService.EVENTS.MEASUREMENT_ADDED,
+      //         measurementService.EVENTS.RAW_MEASUREMENT_ADDED,
+      //       ],
+      //     },
+      //   ]),
+      // ];
     },
     onModeExit: ({ servicesManager }) => {
       const {
@@ -138,7 +163,9 @@ function modeFactory() {
         cornerstoneViewportService,
       } = servicesManager.services;
 
-      toolbarService.reset();
+      _activatePanelTriggersSubscriptions.forEach(sub => sub.unsubscribe());
+      _activatePanelTriggersSubscriptions = [];
+
       toolGroupService.destroy();
       syncGroupService.destroy();
       segmentationService.destroy();
