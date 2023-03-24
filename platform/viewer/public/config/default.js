@@ -21,13 +21,21 @@ window.config = {
         {
           target: '_self',
           rel: 'noopener noreferrer',
-          className: 'text-purple-600 line-through',
+          className: 'line-through flex justify-center my-auto items-center',
           href: 'https://neuralsight.ai',
         },
         React.createElement('img', {
           src: '../assets/Gif_Logo.gif',
           className: 'w-10 h-10',
-        })
+        }),
+        React.createElement(
+          'div',
+          {
+            className:
+              'text-common-light uppercase text-md font-normal h-full align-middle ',
+          },
+          'neuralsight'
+        )
       );
     },
   },
