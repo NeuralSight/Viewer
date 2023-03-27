@@ -22,9 +22,6 @@ const AISettings = (props: Props) => {
     };
     modelValues = [...modelValues, modelObj];
   }
-
-  // console.log('currentModel', currentModel);
-  // console.log('modelsName', modelValues);
   const [modelValue, setModelValue] = useState<SelectType | null>(null);
 
   const handleModelSelected = (value: SelectType) => {
@@ -56,12 +53,14 @@ const AISettings = (props: Props) => {
         <div>
           {modelValue && currentModel ? (
             <table
-              className="space-y-1 table-auto"
+              className="border-collapse border-spacing-y-4 border-spacing-x-1 border border-secondary-light table-auto"
               aria-label="model-specifications"
             >
-              <tbody className="">
+              <tbody>
                 {keys.map((key, index) => (
                   <ListItem
+                    paddingX="px-3"
+                    paddingY="py-1"
                     key={key + index}
                     label={key.replace(/_/g, ' ')}
                     value={currentModel[key]?.replace(/_/g, ' ')}
