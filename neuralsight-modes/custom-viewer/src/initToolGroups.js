@@ -225,7 +225,7 @@ function initToolGroups(extensionManager, toolGroupService, commandsManager) {
     extensionManager,
     toolGroupService,
     commandsManager,
-    'neurallabs'
+    'default'
   );
   initSRToolGroup(extensionManager, toolGroupService, commandsManager);
   initMPRToolGroup(extensionManager, toolGroupService, commandsManager);
