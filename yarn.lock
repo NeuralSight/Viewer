@@ -1459,6 +1459,14 @@
     detect-gpu "^4.0.45"
     lodash.clonedeep "4.5.0"
 
+"@cornerstonejs/core@^0.36.5":
+  version "0.36.5"
+  resolved "https://registry.yarnpkg.com/@cornerstonejs/core/-/core-0.36.5.tgz#2e8c2fc2f9d00c2b5a0f1666aa575ab5024f3616"
+  integrity sha512-5Z4GEjpWaYbEbSpbgNc92oiwTcD8TUpVw1TUQ5UC4OkzxBMN4THmkGifRq5kJpxJTahGVsoU4W1S7of+YsULlg==
+  dependencies:
+    detect-gpu "^4.0.45"
+    lodash.clonedeep "4.5.0"
+
 "@cornerstonejs/streaming-image-volume-loader@^0.15.1":
   version "0.15.1"
   resolved "https://registry.npmjs.org/@cornerstonejs/streaming-image-volume-loader/-/streaming-image-volume-loader-0.15.1.tgz#b9fd0efbebbd232119ef0ae7b63bf8b3498bf539"
@@ -8519,23 +8527,7 @@ cornerstone-math@^0.1.9:
   resolved "https://registry.npmjs.org/cornerstone-math/-/cornerstone-math-0.1.10.tgz#a3f99db64d73c5adee61ae0d570128eca1682d07"
   integrity sha512-23XSAyP7t70ANvhFyqwvva+zFd1bQ2d5GL7tg9qKE932WmImjA2Y9tiy5n0iTtnf51W/78Png8Lia2o4dCdJaQ==
 
-cornerstone-wado-image-loader@^4.10.0:
-  version "4.10.2"
-  resolved "https://registry.npmjs.org/cornerstone-wado-image-loader/-/cornerstone-wado-image-loader-4.10.2.tgz#139956654324fd2b01fe5b4900d0f4ed8c52633d"
-  integrity sha512-qj9dThELqYCm3jAZfg9qnUl8d76gngOl55kYJabY5lh/dFeVIxno/hYxy3ydE7RtG2c/TUGXb+EMUl0CJSqKBQ==
-  dependencies:
-    "@babel/eslint-parser" "^7.19.1"
-    "@cornerstonejs/codec-charls" "^1.2.3"
-    "@cornerstonejs/codec-libjpeg-turbo-8bit" "^1.2.2"
-    "@cornerstonejs/codec-openjpeg" "^1.2.2"
-    "@cornerstonejs/codec-openjph" "^2.4.2"
-    coverage-istanbul-loader "^3.0.5"
-    date-format "^4.0.14"
-    dicom-parser "^1.8.9"
-    pako "^2.0.4"
-    uuid "^9.0.0"
-
-cornerstone-wado-image-loader@^4.10.2:
+cornerstone-wado-image-loader@^4.10.0, cornerstone-wado-image-loader@^4.10.2:
   version "4.10.2"
   resolved "https://registry.yarnpkg.com/cornerstone-wado-image-loader/-/cornerstone-wado-image-loader-4.10.2.tgz#139956654324fd2b01fe5b4900d0f4ed8c52633d"
   integrity sha512-qj9dThELqYCm3jAZfg9qnUl8d76gngOl55kYJabY5lh/dFeVIxno/hYxy3ydE7RtG2c/TUGXb+EMUl0CJSqKBQ==
