@@ -172,10 +172,10 @@ function modeFactory() {
               rightPanels: [
                 dicomSeg.panel,
                 tracked.measurements,
-                neuralSight.aiReport,
-                neuralSight.aiSettings,
+                // neuralSight.aiReport,
+                // neuralSight.aiSettings,
               ],
-              // rightPanelDefaultClosed: true, // optional prop to start with collapse panels
+              rightPanelDefaultClosed: true, // optional prop to start with collapse panels
               viewports: [
                 {
                   namespace: tracked.viewport,
