@@ -85,6 +85,7 @@ const UserPreferences = ({
             onChange={onLanguageChangeHandler}
             options={availableLanguages}
             value={state.language}
+            closeMenuOnSelect
           />
         </div>
       </Section>
