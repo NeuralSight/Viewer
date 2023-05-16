@@ -12,6 +12,7 @@ import { ToolGroupManager } from '@cornerstonejs/tools';
 import PropTypes from 'prop-types';
 
 import UploadImageForm from '../components/UploadImageForm';
+import { postPatientStudy } from '../utils/api';
 
 import { getEnabledElement as OHIFgetEnabledElement } from '@ohif/extension-cornerstone/src/state';
 
@@ -254,7 +255,7 @@ const NeuralSightViewportUploadForm = ({
       updateViewportPreview={updateViewportPreview}
       loadImage={loadImage}
       // to get the function from utils
-      uploadImage={() => null}
+      uploadImage={postPatientStudy}
     />
   );
 };
