@@ -185,6 +185,7 @@ function createDicomWebApi(dicomWebConfig, userAuthenticationService) {
           madeInClient = false,
         } = {}) => {
           const headers = userAuthenticationService.getAuthorizationHeader();
+          console.log('wadoDicomWebClient', wadoDicomWebClient);
           if (headers) {
             wadoDicomWebClient.headers = headers;
           }
@@ -218,6 +219,7 @@ function createDicomWebApi(dicomWebConfig, userAuthenticationService) {
 
     store: {
       dicom: async dataset => {
+        console.log('dataset', dataset);
         const headers = userAuthenticationService.getAuthorizationHeader();
         if (headers) {
           wadoDicomWebClient.headers = headers;
@@ -294,7 +296,6 @@ function createDicomWebApi(dicomWebConfig, userAuthenticationService) {
         const imageId = implementation.getImageIdsForInstance({
           instance,
         });
-
         instance.imageId = imageId;
 
         metadataProvider.addImageIdToUIDs(imageId, {

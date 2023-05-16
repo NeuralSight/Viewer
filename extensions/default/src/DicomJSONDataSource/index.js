@@ -94,7 +94,7 @@ function createDicomJSONApi(dicomJsonConfig) {
     },
     query: {
       studies: {
-        mapParams: () => { },
+        mapParams: () => {},
         search: async param => {
           const [key, value] = Object.entries(param)[0];
           const mappedParam = mappings[key];

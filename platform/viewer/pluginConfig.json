@@ -39,16 +39,16 @@
   ],
   "modes": [
     {
-      "packageName": "@ohif/mode-longitudinal",
-      "version": "3.0.0"
-    },
-    {
       "packageName": "@ohif/mode-tmtv",
       "version": "3.0.0"
     },
     {
       "packageName": "custom-viewer",
       "version": "0.1.0"
+    },
+    {
+      "packageName": "@ohif/mode-longitudinal",
+      "version": "3.0.0"
     }
   ],
   "modesFactory": [],

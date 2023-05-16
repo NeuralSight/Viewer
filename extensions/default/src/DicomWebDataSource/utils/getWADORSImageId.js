@@ -35,8 +35,8 @@ function buildInstanceFrameWadoRsUri(instance, config, frame) {
 /**
  * Obtain an imageId for Cornerstone based on the WADO-RS scheme
  *
- * @param {object} instanceMetada metadata object (InstanceMetadata)
- * @param {(string\|number)} [frame] the frame number
+ * @param {object} instanceMetadata metadata object (InstanceMetadata)
+ * @param {(string|number)} [frame] the frame number
  * @returns {string} The imageId to be used by Cornerstone
  */
 export default function getWADORSImageId(instance, config, frame) {
@@ -46,6 +46,5 @@ export default function getWADORSImageId(instance, config, frame) {
   if (!uri) {
     return;
   }
-
   return `wadors:${uri}`;
 }
