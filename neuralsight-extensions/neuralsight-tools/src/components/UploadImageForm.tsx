@@ -1,11 +1,5 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-  createRef,
-  useRef,
-  ChangeEvent,
-} from 'react';
+import React, { useEffect, useState, useRef, ChangeEvent } from 'react';
+
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -67,41 +61,9 @@ const UploadImageForm = ({
 }: Props): React.ReactNode => {
   const { t } = useTranslation('Modals');
 
-  // const [filename, setFilename] = useState(DEFAULT_FILENAME);
-  // const [fileType, setFileType] = useState(['jpg']);
   const [selectedFile, setSelectedFile] = useState<File | undefined>();
   const [preview, setPreview] = useState<string | undefined>();
-
-  // const [dimensions, setDimensions] = useState({
-  //   width: defaultSize,
-  //   height: defaultSize,
-  // });
-
-  // const [showAnnotations, setShowAnnotations] = useState(true);
-
-  // const [keepAspect, setKeepAspect] = useState(true);
-  // const [aspectMultiplier, setAspectMultiplier] = useState({
-  //   width: 1,
-  //   height: 1,
-  // });
-
-  // const [viewportElement, setViewportElement] = useState();
-  // const [viewportElementDimensions, setViewportElementDimensions] = useState({
-  //   width: defaultSize,
-  //   height: defaultSize,
-  // });
-
-  // const [downloadCanvas, setDownloadCanvas] = useState({
-  //   ref: createRef(),
-  //   width: defaultSize,
-  //   height: defaultSize,
-  // });
-
-  // const [viewportPreview, setViewportPreview] = useState({
-  //   src: null,
-  //   width: defaultSize,
-  //   height: defaultSize,
-  // });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   interface AnyObject {
     [key: string]: any;
@@ -123,58 +85,10 @@ const UploadImageForm = ({
 
   const refreshViewport = useRef(null);
 
-  // const onKeepAspectToggle = () => {
-  //   const { width, height } = dimensions;
-  //   const aspectMultiplier = { ...aspectMultiplier };
-  //   if (!keepAspect) {
-  //     const base = Math.min(width, height);
-  //     aspectMultiplier.width = width / base;
-  //     aspectMultiplier.height = height / base;
-  //     setAspectMultiplier(aspectMultiplier);
-  //   }
-
-  //   setKeepAspect(!keepAspect);
-  // };
-
   // parameters will go here
   const upload = () => {
     uploadImage();
   };
-
-  // const onDimensionsChange = (value, dimension) => {
-  //   const oppositeDimension = dimension === 'height' ? 'width' : 'height';
-  //   const sanitizedTargetValue = value.replace(/\D/, '');
-  //   const isEmpty = sanitizedTargetValue === '';
-  //   const newDimensions = { ...dimensions };
-  //   const updatedDimension = isEmpty
-  //     ? ''
-  //     : Math.min(sanitizedTargetValue, maximumSize);
-
-  //   if (updatedDimension === dimensions[dimension]) {
-  //     return;
-  //   }
-
-  //   newDimensions[dimension] = updatedDimension;
-
-  //   if (keepAspect && newDimensions[oppositeDimension] !== '') {
-  //     newDimensions[oppositeDimension] = Math.round(
-  //       newDimensions[dimension] * aspectMultiplier[oppositeDimension]
-  //     );
-  //   }
-
-  //   // In current code, keepAspect is always `true`
-  //   // And we always start w/ a square width/height
-  //   setDimensions(newDimensions);
-
-  //   // Only update if value is non-empty
-  //   if (!isEmpty) {
-  //     setViewportElementDimensions(newDimensions);
-  //     setDownloadCanvas(state => ({
-  //       ...state,
-  //       ...newDimensions,
-  //     }));
-  //   }
-  // };
 
   const error_messages = {
     filename: 'No file selected.',
@@ -194,104 +108,6 @@ const UploadImageForm = ({
       </Typography>
     );
   };
-
-  // const validSize = useCallback(
-  //   value => (value >= minimumSize ? value : minimumSize),
-  //   [minimumSize]
-  // );
-
-  // const loadAndUpdateViewports = useCallback(async () => {
-  //   const { width: scaledWidth, height: scaledHeight } = await loadImage(
-  //     activeViewportElement,
-  //     viewportElement,
-  //     dimensions.width,
-  //     dimensions.height
-  //   );
-
-  //   // toggleAnnotations(showAnnotations, viewportElement, activeViewportElement);
-
-  //   const scaledDimensions = {
-  //     height: validSize(scaledHeight),
-  //     width: validSize(scaledWidth),
-  //   };
-
-  //   setViewportElementDimensions(scaledDimensions);
-  //   // setDownloadCanvas(state => ({
-  //   //   ...state,
-  //   //   ...scaledDimensions,
-  //   // }));
-
-  //   const {
-  //     dataUrl,
-  //     width: viewportElementWidth,
-  //     height: viewportElementHeight,
-  //   } = await updateViewportPreview(
-  //     viewportElement,
-  //     downloadCanvas.ref.current,
-  //     fileType
-  //   );
-
-  //   setViewportPreview(state => ({
-  //     ...state,
-  //     src: dataUrl,
-  //     width: validSize(viewportElementWidth),
-  //     height: validSize(viewportElementHeight),
-  //   }));
-  // }, [
-  //   loadImage,
-  //   activeViewportElement,
-  //   viewportElement,
-  //   dimensions.width,
-  //   dimensions.height,
-  //   toggleAnnotations,
-  //   // showAnnotations,
-  //   validSize,
-  //   updateViewportPreview,
-  //   downloadCanvas.ref,
-  //   fileType,
-  // ]);
-
-  // useEffect(() => {
-  //   // enableViewport(viewportElement);
-
-  //   // return () => {
-  //   //   disableViewport(viewportElement);
-  //   // };
-  // }, [disableViewport, enableViewport, viewportElement]);
-
-  // useEffect(() => {
-  //   if (refreshViewport.current !== null) {
-  //     clearTimeout(refreshViewport.current);
-  //   }
-
-  //   refreshViewport.current = setTimeout(() => {
-  //     refreshViewport.current = null;
-  //     // loadAndUpdateViewports();
-  //   }, REFRESH_VIEWPORT_TIMEOUT);
-  // }, [
-  //   activeViewportElement,
-  //   viewportElement,
-  //   // showAnnotations,
-  //   dimensions,
-  //   loadImage,
-  //   toggleAnnotations,
-  //   updateViewportPreview,
-
-  //   minimumSize,
-  //   maximumSize,
-  //   loadAndUpdateViewports,
-  // ]);
-
-  // useEffect(() => {
-  //   const { width, height } = dimensions;
-  //   const hasError = {
-  //     width: width < minimumSize,
-  //     height: height < minimumSize,
-  //     filename: !filename,
-  //   };
-
-  //   setError({ ...hasError });
-  // }, [dimensions, filename, minimumSize]);
 
   // Image preview
   // create a preview as a side effect, whenever selected file is changed
@@ -333,47 +149,11 @@ const UploadImageForm = ({
           className="mr-2"
           onChange={handleSelectFile}
         />
-      </div>
-
-      <div className="flex flex-col mt-6">
-        <div className="flex">
-          {/* <div className="w-1/4 pl-6 ml-6 border-l border-secondary-dark">
-            <div>
-              <InputLabelWrapper
-                sortDirection="none"
-                label={t('File Type')}
-                isSortable={false}
-                onLabelClick={() => {}}
-              >
-                <Select
-                  className="mt-2 text-white"
-                  isClearable={false}
-                  value={fileType}
-                  data-cy="file-type"
-                  onChange={value => {
-                    setFileType([value.value]);
-                  }}
-                  hideSelectedOptions={false}
-                  options={FILE_TYPE_OPTIONS}
-                  placeholder="File Type"
-                />
-              </InputLabelWrapper>
-            </div>
-            <div className="mt-4 ml-2">
-              <label htmlFor="show-annotations" className="flex items-center">
-                <input
-                  id="show-annotations"
-                  data-cy="show-annotations"
-                  type="checkbox"
-                  className="mr-2"
-                  checked={showAnnotations}
-                  onChange={event => setShowAnnotations(event.target.checked)}
-                />
-                <Typography>{t('Show Annotations')}</Typography>
-              </label>
-            </div>
-          </div> */}
-        </div>
+        {/* render file error messages */}
+        {renderErrorHandler('filesize')}
+        {renderErrorHandler('filename')}
+        {renderErrorHandler('format')}
+        {renderErrorHandler('zip')}
       </div>
 
       <div className="mt-8">
@@ -382,25 +162,6 @@ const UploadImageForm = ({
           data-cy="image-preview"
         >
           <Typography variant="h5">{t('Image preview')}</Typography>
-          {/* {activeViewportElement && (
-            <div
-              className="mx-auto my-2"
-              style={{
-                height: viewportElementDimensions.height,
-                width: viewportElementDimensions.width,
-              }}
-              ref={ref => setViewportElement(ref)}
-            ></div>
-          )} */}
-          <img
-            alt="No preview"
-            src={preview}
-            className="mx-auto my-2"
-            style={{
-              maxHeight: defaultSize,
-              width: 'auto',
-            }}
-          />
 
           {/* we can use the active viewport later if the docto ant the images on the view port probed*/}
           {/* {!activeViewportElement && (
