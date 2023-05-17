@@ -1,4 +1,4 @@
-import { ServicesManager } from '@ohif/core';
+// import { ServicesManager } from '@ohif/core';/
 /**
  * TODO: use this instead of edit longitudinal
  * ToolbarModule should provide a list of tool buttons that will be available in OHIF

@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 
 import UploadImageForm from '../components/UploadImageForm';
 import { postPatientStudy } from '../utils/api';
-
 import { getEnabledElement as OHIFgetEnabledElement } from '@ohif/extension-cornerstone/src/state';
 
 const DEFAULT_SIZE = 512;
@@ -45,9 +44,9 @@ const NeuralSightViewportUploadForm = ({
     renderingEngineId
   );
 
-  const toolModeAndBindings = Object.keys(toolGroup.toolOptions).reduce(
+  const toolModeAndBindings = Object.keys(toolGroup?.toolOptions || {}).reduce(
     (acc, toolName) => {
-      const tool = toolGroup.toolOptions[toolName];
+      const tool = toolGroup?.toolOptions[toolName];
       const { mode, bindings } = tool;
 
       return {
@@ -65,7 +64,7 @@ const NeuralSightViewportUploadForm = ({
     return () => {
       Object.keys(toolModeAndBindings).forEach(toolName => {
         const { mode, bindings } = toolModeAndBindings[toolName];
-        toolGroup.setToolMode(toolName, mode, { bindings });
+        toolGroup?.setToolMode(toolName, mode, { bindings });
       });
     };
   }, []);
@@ -100,25 +99,25 @@ const NeuralSightViewportUploadForm = ({
   };
 
   const updateViewportPreview = (
-    downloadViewportElement,
+    uploadViewportElement,
     internalCanvas,
     fileType
   ) =>
     new Promise(resolve => {
-      const enabledElement = getEnabledElement(downloadViewportElement);
+      const enabledElement = getEnabledElement(uploadViewportElement);
 
-      const { viewport: downloadViewport, renderingEngine } = enabledElement;
+      const { viewport: uploadViewport, renderingEngine } = enabledElement;
 
       // Note: Since any trigger of dimensions will update the viewport,
       // we need to resize the offScreenCanvas to accommodate for the new
       // dimensions, this is due to the reason that we are using the GPU offScreenCanvas
-      // to render the viewport for the downloadViewport.
+      // to render the viewport for the uploadViewport.
       renderingEngine.resize();
 
       // Trigger the render on the viewport to update the on screen
-      downloadViewport.render();
+      uploadViewport.render();
 
-      downloadViewportElement.addEventListener(
+      uploadViewportElement.addEventListener(
         Enums.Events.IMAGE_RENDERED,
         function updateViewport(event) {
           const enabledElement = getEnabledElement(event.target);
@@ -141,7 +140,7 @@ const NeuralSightViewportUploadForm = ({
 
           resolve({ dataUrl, width: newWidth, height: newHeight });
 
-          downloadViewportElement.removeEventListener(
+          uploadViewportElement.removeEventListener(
             Enums.Events.IMAGE_RENDERED,
             updateViewport
           );
@@ -163,14 +162,14 @@ const NeuralSightViewportUploadForm = ({
         const { viewport } = activeViewportEnabledElement;
 
         const renderingEngine = cornerstoneViewportService.getRenderingEngine();
-        const downloadViewport = renderingEngine.getViewport(VIEWPORT_ID);
+        const uploadViewport = renderingEngine.getViewport(VIEWPORT_ID);
 
-        if (downloadViewport instanceof StackViewport) {
+        if (uploadViewport instanceof StackViewport) {
           const imageId = viewport.getCurrentImageId();
           const properties = viewport.getProperties();
 
-          downloadViewport.setStack([imageId]).then(() => {
-            downloadViewport.setProperties(properties);
+          uploadViewport.setStack([imageId]).then(() => {
+            uploadViewport.setProperties(properties);
 
             const newWidth = Math.min(width || image.width, MAX_TEXTURE_SIZE);
             const newHeight = Math.min(
@@ -180,15 +179,15 @@ const NeuralSightViewportUploadForm = ({
 
             resolve({ width: newWidth, height: newHeight });
           });
-        } else if (downloadViewport instanceof VolumeViewport) {
+        } else if (uploadViewport instanceof VolumeViewport) {
           const actors = viewport.getActors();
-          // downloadViewport.setActors(actors);
+          // uploadViewport.setActors(actors);
           actors.forEach(actor => {
-            downloadViewport.addActor(actor);
+            uploadViewport.addActor(actor);
           });
 
-          downloadViewport.setCamera(viewport.getCamera());
-          downloadViewport.render();
+          uploadViewport.setCamera(viewport.getCamera());
+          uploadViewport.render();
 
           const newWidth = Math.min(width || image.width, MAX_TEXTURE_SIZE);
           const newHeight = Math.min(height || image.height, MAX_TEXTURE_SIZE);
@@ -209,15 +208,15 @@ const NeuralSightViewportUploadForm = ({
       activeViewportElement
     );
 
-    const downloadViewportElement = getEnabledElement(viewportElement);
+    const uploadViewportElement = getEnabledElement(viewportElement);
 
     const {
       viewportId: activeViewportId,
       renderingEngineId,
     } = activeViewportEnabledElement;
-    const { viewportId: downloadViewportId } = downloadViewportElement;
+    const { viewportId: uploadViewportId } = uploadViewportElement;
 
-    if (!activeViewportEnabledElement || !downloadViewportElement) {
+    if (!activeViewportEnabledElement || !uploadViewportElement) {
       return;
     }
 
@@ -227,7 +226,7 @@ const NeuralSightViewportUploadForm = ({
     );
 
     // add the viewport to the toolGroup
-    toolGroup.addViewport(downloadViewportId);
+    toolGroup.addViewport(uploadViewportId);
 
     Object.keys(toolGroup._toolInstances).forEach(toolName => {
       // make all tools Enabled so that they can not be interacted with
