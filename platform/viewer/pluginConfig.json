@@ -76,10 +76,6 @@
       "packageName": "@ohif/mode-basic-dev-mode",
       "default": false,
       "version": "3.0.0"
-    },
-    {
-      "packageName": "custom-viewer",
-      "version": "0.1.0"
     }
   ],
   "public": [
