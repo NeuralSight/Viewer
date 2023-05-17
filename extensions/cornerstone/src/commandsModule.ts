@@ -11,7 +11,6 @@ import {
   ReferenceLinesTool,
 } from '@cornerstonejs/tools';
 import { Types as OhifTypes } from '@ohif/core';
-
 import CornerstoneViewportDownloadForm from './utils/CornerstoneViewportDownloadForm';
 import callInputDialog from './utils/callInputDialog';
 import { setColormap } from './utils/colormap/transferFunctionHelpers';

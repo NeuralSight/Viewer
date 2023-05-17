@@ -174,6 +174,7 @@ function modeFactory() {
       _activatePanelTriggersSubscriptions = [];
 
       toolGroupService.destroy();
+      // toolbarService.destroy(); // added this
       syncGroupService.destroy();
       segmentationService.destroy();
       cornerstoneViewportService.destroy();

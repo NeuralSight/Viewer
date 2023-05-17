@@ -49,6 +49,7 @@ const metadataProvider = classes.MetadataProvider;
  * @param {bool} lazyLoadStudy - "enableStudyLazyLoad"; Request series meta async instead of blocking
  * @param {string|bool} singlepart - indicates of the retrieves can fetch singlepart.  Options are bulkdata, video, image or boolean true
  */
+
 function createDicomWebApi(dicomWebConfig, userAuthenticationService) {
   const {
     qidoRoot,
