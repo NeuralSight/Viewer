@@ -55,6 +55,8 @@ export default function initWADOImageLoader(
       convertFloatPixelDataToInt: false,
     },
     beforeSend: function(xhr) {
+      // const state = window.store.getState();
+      // const activeServer = state.servers.servers.find(t => t.active);
       const headers = userAuthenticationService.getAuthorizationHeader();
 
       // Request:
@@ -68,10 +70,23 @@ export default function initWADOImageLoader(
           : 'multipart/related; type="application/octet-stream"',
         // 'multipart/related; type="image/x-jls", multipart/related; type="image/jls"; transfer-syntax="1.2.840.10008.1.2.4.80", multipart/related; type="image/x-jls", multipart/related; type="application/octet-stream"; transfer-syntax=*',
       };
-
+      console.log('headers', headers);
       if (headers && headers.Authorization) {
+        console.log('Auth', headers.Authorization);
         xhrRequestHeaders.Authorization = headers.Authorization;
       }
+      // else {
+      // xhr.setRequestHeader(
+      //   'Authorization',
+      //   'Basic ' + btoa('edwin.kibet@neurallabs.africa:password')
+      // );
+      //   xhrRequestHeaders.Authorization =
+      //     'Basic ' + btoa('edwin.kibet@neurallabs.africa:password');
+      //   console.log(
+      //     ' xhrRequestHeaders.Authorization',
+      //     xhrRequestHeaders.Authorization
+      //   );
+      // }
 
       return xhrRequestHeaders;
     },

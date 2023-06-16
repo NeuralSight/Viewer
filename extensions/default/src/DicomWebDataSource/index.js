@@ -115,6 +115,7 @@ function createDicomWebApi(dicomWebConfig, userAuthenticationService) {
             qidoDicomWebClient.headers = headers;
           }
 
+          console.log('headers' + qidoDicomWebClient.headers);
           const { studyInstanceUid, seriesInstanceUid, ...mappedParams } =
             mapParams(origParams, {
               supportsFuzzyMatching,
@@ -139,6 +140,11 @@ function createDicomWebApi(dicomWebConfig, userAuthenticationService) {
           if (headers) {
             qidoDicomWebClient.headers = headers;
           }
+          //  else {
+          //    add custom headers if no headers
+          // qidoDicomWebClient.headers.Authorization =
+          //   'Basic ' + btoa('edwin.kibet@neurallabs.africa:password');
+          // }
 
           const results = await seriesInStudy(
             qidoDicomWebClient,
@@ -155,6 +161,19 @@ function createDicomWebApi(dicomWebConfig, userAuthenticationService) {
           if (headers) {
             qidoDicomWebClient.headers = headers;
           }
+          //  else {
+          //   // add custom headers if no headers
+          //   qidoDicomWebClient.headers.Authorization =
+          //     'Basic ' + btoa('edwin.kibet@neurallabs.africa:password');
+          //   qidoDicomWebClient.headers.Accept = 'application/dicom+json';
+          //   qidoDicomWebClient.headers['Accept-Encoding'] = 'gzip, deflate, br';
+          //   qidoDicomWebClient.headers['Accept-Language'] = 'en-US,en;q=0.9';
+          //   qidoDicomWebClient.headers['Cache-Control'] = 'no-cache';
+          //   qidoDicomWebClient.headers['Connection'] = 'keep-alive';
+          //   qidoDicomWebClient.headers['Host'] = 'localhost:8099';
+          //   qidoDicomWebClient.headers['Origin'] = 'http://localhost:3000';
+          //   qidoDicomWebClient.headers['Referer'] = 'http://localhost:3000';
+          // // }
 
           qidoSearch.call(
             undefined,
