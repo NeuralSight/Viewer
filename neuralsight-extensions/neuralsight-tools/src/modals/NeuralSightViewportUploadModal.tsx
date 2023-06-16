@@ -44,9 +44,9 @@ const NeuralSightViewportUploadForm = ({
     renderingEngineId
   );
 
-  const toolModeAndBindings = Object.keys(toolGroup?.toolOptions || {}).reduce(
+  const toolModeAndBindings = Object.keys(toolGroup.toolOptions).reduce(
     (acc, toolName) => {
-      const tool = toolGroup?.toolOptions[toolName];
+      const tool = toolGroup.toolOptions[toolName];
       const { mode, bindings } = tool;
 
       return {
