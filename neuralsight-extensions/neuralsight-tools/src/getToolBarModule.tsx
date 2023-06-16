@@ -1,4 +1,4 @@
-// import { ServicesManager } from '@ohif/core';/
+// import { ServicesManager } from '@ohif/core';
 /**
  * TODO: use this instead of edit longitudinal
  * ToolbarModule should provide a list of tool buttons that will be available in OHIF
@@ -11,24 +11,25 @@ export default function getToolbarModule({
   commandsManager,
   extensionManager,
 }) {
-  return [
-    {
-      id: 'AIProbe',
-      type: 'ohif.action',
-      props: {
-        icon: 'tool-ai-probe',
-        label: 'AIProbe',
-        type: 'action',
-        commands: [
-          {
-            commandName: 'showUploadViewportModal',
-            commandOptions: {},
-            context: 'NEURALSIGHT',
-          },
-        ],
-      },
-    },
-  ];
+  // return [
+  //   {
+  //     name: 'AIProbe',
+  //     id: 'AIProbe',
+  //     type: 'ohif.action',
+  //     props: {
+  //       type: 'action',
+  //       icon: 'tool-ai-probe',
+  //       label: 'AIProbe',
+  //       commands: [
+  //         {
+  //           commandName: 'showUploadViewportModal',
+  //           commandOptions: {},
+  //           context: 'NEURALSIGHT',
+  //         },
+  //       ],
+  //     },
+  //   },
+  // ];
   // const { toolbarService } = (servicesManager as ServiceManger).services;
   // toolbarService.init(extensionManager);
   // toolbarService.addButtons(toolButtons);
