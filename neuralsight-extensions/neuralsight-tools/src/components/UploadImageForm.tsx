@@ -4,16 +4,16 @@ import { useTranslation } from 'react-i18next';
 
 import {
   Typography,
-  Input,
-  Tooltip,
-  IconButton,
-  Icon,
-  Select,
-  InputLabelWrapper,
   Button,
 } from '@ohif/ui';
 import { isFileTypeOkay } from '../utils/isFileOkay';
-import { ServerErrorData, ServerSuccessData, StudyInfoType } from '../../data';
+import {
+  ServerResultFormat,
+  OrthancServerErrorData,
+  OrthancServerSuccessData,
+  StudyInfoType,
+  Details,
+} from '../../data';
 import { getStudyInfoFromImageId } from '../utils/api';
 import { readZipFiles } from '../utils/readZipFiles';
 
@@ -77,22 +77,29 @@ const UploadImageForm = ({
   }
 
   //  update this file errors increase
-  type ErrorTypes = 'filename' | 'filesize' | 'format' | 'server' | 'zip';
+  type ErrorTypes =
+    | 'filename'
+    | 'filesize'
+    | 'format'
+    | 'server'
+    | 'zip'
+    | 'detail';
 
   const IntialErrorState = {
     filename: false,
     filesize: false,
     format: false,
     server: false,
+    detail: false,
   };
   const [error, setError] = useState<BooleanObject>(IntialErrorState);
-  const [serverError, setServerError] = useState<ServerErrorData>();
-  const [success, setSuccess] = useState<ServerSuccessData>();
+  const [serverError, setServerError] = useState<OrthancServerErrorData | Details[]>();
+  const [success, setSuccess] = useState<OrthancServerSuccessData>();
   const [studyInfo, setStudyInfo] = useState<StudyInfoType>();
 
   const hasError = Object.values(error).includes(true);
 
-  const refreshViewport = useRef(null);
+  // const refreshViewport = useRef(null);
 
   // parameters will go here
   const upload = async () => {
@@ -110,49 +117,66 @@ const UploadImageForm = ({
       if (response.status == 200 || response.status == 201) {
         let successData;
         if (isFileTypeOkay(selectedFile?.name, ['zip'])) {
-          successData = data as ServerSuccessData[];
+          successData = data as ServerResultFormat[];
         } else {
-          successData = data as ServerSuccessData;
+          successData = data as ServerResultFormat;
         }
         try {
           let parentStudy = '';
           if (successData) {
             if (!Array.isArray(successData)) {
-              let newSuccessData = successData as ServerSuccessData;
-              parentStudy = newSuccessData.ParentStudy;
+              let newSuccessData = successData as ServerResultFormat;
+              parentStudy = newSuccessData.predicted_details.ParentStudy; // user predicted parent study optionaly user uploaded in other case however here interested with the predicted values
               setSuccess(successData);
             } else {
-              let newSuccessData = successData as ServerSuccessData[];
+              let newSuccessData = successData as ServerResultFormat[];
               const successArr = newSuccessData.filter(
-                data => data.Status.toLocaleLowerCase() == 'success'
+                data => data.predicted_details.Status.toLocaleLowerCase() == 'success'
               );
               if (successArr.length > 0) {
-                setSuccess(successArr[successArr.length - 1]);
-                parentStudy = successArr[successArr.length - 1].ParentStudy;
+                setSuccess(successArr[successArr.length - 1].predicted_details);
+                parentStudy = successArr[successArr.length - 1].predicted_details.ParentStudy;
               } else {
-                setSuccess(newSuccessData[newSuccessData.length - 1]);
+                setSuccess(newSuccessData[newSuccessData.length - 1].predicted_details);
                 parentStudy =
-                  newSuccessData[newSuccessData.length - 1].ParentStudy;
+                  newSuccessData[newSuccessData.length - 1].predicted_details.ParentStudy;
               }
             }
           }
           const response = await getStudyInfoFromImageId(parentStudy);
           const studyInfo = (await response.json()) as StudyInfoType;
-          console.log('data', studyInfo);
+          console.log('Data', studyInfo);
           setStudyInfo(studyInfo);
           if (studyInfo.MainDicomTags?.StudyInstanceUID) {
             window.open(
-              `http://localhost:8099/viewer?StudyInstanceUIDs=${studyInfo.MainDicomTags.StudyInstanceUID}`
-            ); //TODO: If NOT OKAY CHANGE ,,, CURRENT BEHAVIOUR opens every new uploaded dicom image in a seperate tab
+              `http://localhost:8099/viewer?StudyInstanceUIDs=${studyInfo.MainDicomTags.StudyInstanceUID}` //StudyInstanceUID
+            ); //FIXME: If NOT OKAY CHANGE ,,, CURRENT BEHAVIOUR opens every new uploaded dicom image in a seperate tab
           }
           // redirect to
         } catch (error) {
           console.error('Error ->', error);
         }
         // }
-        setIsLoading(false);
+      } else if (response.status == 422) {
+        const errorData = data?.detail as Details[];
+        setServerError(errorData);
+        setError(initState => ({
+          ...initState,
+          detail: true,
+        }));
+        // console.log('error', error);
+        errorData.map((error: Details, index: number) => {
+          throw new Error(
+            index +
+            '). ' +
+            'Error Type: ' +
+            error.type +
+            ', Error Message:' +
+            error.msg
+          );
+        });
       } else {
-        const errorData = data as ServerErrorData;
+        const errorData = data as OrthancServerErrorData;
         setServerError(errorData);
         setError(initState => ({
           ...initState,
@@ -161,17 +185,17 @@ const UploadImageForm = ({
         console.log('error', error);
         throw new Error(
           'Error Code: ' +
-            errorData.HttpStatus +
-            ', Error Message:' +
-            errorData.Message +
-            ',Error Details:' +
-            errorData.Details +
-            ',Orthanc Status:' +
-            errorData.OrthancStatus +
-            ',Orthanc Message:' +
-            errorData.OrthancError +
-            ',Method:' +
-            errorData.Method
+          errorData.HttpStatus +
+          ', Error Message:' +
+          errorData.Message +
+          ',Error Details:' +
+          errorData.Details +
+          ',Orthanc Status:' +
+          errorData.OrthancStatus +
+          ',Orthanc Message:' +
+          errorData.OrthancError +
+          ',Method:' +
+          errorData.Method
         );
       }
     } catch (error) {
@@ -181,6 +205,9 @@ const UploadImageForm = ({
         console.error('Oops server could not connect check your network');
       }
     }
+    //after finishing loading
+    setIsLoading(false);
+
   };
 
   const error_messages = {
@@ -192,17 +219,33 @@ const UploadImageForm = ({
 
   const renderErrorHandler = (
     errorType: ErrorTypes,
-    errorDetails?: ServerErrorData
+    errorDetails?: OrthancServerErrorData | Details[]
   ) => {
     if (!error[errorType]) {
       return null;
     }
     if (error['server']) {
+      const errorMsg = errorDetails as OrthancServerErrorData;
       return (
         // Type errors due to required defaults why not put defaults?
         <Typography className="pl-1 my-2" color="error">
-          {`ErrorMessage: ${errorDetails?.Message}, Details:${errorDetails?.Details}`}
+          {`ErrorMessage: ${errorMsg?.Message}, Details:${errorMsg?.Details}`}
         </Typography>
+      );
+    }
+    if (error['detail']) {
+      const errorMsgArr = errorDetails as Details[];
+
+      console.error('errorMsgArr', errorMsgArr);
+      return (
+        // Type errors due to required defaults why not put defaults?
+        <div className="flex flex-col gap-2">
+          {errorMsgArr.map((err: Details, index: number) => (
+            <Typography className="pl-1 my-2" color="error">
+              {`${index}). ErrorType: ${err.type}, Details:${err.msg}`}
+            </Typography>
+          ))}
+        </div>
       );
     }
     return (
@@ -213,26 +256,23 @@ const UploadImageForm = ({
     );
   };
   const renderSuccessMessageHandler = (
-    success: ServerSuccessData | undefined
+    success: OrthancServerSuccessData | undefined
   ) => {
     if (success) {
       return (
         // Type errors due to required defaults why not put defaults?
         <div
-          className={`pl-1 my-2 ${
-            success?.Status?.toLocaleLowerCase() == 'success'
-              ? ' text-green-500'
-              : ' text-yellow-500'
-          }`}
+          className={`pl-1 my-2 ${success?.Status?.toLocaleLowerCase() == 'success'
+            ? ' text-green-500'
+            : ' text-yellow-500'
+            }`}
         >
           <Typography color="inherit">
-            {`${success.Status}: ${
-              success?.Status?.toLocaleLowerCase() == 'success'
-                ? 'in adding '
-                : ''
-            } Series -> ${success.ParentSeries} of PatientId -> ${
-              success.ParentPatient
-            } of Study with Id -> ${success.ParentStudy},
+            {`${success.Status}: ${success?.Status?.toLocaleLowerCase() == 'success'
+              ? 'in adding '
+              : ''
+              } Series -> ${success.ParentSeries} of PatientId -> ${success.ParentPatient
+              } of Study with Id -> ${success.ParentStudy},
             `}
           </Typography>
         </div>
@@ -282,7 +322,7 @@ const UploadImageForm = ({
       'jpg',
       'dcm',
       'dicom',
-    ]);
+    ]); // add extension here to be accepted
 
     // check file type and render error messages
     if (!checkType) {
@@ -330,7 +370,10 @@ const UploadImageForm = ({
 
   return (
     <div>
-      {renderErrorHandler('server', serverError)}
+      {renderErrorHandler('detail', serverError)}
+      {/*
+      FIXME: REMOVE THIS
+      {renderErrorHandler('server', serverError)} */}
       {renderSuccessMessageHandler(success)}
       <Typography variant="h6">{t('Please select a Dicom File.')}</Typography>
 
