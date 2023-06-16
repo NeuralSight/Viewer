@@ -13,6 +13,9 @@ export default function getDataSourcesModule({
   commandsManager,
   extensionManager,
 }) {
+  const userAuthenticationService =
+    servicesManager.services.userAuthenticationService;
+  console.log('userAuthenticationService', userAuthenticationService);
   return [
     {
       name: 'dicomweb',

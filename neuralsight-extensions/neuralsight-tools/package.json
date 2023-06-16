@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "this extension will contain all the custom tools and ui extension for neuralsight on OHIF",
   "author": "Edwin Chebii",
-  "license": "GNU",
+  "license": "GPL-3.0",
   "main": "dist/umd/neuralsight-tools/index.umd.js",
   "files": [
     "dist/**",
@@ -12,7 +12,8 @@
   ],
   "repository": "OHIF/Viewers",
   "keywords": [
-    "ohif-extension"
+    "ohif-extension",
+    "neuralsight"
   ],
   "module": "src/index.tsx",
   "engines": {
@@ -28,6 +29,7 @@
     "start": "yarn run dev"
   },
   "peerDependencies": {
+    "@ohif/ui":"^3.0.0",
     "@ohif/core": "^3.0.0",
     "@ohif/extension-cornerstone": "^3.0.0",
     "@ohif/extension-default": "^3.0.0",

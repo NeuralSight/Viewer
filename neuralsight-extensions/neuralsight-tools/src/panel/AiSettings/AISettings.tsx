@@ -9,7 +9,7 @@ import { setStorageItem, getStorageItem } from '../../utils/localStorageAccess';
 
 const SELECTED_MODEL = 'selected_model';
 
-//TODO: alternative use a localstorage with expiry
+//FIXME: alternative use a localstorage with expiry
 type Props = {};
 const AISettings = (props: Props) => {
   const id = 'model';

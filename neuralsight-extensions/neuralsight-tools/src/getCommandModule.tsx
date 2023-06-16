@@ -1,5 +1,5 @@
 import { ServicesManager } from '@ohif/core';
-import NeuralSightViewportUploadForm from './forms/NeuralSightViewportUploadForm';
+import NeuralSightViewportUploadForm from './modals/NeuralSightViewportUploadModal';
 
 /**
  * CommandsModule should provide a list of commands that will be available in OHIF

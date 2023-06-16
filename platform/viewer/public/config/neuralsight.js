@@ -1,3 +1,5 @@
+const NEURALSIGHT_WEB_APP = 'http://localhost:4001';
+
 window.config = {
   routerBasename: '/', //router base name
   // oidc: [
@@ -22,7 +24,7 @@ window.config = {
           target: '_self',
           rel: 'noopener noreferrer',
           className: 'line-through flex justify-center my-auto items-center',
-          href: 'https://neuralsight.ai',
+          href: NEURALSIGHT_WEB_APP,
         },
         React.createElement('img', {
           src: '../assets/Gif_Logo.gif',
@@ -102,30 +104,36 @@ window.config = {
   ],
   httpErrorHandler: error => {
     // This is 429 when rejected from the public idc sandbox too often.
-    console.warn(error.status);
+    const { request: xhr, response, status } = error;
+    const { responseType, statusText } = xhr;
 
-    // Could use services manager here to bring up a dialog/modal if needed.
+    console.log('xhr', xhr);
+    // In local files, status is 0 upon success in Firefox
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      console.log(
+        'statusText: ' + statusText,
+        // 'response: ' + response,
+        'responseType: ' + responseType
+      );
+    } else {
+      console.warn('Likely CORS error');
+    }
+
+    //WARNING
+    console.warn(status);
+
+    //TODO: Could use services manager here to bring up a dialog/modal if needed.
     console.warn('test, navigate to https://ohif.org/');
+
+    //TODO: alternatively if not authenticated the the user by bring a service manager here to bring up a login modal
+    //Check if the httpErrorStatus is 403 and redirect to neuralsight
+    if (status === 403) {
+      window.location.replace(NEURALSIGHT_WEB_APP);
+    }
+    if (status === 401) {
+      console.log('send response password');
+    }
   },
-  // whiteLabeling: {
-  //   /* Optional: Should return a React component to be rendered in the "Logo" section of the application's Top Navigation bar */
-  //   createLogoComponentFn: function (React) {
-  //     return React.createElement(
-  //       'a',
-  //       {
-  //         target: '_self',
-  //         rel: 'noopener noreferrer',
-  //         className: 'text-purple-600 line-through',
-  //         href: '/',
-  //       },
-  //       React.createElement('img',
-  //         {
-  //           src: './customLogo.svg',
-  //           className: 'w-8 h-8',
-  //         }
-  //       ))
-  //   },
-  // },
   defaultDataSourceName: 'dicomweb',
   hotkeys: [
     {
