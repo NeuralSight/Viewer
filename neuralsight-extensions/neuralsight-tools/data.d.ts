@@ -25,7 +25,7 @@ export interface SelectType {
   label: string;
 }
 //upload error and success responses
-export type ServerErrorData = {
+export type OrthancServerErrorData = {
   Details: string;
   HttpError: string;
   HttpStatus: number;
@@ -35,14 +35,14 @@ export type ServerErrorData = {
   OrthancStatus: number;
   Uri: string;
 };
-export type ServerSuccessData = {
+export interface OrthancServerSuccessData {
   ID: string;
   ParentPatient: string;
   ParentSeries: string;
   ParentStudy: string;
   Path: string;
   Status: 'AlreadyStored' | 'Success';
-};
+}
 
 //study info data response
 export type StudyInfoType = {
@@ -58,4 +58,16 @@ export type StudyInfoType = {
   ParentPatient: string;
   Series: string[];
   Type: string;
+};
+
+export type Details = {
+  loc: String[] | Number[];
+  msg: String;
+  type: String;
+};
+
+export type ServerResultFormat = {
+  uploaded_details: OrthancServerSuccessData;
+  predicted_details: OrthancServerSuccessData;
+  results: Object[];
 };
