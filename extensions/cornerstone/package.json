@@ -10,7 +10,8 @@
   "types": "src/types/index.ts",
   "exports": {
     ".": "./src/index.tsx",
-    "./types": "./src/types/index.ts"
+    "./types": "./src/types/index.ts",
+    "./src/state": "./src/state.ts"
   },
   "engines": {
     "node": ">=10",
