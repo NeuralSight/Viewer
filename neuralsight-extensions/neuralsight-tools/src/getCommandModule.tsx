@@ -1,5 +1,5 @@
 import { ServicesManager } from '@ohif/core';
-import NeuralSightViewportUploadForm from './forms/NeuralSightViewportUploadForm';
+import NeuralSightViewportUploadForm from './modals/NeuralSightViewportUploadModal';
 
 /**
  * CommandsModule should provide a list of commands that will be available in OHIF
@@ -8,12 +8,12 @@ import NeuralSightViewportUploadForm from './forms/NeuralSightViewportUploadForm
  * object of functions, definitions is an object of available commands, their
  * options, and defaultContext is the default context for the command to run against.
  */
-
 function getCommandsModule({
   servicesManager,
   commandsManager,
   extensionManager,
 }) {
+  // const { t } = useTranslation('Modals');
   const {
     viewportGridService,
     toolGroupService,
@@ -36,7 +36,7 @@ function getCommandsModule({
 
           if (uiModalService) {
             uiModalService.show({
-              title: 'Upload A CT Image for AI probing',
+              title: 'Upload Image for AI probing',
               content: NeuralSightViewportUploadForm,
               contentProps: {
                 activeViewportIndex,

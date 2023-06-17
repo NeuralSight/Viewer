@@ -2,7 +2,12 @@
 export const getStorageItem = (item: string) => {
   let storageItem;
   storageItem = localStorage.getItem(item);
-  return storageItem;
+  if (storageItem) {
+    return JSON.parse(storageItem);
+  } else {
+    console.error('failed to parse object is either null or undefined');
+    return storageItem;
+  }
 };
 
 // setting the localstorage with data

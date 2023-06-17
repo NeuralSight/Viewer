@@ -24,6 +24,5 @@ export default function getModalities(Modality, ModalitiesInStudy) {
       return ModalitiesInStudy;
     }
   }
-
   return modalities;
 }

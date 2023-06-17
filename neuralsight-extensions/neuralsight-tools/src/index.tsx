@@ -2,7 +2,7 @@ import { Types } from '@ohif/core';
 import { id } from './id';
 import getPanelModule from './getPanelModule';
 import getCommandsModule from './getCommandModule';
-import getDataSourcesModule from './getDataSourcesModule';
+// import getDataSourcesModule from './getDataSourcesModule';
 import getToolbarModule from './getToolBarModule';
 
 /**
@@ -110,7 +110,7 @@ const neuralsightExtension: Types.Extensions.Extension = {
    * DataSources can be used to map the external data formats to the OHIF's
    * native format. DataSources are defined by an object of { name, type, createDataSource }.
    */
-  getDataSourcesModule,
+  // getDataSourcesModule,
 };
 
 export default neuralsightExtension;

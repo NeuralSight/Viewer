@@ -1,0 +1,17 @@
+[
+  {
+    "Pneumothorax": {
+      "percentage": "33"
+    }
+  },
+  {
+    "Other Lesion": {
+      "percentage": "55"
+    }
+  },
+  {
+    "Nodule/Mass": {
+      "percentage": "0"
+    }
+  }
+]

@@ -38,12 +38,12 @@ const findingsContextMenu = {
         },
 
         // The example below shows how to include a delegating sub-menu,
-        // Only available on the @ohif/hp-extension.mn hanging protocol
+        // Only available on the @ohif/mnGrid hanging protocol
         // To demonstrate, select the 3x1 layout from the protocol menu
         // and right click on a measurement.
         {
           label: 'IncludeSubMenu',
-          selector: ({ protocol }) => protocol?.id === '@ohif/hp-extension.mn',
+          selector: ({ protocol }) => protocol?.id === '@ohif/mnGrid',
           delegating: true,
           subMenu: 'orientationSelectionSubMenu',
         },
@@ -52,6 +52,7 @@ const findingsContextMenu = {
 
     {
       id: 'orientationSelectionSubMenu',
+      selector: ({ nearbyToolData }) => false,
       items: [
         {
           customizationType: '@ohif/contextMenuAnnotationCode',
@@ -66,7 +67,7 @@ const findingsContextMenu = {
 
     {
       id: 'findingSelectionSubMenu',
-      selector: ({ nearbyToolData }) => !!nearbyToolData,
+      selector: ({ nearbyToolData }) => false,
       items: [
         {
           customizationType: '@ohif/contextMenuAnnotationCode',

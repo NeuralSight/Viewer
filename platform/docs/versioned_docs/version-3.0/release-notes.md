@@ -11,7 +11,8 @@ sidebar_label: Release Notes
 ## What's new in `OHIF-v3`
 
 `OHIF-v3` is our second try for a React-based viewer, and is the third version
-of our medical image web viewers from the start. The summary of changes includes:
+of our medical image web viewers from the start. The summary of changes
+includes:
 
 - Addition of workflow modes
   - Often, medical imaging use cases involves lots of specific workflows that
@@ -68,7 +69,11 @@ Below, you can find the gap analysis between the `OHIF-v2` and `OHIF-v3`:
         <td align="center"></td>
     </tr>
     <tr>
+<<<<<<< Updated upstream
         <td align="left">OpenID Connect standard authentication flow for connecting to identity providers</td>
+=======
+        <td align="left">ct standard authentication flow for connecting to identity providers</td>
+>>>>>>> Stashed changes
         <td align="center">✅</td>
         <td align="center"></td>
     </tr>

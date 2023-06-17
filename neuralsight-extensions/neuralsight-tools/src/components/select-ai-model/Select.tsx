@@ -7,11 +7,21 @@ type Props = {
   onChange: (value: SelectType) => void;
   value: SelectType | null;
   id: string;
+  labelText?: string;
 };
 
-const SelectModels = ({ selectData, onChange, value, id }: Props) => {
+const SelectModels = ({
+  selectData,
+  onChange,
+  labelText,
+  value,
+  id,
+}: Props) => {
   return (
-    <div>
+    <div className="space-y-1">
+      <label className="text-aqua-pale text-xs capitalize" htmlFor={id}>
+        {labelText}
+      </label>
       <Select
         id={id}
         isClearable={false}
