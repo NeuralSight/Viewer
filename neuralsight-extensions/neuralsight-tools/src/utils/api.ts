@@ -5,7 +5,8 @@ import {
 
 // trying with orthanc
 
-const Uri = 'http://3.237.22.171';
+//FIXME: move url to env variables
+const Uri = 'http://54.87.225.137'; 
 const NeuralSightBackend = "/api/v1/patient/dicom"
 const Dicom = `${Uri}:3000/dicom-web`
 const username = 'asdas';

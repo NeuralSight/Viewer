@@ -68,14 +68,10 @@ window.config = {
       sourceName: 'dicomweb',
       configuration: {
         name: 'DCM4CHEE',
-        // old server
-        // wadoUriRoot: 'https://server.dcmjs.org/dcm4chee-arc/aets/DCM4CHEE/wado',
-        // qidoRoot: 'https://server.dcmjs.org/dcm4chee-arc/aets/DCM4CHEE/rs',
-        // wadoRoot: 'https://server.dcmjs.org/dcm4chee-arc/aets/DCM4CHEE/rs',
-        // new server
-        wadoUriRoot: 'http://3.237.22.171:3000/dicom-web',
-        qidoRoot: 'http://3.237.22.171:3000/dicom-web',
-        wadoRoot: 'http://3.237.22.171:3000/dicom-web',
+        // server
+        wadoUriRoot: 'http://54.87.225.137:3000/dicom-web',
+        qidoRoot: 'http://54.87.225.137:3000/dicom-web',
+        wadoRoot: 'http://54.87.225.137:3000/dicom-web',
         qidoSupportsIncludeField: false,
         supportsReject: false,
         imageRendering: 'wadors',
