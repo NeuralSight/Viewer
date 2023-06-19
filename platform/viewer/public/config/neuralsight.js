@@ -69,9 +69,9 @@ window.config = {
       configuration: {
         name: 'DCM4CHEE',
         // server
-        wadoUriRoot: 'http://54.87.225.137:3000/dicom-web',
-        qidoRoot: 'http://54.87.225.137:3000/dicom-web',
-        wadoRoot: 'http://54.87.225.137:3000/dicom-web',
+        wadoUriRoot: 'https://orthanc.neuralsight.ai/dicom-web',
+        qidoRoot: 'https://orthanc.neuralsight.ai/dicom-web',
+        wadoRoot: 'https://orthanc.neuralsight.ai/dicom-web',
         qidoSupportsIncludeField: false,
         supportsReject: false,
         imageRendering: 'wadors',
