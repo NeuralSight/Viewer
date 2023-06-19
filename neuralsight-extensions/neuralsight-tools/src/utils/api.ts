@@ -6,7 +6,7 @@ import {
 // trying with orthanc
 
 //FIXME: move url to env variables
-const Uri = 'https://orthanc.neuralsight.ai'; 
+const Uri = 'https://backend.neuralsight.ai'; 
 const NeuralSightBackend = "/api/v1/patient/dicom"
 const Dicom = `${Uri}/dicom-web`
 const username = 'asdas';
