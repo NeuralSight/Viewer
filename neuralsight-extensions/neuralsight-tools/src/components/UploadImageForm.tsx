@@ -153,7 +153,7 @@ const UploadImageForm = ({
           setStudyInfo(studyInfo);
           if (studyInfo.MainDicomTags?.StudyInstanceUID) {
             window.open(
-              `http://localhost:3000/viewer?StudyInstanceUIDs=${studyInfo.MainDicomTags.StudyInstanceUID}` //StudyInstanceUID
+              `http://ohif.neuralsight.ai/viewer?StudyInstanceUIDs=${studyInfo.MainDicomTags.StudyInstanceUID}` //StudyInstanceUID
             ); //FIXME: If NOT OKAY CHANGE ,,, CURRENT BEHAVIOUR opens every new uploaded dicom image in a seperate tab
           }
           // redirect to
