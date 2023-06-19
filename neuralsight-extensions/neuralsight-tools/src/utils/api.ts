@@ -5,8 +5,9 @@ import {
 
 // trying with orthanc
 
-const Uri = 'http://3.237.22.171/api/v1/patient/dicom';
-const DICOM = '/dicom-web';
+const Uri = 'http://3.237.22.171';
+const NeuralSightBackend = "/api/v1/patient/dicom"
+const Dicom = `${Uri}:3000/dicom-web`
 const username = 'asdas';
 const password = 'asdasd';
 
@@ -22,7 +23,7 @@ const password = 'asdasd';
 
 // post and predict a patient dicom images
 export const postPatientStudy = async ({ patientId, file }) => {
-  const response = await fetch(`${Uri}/pred  `, {
+  const response = await fetch(`${Uri}${NeuralSightBackend}/pred  `, {
     method: 'POST',
     body: changeObjToFormData({
       file,
@@ -34,7 +35,8 @@ export const postPatientStudy = async ({ patientId, file }) => {
 };
 
 // get studies info
-export const getStudyInfoFromImageId = async (id: string) => {
-  const response = await fetch(`${Uri}/studies/${id}`);
+export const getStudyInfoFromImageId = async (path: string) => {
+  console.log("DICOMWeb", Dicom)
+  const response = await fetch(Dicom);
   return response;
 };

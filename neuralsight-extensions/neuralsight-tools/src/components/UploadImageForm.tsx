@@ -122,34 +122,38 @@ const UploadImageForm = ({
           successData = data as ServerResultFormat;
         }
         try {
-          let parentStudy = '';
+          let path = '';
           if (successData) {
             if (!Array.isArray(successData)) {
               let newSuccessData = successData as ServerResultFormat;
-              parentStudy = newSuccessData.predicted_details.ParentStudy; // user predicted parent study optionaly user uploaded in other case however here interested with the predicted values
-              setSuccess(successData);
+              path = newSuccessData.predicted_details.Path; // user predicted parent study optionaly user uploaded in other case however here interested with the predicted values
+              setSuccess(newSuccessData.predicted_details);
             } else {
               let newSuccessData = successData as ServerResultFormat[];
               const successArr = newSuccessData.filter(
                 data => data.predicted_details.Status.toLocaleLowerCase() == 'success'
               );
-              if (successArr.length > 0) {
-                setSuccess(successArr[successArr.length - 1].predicted_details);
-                parentStudy = successArr[successArr.length - 1].predicted_details.ParentStudy;
-              } else {
+
+              //TODO: If multiple files check if it single or mulitple of now gets the last item
+              // if (successArr.length > 0) {
+              //   setSuccess(successArr[successArr.length - 1].predicted_details);
+              //   path = successArr[successArr.length - 1].predicted_details.Path;
+              // } else {
+              // console.log("Success data", newSuccessData[newSuccessData.length - 1].predicted_details)
                 setSuccess(newSuccessData[newSuccessData.length - 1].predicted_details);
-                parentStudy =
-                  newSuccessData[newSuccessData.length - 1].predicted_details.ParentStudy;
-              }
+                path = newSuccessData[newSuccessData.length - 1].predicted_details.Path;
+              // }
             }
           }
-          const response = await getStudyInfoFromImageId(parentStudy);
+
+          const response = await getStudyInfoFromImageId(path);
           const studyInfo = (await response.json()) as StudyInfoType;
           console.log('Data', studyInfo);
+          console.log("path", path);
           setStudyInfo(studyInfo);
           if (studyInfo.MainDicomTags?.StudyInstanceUID) {
             window.open(
-              `http://localhost:8099/viewer?StudyInstanceUIDs=${studyInfo.MainDicomTags.StudyInstanceUID}` //StudyInstanceUID
+              `http://localhost:3000/viewer?StudyInstanceUIDs=${studyInfo.MainDicomTags.StudyInstanceUID}` //StudyInstanceUID
             ); //FIXME: If NOT OKAY CHANGE ,,, CURRENT BEHAVIOUR opens every new uploaded dicom image in a seperate tab
           }
           // redirect to
@@ -258,6 +262,7 @@ const UploadImageForm = ({
   const renderSuccessMessageHandler = (
     success: OrthancServerSuccessData | undefined
   ) => {
+    console.log("renderSuccessMessageHandler",success)
     if (success) {
       return (
         // Type errors due to required defaults why not put defaults?
