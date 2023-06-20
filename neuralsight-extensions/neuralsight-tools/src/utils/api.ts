@@ -5,10 +5,8 @@ import {
 
 // trying with orthanc
 
-//FIXME: move url to env variables
-const Uri = 'https://backend.neuralsight.ai'; 
-const NeuralSightBackend = "/api/v1/patient/dicom"
-const Dicom = `${Uri}/dicom-web`
+const NeuralSightBackend = '/api/v1/patient/dicom';
+const Dicom = `https://orthanc.neuralsight.ai/dicom-web`;
 const username = 'asdas';
 const password = 'asdasd';
 
@@ -24,20 +22,23 @@ const password = 'asdasd';
 
 // post and predict a patient dicom images
 export const postPatientStudy = async ({ patientId, file }) => {
-  const response = await fetch(`${Uri}${NeuralSightBackend}/pred  `, {
-    method: 'POST',
-    body: changeObjToFormData({
-      file,
-      username,
-      password,
-    }),
-  });
+  const response = await fetch(
+    `https://backend.neuralsight.ai${NeuralSightBackend}/pred  `,
+    {
+      method: 'POST',
+      body: changeObjToFormData({
+        file,
+        username,
+        password,
+      }),
+    }
+  );
   return response;
 };
 
 // get studies info
 export const getStudyInfoFromImageId = async (path: string) => {
-  console.log("DICOMWeb", Dicom)
-  const response = await fetch(Dicom);
+  console.log('DICOMWeb', Dicom + path);
+  const response = await fetch(`${Dicom}${path}`);
   return response;
 };
