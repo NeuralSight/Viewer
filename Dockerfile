@@ -16,7 +16,8 @@
 #
 # 1. Building the React application for production
 # 2. Setting up our Nginx (Alpine Linux) image w/ step one's output
-# 3. user usr/src/app as alternative for /app as workdir
+#
+#  user usr/src/app as alternative for /app as workdir to be accessible from any part of the docker image
 #
 
 # Stage 1: Build the application
