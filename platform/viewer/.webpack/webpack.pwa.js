@@ -73,6 +73,11 @@ module.exports = (env, argv) => {
           __dirname,
           'neuralsight-extensions\neuralsight-tools\node_modules'
         ),
+        path.resolve(
+          __dirname,
+          'neuralsight-extensions/neuralsight-tools/node_modules'
+        ),
+        path.resolve(__dirname, 'neuralsight-modes/custom-viewer/node_modules'),
       ],
     },
     plugins: [

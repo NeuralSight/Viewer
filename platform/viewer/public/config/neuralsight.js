@@ -1,5 +1,5 @@
-const NEURALSIGHT_WEB_APP = 'http://localhost:4001';
-
+const OrthancServer = 'https://orthanc.neuralsight.ai/dicom-web';
+const NeuralSightUrl = 'https://frontend.neuralsight.ai';
 window.config = {
   routerBasename: '/', //router base name
   // oidc: [
@@ -24,7 +24,7 @@ window.config = {
           target: '_self',
           rel: 'noopener noreferrer',
           className: 'line-through flex justify-center my-auto items-center',
-          href: NEURALSIGHT_WEB_APP,
+          href: NeuralSightUrl,
         },
         React.createElement('img', {
           src: '../assets/Gif_Logo.gif',
@@ -69,9 +69,9 @@ window.config = {
       configuration: {
         name: 'DCM4CHEE',
         // server
-        wadoUriRoot: 'https://orthanc.neuralsight.ai/dicom-web',
-        qidoRoot: 'https://orthanc.neuralsight.ai/dicom-web',
-        wadoRoot: 'https://orthanc.neuralsight.ai/dicom-web',
+        wadoUriRoot: OrthancServer,
+        qidoRoot: OrthancServer,
+        wadoRoot: OrthancServer,
         qidoSupportsIncludeField: false,
         supportsReject: false,
         imageRendering: 'wadors',
@@ -124,7 +124,7 @@ window.config = {
     //TODO: alternatively if not authenticated the the user by bring a service manager here to bring up a login modal
     //Check if the httpErrorStatus is 403 and redirect to neuralsight
     if (status === 403) {
-      window.location.replace(NEURALSIGHT_WEB_APP);
+      window.location.replace(NeuralSightUrl);
     }
     if (status === 401) {
       console.log('send response password');
