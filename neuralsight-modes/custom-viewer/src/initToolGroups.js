@@ -26,9 +26,6 @@ function initDefaultToolGroup(
         bindings: [{ mouseButton: Enums.MouseBindings.Secondary }],
       },
       { toolName: toolNames.StackScrollMouseWheel, bindings: [] },
-      {
-        toolName: exports,
-      },
     ],
     passive: [
       { toolName: toolNames.Length },
