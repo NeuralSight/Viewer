@@ -16,20 +16,23 @@
 #
 # 1. Building the React application for production
 # 2. Setting up our Nginx (Alpine Linux) image w/ step one's output
+# 3. user usr/src/app as alternative for /app as workdir
 #
-
 
 # Stage 1: Build the application
 # docker build -t ohif/viewer:latest .
-FROM node:16.15.0-slim as json-copier
+FROM node:20-alpine3.17 as json-copier
 
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
+
+RUN mkdir /app
+WORKDIR /app
 
 COPY ["package.json", "yarn.lock", "preinstall.js", "./"]
-COPY extensions /usr/src/app/extensions
-COPY modes /usr/src/app/modes
-COPY platform /usr/src/app/platform
+COPY extensions /app/extensions
+COPY modes /app/modes
+COPY neuralsight-extensions /app/neuralsight-extensions
+COPY neuralsight-modes /app/neuralsight-modes
+COPY platform /app/platform
 
 # Find and remove non-package.json files
 #RUN find extensions \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
@@ -37,25 +40,30 @@ COPY platform /usr/src/app/platform
 #RUN find platform \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
 
 # Copy Files
-FROM node:16.15.0-slim as builder
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
+FROM node:20-alpine3.17 as builder
+RUN mkdir /app
+WORKDIR /app
 
-COPY --from=json-copier /usr/src/app .
+COPY --from=json-copier /app .
 
 # Run the install before copying the rest of the files
 RUN yarn config set workspaces-experimental true
 RUN yarn install --frozen-lockfile --verbose
 
+#Copy everything else on the working directory
 COPY . .
+
+# Run extensions and mode
+RUN yarn run cli /app/neuralsight-extensions/neuralsight-tools
+RUN yarn run cli /app/neuralsight-modes/custom-viewer
 
 # To restore workspaces symlinks
 RUN yarn install --frozen-lockfile --verbose
 
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
+ENV PATH /app/node_modules/.bin:$PATH
 ENV QUICK_BUILD true
 # ENV GENERATE_SOURCEMAP=false
-# ENV REACT_APP_CONFIG=config/default.js
+ENV REACT_APP_CONFIG=config/neuralsight.js
 
 RUN yarn run build
 
@@ -66,8 +74,8 @@ FROM nginxinc/nginx-unprivileged:1.23.1-alpine as final
 ENV PORT=80
 RUN rm /etc/nginx/conf.d/default.conf
 USER nginx
-COPY --chown=nginx:nginx .docker/Viewer-v3.x /usr/src
-RUN chmod 777 /usr/src/entrypoint.sh
-COPY --from=builder /usr/src/app/platform/app/dist /usr/share/nginx/html
-ENTRYPOINT ["/usr/src/entrypoint.sh"]
+COPY --chown=nginx:nginx .docker/Viewer-v3.x /app
+RUN chmod 777 /app/entrypoint.sh
+COPY --from=builder /app/platform/app/dist /usr/share/nginx/html
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
