@@ -46,8 +46,8 @@ const dicomSeg = {
 };
 
 const neuralSight = {
-  aiReport: 'neuralsight-tools.panelModule.aiReport',
-  aiSettings: 'neuralsight-tools.panelModule.aiSettings',
+  aiReport: 'extension-neuralsight-tools.panelModule.aiReport',
+  aiSettings: 'extension-neuralsight-tools.panelModule.aiSettings',
 };
 
 const extensionDependencies = {
@@ -170,10 +170,10 @@ function modeFactory() {
             props: {
               leftPanels: [tracked.thumbnailList],
               rightPanels: [
+                neuralSight.aiReport,
+                neuralSight.aiSettings,
                 dicomSeg.panel,
                 tracked.measurements,
-                // neuralSight.aiReport,
-                // neuralSight.aiSettings,
               ],
               rightPanelDefaultClosed: true, // optional prop to start with collapse panels
               viewports: [

@@ -311,14 +311,14 @@ const toolbarButtons = [
     id: 'AIProbe',
     type: 'ohif.action',
     props: {
-      icon: 'tool-ai=probe',
+      icon: 'tool-ai-probe',
       label: 'AIProbe',
       type: 'action',
       commands: [
         {
           commandName: 'showUploadViewportModal',
           commandOptions: {},
-          context: 'CORNERSTONE',
+          context: 'NEURALSIGHT',
         },
       ],
     },
