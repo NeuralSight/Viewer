@@ -2,10 +2,7 @@ import React, { useEffect, useState, useRef, ChangeEvent } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import {
-  Typography,
-  Button,
-} from '@ohif/ui';
+import { Typography, Button } from '@ohif/ui';
 import { isFileTypeOkay } from '../utils/isFileOkay';
 import {
   ServerResultFormat,
@@ -93,7 +90,9 @@ const UploadImageForm = ({
     detail: false,
   };
   const [error, setError] = useState<BooleanObject>(IntialErrorState);
-  const [serverError, setServerError] = useState<OrthancServerErrorData | Details[]>();
+  const [serverError, setServerError] = useState<
+    OrthancServerErrorData | Details[]
+  >();
   const [success, setSuccess] = useState<OrthancServerSuccessData>();
   const [studyInfo, setStudyInfo] = useState<StudyInfoType>();
 
@@ -113,8 +112,26 @@ const UploadImageForm = ({
       });
 
       const data = await response.json();
-      console.log('Data', data);
-      if (response.status == 200 || response.status == 201) {
+      console.log('Data', data.error);
+      if (data.error) {
+        // setError(initState => ({
+        //   ...initState,
+        //   server: true,
+        // }));
+        // setServerError({
+        //   Details: data.error,
+        //   HttpError: 'Orthanc Error',
+        //   HttpStatus: 111,
+        //   Message: 'Server is experienceing some problem',
+        //   Method: 'Post',
+        //   OrthancError: '',
+        //   OrthancStatus: 111,
+        //   Uri: '',
+        // });
+
+        throw new Error(`Error - ${data.error}`);
+      }
+      if (response.status === 200 || response.status === 201) {
         let successData;
         if (isFileTypeOkay(selectedFile?.name, ['zip'])) {
           successData = data as ServerResultFormat[];
@@ -125,35 +142,44 @@ const UploadImageForm = ({
           let path = '';
           if (successData) {
             if (!Array.isArray(successData)) {
-              let newSuccessData = successData as ServerResultFormat;
+              const newSuccessData = successData as ServerResultFormat;
               path = newSuccessData.predicted_details.Path; // user predicted parent study optionaly user uploaded in other case however here interested with the predicted values
               setSuccess(newSuccessData.predicted_details);
             } else {
-              let newSuccessData = successData as ServerResultFormat[];
+              const newSuccessData = successData as ServerResultFormat[];
               const successArr = newSuccessData.filter(
-                data => data.predicted_details.Status.toLocaleLowerCase() == 'success'
+                data =>
+                  data.predicted_details.Status.toLocaleLowerCase() == 'success'
               );
 
               //TODO: If multiple files check if it single or mulitple of now gets the last item
-              // if (successArr.length > 0) {
-              //   setSuccess(successArr[successArr.length - 1].predicted_details);
-              //   path = successArr[successArr.length - 1].predicted_details.Path;
-              // } else {
-              // console.log("Success data", newSuccessData[newSuccessData.length - 1].predicted_details)
-                setSuccess(newSuccessData[newSuccessData.length - 1].predicted_details);
-                path = newSuccessData[newSuccessData.length - 1].predicted_details.Path;
-              // }
+              if (successArr.length > 0) {
+                setSuccess(successArr[successArr.length - 1].predicted_details);
+                path = successArr[successArr.length - 1].predicted_details.Path;
+              } else {
+                console.log(
+                  'Success data',
+                  newSuccessData[newSuccessData.length - 1].predicted_details
+                );
+                setSuccess(
+                  newSuccessData[newSuccessData.length - 1].predicted_details
+                );
+                path =
+                  newSuccessData[newSuccessData.length - 1].predicted_details
+                    .Path;
+              }
             }
           }
 
           const response = await getStudyInfoFromImageId(path);
           const studyInfo = (await response.json()) as StudyInfoType;
           console.log('Data', studyInfo);
-          console.log("path", path);
+          console.log('path', path);
           setStudyInfo(studyInfo);
           if (studyInfo.MainDicomTags?.StudyInstanceUID) {
+            console.log('window.location.href', window.location.href);
             window.open(
-              `http://ohif.neuralsight.ai/viewer?StudyInstanceUIDs=${studyInfo.MainDicomTags.StudyInstanceUID}` //StudyInstanceUID
+              `${window.location.href}}/viewer?StudyInstanceUIDs=${studyInfo.MainDicomTags.StudyInstanceUID}` //StudyInstanceUID
             ); //FIXME: If NOT OKAY CHANGE ,,, CURRENT BEHAVIOUR opens every new uploaded dicom image in a seperate tab
           }
           // redirect to
@@ -161,7 +187,7 @@ const UploadImageForm = ({
           console.error('Error ->', error);
         }
         // }
-      } else if (response.status == 422) {
+      } else if (response.status === 422) {
         const errorData = data?.detail as Details[];
         setServerError(errorData);
         setError(initState => ({
@@ -172,11 +198,11 @@ const UploadImageForm = ({
         errorData.map((error: Details, index: number) => {
           throw new Error(
             index +
-            '). ' +
-            'Error Type: ' +
-            error.type +
-            ', Error Message:' +
-            error.msg
+              '). ' +
+              'Error Type: ' +
+              error.type +
+              ', Error Message:' +
+              error.msg
           );
         });
       } else {
@@ -189,17 +215,17 @@ const UploadImageForm = ({
         console.log('error', error);
         throw new Error(
           'Error Code: ' +
-          errorData.HttpStatus +
-          ', Error Message:' +
-          errorData.Message +
-          ',Error Details:' +
-          errorData.Details +
-          ',Orthanc Status:' +
-          errorData.OrthancStatus +
-          ',Orthanc Message:' +
-          errorData.OrthancError +
-          ',Method:' +
-          errorData.Method
+            errorData.HttpStatus +
+            ', Error Message:' +
+            errorData.Message +
+            ',Error Details:' +
+            errorData.Details +
+            ',Orthanc Status:' +
+            errorData.OrthancStatus +
+            ',Orthanc Message:' +
+            errorData.OrthancError +
+            ',Method:' +
+            errorData.Method
         );
       }
     } catch (error) {
@@ -211,7 +237,6 @@ const UploadImageForm = ({
     }
     //after finishing loading
     setIsLoading(false);
-
   };
 
   const error_messages = {
@@ -245,7 +270,7 @@ const UploadImageForm = ({
         // Type errors due to required defaults why not put defaults?
         <div className="flex flex-col gap-2">
           {errorMsgArr.map((err: Details, index: number) => (
-            <Typography className="pl-1 my-2" color="error">
+            <Typography className="pl-1 my-2" color="error" key={index}>
               {`${index}). ErrorType: ${err.type}, Details:${err.msg}`}
             </Typography>
           ))}
@@ -262,22 +287,25 @@ const UploadImageForm = ({
   const renderSuccessMessageHandler = (
     success: OrthancServerSuccessData | undefined
   ) => {
-    console.log("renderSuccessMessageHandler",success)
+    console.log('renderSuccessMessageHandler', success);
     if (success) {
       return (
         // Type errors due to required defaults why not put defaults?
         <div
-          className={`pl-1 my-2 ${success?.Status?.toLocaleLowerCase() == 'success'
-            ? ' text-green-500'
-            : ' text-yellow-500'
-            }`}
+          className={`pl-1 my-2 ${
+            success?.Status?.toLocaleLowerCase() == 'success'
+              ? ' text-green-500'
+              : ' text-yellow-500'
+          }`}
         >
           <Typography color="inherit">
-            {`${success.Status}: ${success?.Status?.toLocaleLowerCase() == 'success'
-              ? 'in adding '
-              : ''
-              } Series -> ${success.ParentSeries} of PatientId -> ${success.ParentPatient
-              } of Study with Id -> ${success.ParentStudy},
+            {`${success.Status}: ${
+              success?.Status?.toLocaleLowerCase() == 'success'
+                ? 'in adding '
+                : ''
+            } Series -> ${success.ParentSeries} of PatientId -> ${
+              success.ParentPatient
+            } of Study with Id -> ${success.ParentStudy},
             `}
           </Typography>
         </div>
@@ -325,6 +353,7 @@ const UploadImageForm = ({
       'zip',
       'png',
       'jpg',
+      'jpeg',
       'dcm',
       'dicom',
     ]); // add extension here to be accepted
