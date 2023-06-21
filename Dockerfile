@@ -55,8 +55,11 @@ RUN yarn install --frozen-lockfile --verbose
 COPY . .
 
 # Run extensions and mode
-RUN yarn run cli /app/neuralsight-extensions/neuralsight-tools
-RUN yarn run cli /app/neuralsight-modes/custom-viewer
+RUN yarn run cli list
+RUN yarn run cli link-extension /app/neuralsight-extensions/neuralsight-tools
+RUN yarn run cli link-mode /app/neuralsight-modes/custom-viewer
+RUN yarn run cli list
+
 
 # To restore workspaces symlinks
 RUN yarn install --frozen-lockfile --verbose
@@ -72,11 +75,11 @@ RUN yarn run build
 # which runs Nginx using Alpine Linux
 FROM nginxinc/nginx-unprivileged:1.23.1-alpine as final
 #RUN apk add --no-cache bash
-ENV PORT=80
+ENV PORT=3000
 RUN rm /etc/nginx/conf.d/default.conf
 USER nginx
 COPY --chown=nginx:nginx .docker/Viewer-v3.x /app
 RUN chmod 777 /app/entrypoint.sh
 COPY --from=builder /app/platform/app/dist /usr/share/nginx/html
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
