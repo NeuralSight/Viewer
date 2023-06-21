@@ -460,7 +460,7 @@ const UploadImageForm = ({
         <Button
           data-cy="cancel-btn"
           variant="outlined"
-          size="initial"
+          size="medium"
           color="black"
           border="secondary"
           onClick={onClose}
@@ -471,6 +471,7 @@ const UploadImageForm = ({
         <Button
           className="ml-2"
           disabled={hasError}
+          size="medium"
           onClick={upload}
           color="primary"
           data-cy="download-btn"
