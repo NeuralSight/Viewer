@@ -1,7 +1,7 @@
-// gets storageItem from localStorage if their is any item
+//FIXME: gets storageItem from localStorage if their is any item
 export const getStorageItem = (item: string) => {
-  let storageItem;
-  storageItem = localStorage.getItem(item);
+  const storageItem = localStorage.getItem(item);
+  console.log('storageItem', storageItem);
   if (storageItem) {
     return JSON.parse(storageItem);
   } else {
