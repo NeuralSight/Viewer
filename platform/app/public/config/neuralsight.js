@@ -1,5 +1,5 @@
 const OrthancServer = 'https://orthanc.neuralsight.ai/dicom-web';
-const NeuralSightUrl = 'https://frontend.neuralsight.ai';
+const NeuralSightUrl = 'https://neuralsight.ai';
 window.config = {
   routerBasename: '/', //router base name
   // oidc: [
