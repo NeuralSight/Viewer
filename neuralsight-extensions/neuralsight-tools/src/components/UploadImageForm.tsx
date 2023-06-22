@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, ChangeEvent } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { Typography, Button } from '@ohif/ui';
+import { Typography, Button, ButtonEnums } from '@ohif/ui';
 import { isFileTypeOkay } from '../utils/isFileOkay';
 import {
   ServerResultFormat,
@@ -458,23 +458,18 @@ const UploadImageForm = ({
 
       <div className="flex justify-end mt-4">
         <Button
-          data-cy="cancel-btn"
-          variant="outlined"
-          size="medium"
-          color="black"
-          border="secondary"
+          name="cancel"
+          type={ButtonEnums.type.secondary}
           onClick={onClose}
-          className="p-2"
         >
           {t('Cancel')}
         </Button>
         <Button
           className="ml-2"
           disabled={hasError}
-          size="medium"
           onClick={upload}
-          color="primary"
-          data-cy="download-btn"
+          type={ButtonEnums.type.primary}
+          name={'upload'}
         >
           {isLoading ? t('Uploading...') : t('Upload')}
         </Button>
