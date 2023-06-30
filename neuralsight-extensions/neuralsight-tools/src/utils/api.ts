@@ -5,8 +5,8 @@ import {
 
 // trying with orthanc
 
-const NeuralSightBackend = '/api/v1/patient/dicom';
-const Dicom = `https://orthanc.neuralsight.ai/dicom-web`;
+const NeuralSightBackend = '/api/v1/patient/dicom'; //TODO: should be in an enironment
+const Dicom = `https://orthanc.neuralsight.ai/studies/`;
 const username = 'asdas';
 const password = 'asdasd';
 
@@ -37,8 +37,8 @@ export const postPatientStudy = async ({ patientId, file }) => {
 };
 
 // get studies info
-export const getStudyInfoFromImageId = async (path: string) => {
-  console.log('DICOMWeb', Dicom + path);
-  const response = await fetch(`${Dicom}${path}`);
+export const getStudyInfoFromImageId = async (id: string) => {
+  console.log('DICOMWeb', Dicom + id);
+  const response = await fetch(`${Dicom}${id}`);
   return response;
 };

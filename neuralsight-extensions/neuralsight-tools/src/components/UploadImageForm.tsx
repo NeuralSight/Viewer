@@ -139,11 +139,11 @@ const UploadImageForm = ({
           successData = data as ServerResultFormat;
         }
         try {
-          let path = '';
+          let id = '';
           if (successData) {
             if (!Array.isArray(successData)) {
               const newSuccessData = successData as ServerResultFormat;
-              path = newSuccessData.predicted_details.Path; // user predicted parent study optionaly user uploaded in other case however here interested with the predicted values
+              id = newSuccessData.predicted_details.ParentStudy; // user predicted parent study optionaly user uploaded in other case however here interested with the predicted values
               setSuccess(newSuccessData.predicted_details);
             } else {
               const newSuccessData = successData as ServerResultFormat[];
@@ -155,7 +155,7 @@ const UploadImageForm = ({
               //TODO: If multiple files check if it single or mulitple of now gets the last item
               if (successArr.length > 0) {
                 setSuccess(successArr[successArr.length - 1].predicted_details);
-                path = successArr[successArr.length - 1].predicted_details.Path;
+                id = successArr[successArr.length - 1].predicted_details.Path;
               } else {
                 console.log(
                   'Success data',
@@ -164,17 +164,17 @@ const UploadImageForm = ({
                 setSuccess(
                   newSuccessData[newSuccessData.length - 1].predicted_details
                 );
-                path =
+                id =
                   newSuccessData[newSuccessData.length - 1].predicted_details
                     .Path;
               }
             }
           }
 
-          const response = await getStudyInfoFromImageId(path);
+          const response = await getStudyInfoFromImageId(id);
           const studyInfo = (await response.json()) as StudyInfoType;
-          console.log('Data', studyInfo);
-          console.log('path', path);
+          console.log('StudyInfo', studyInfo);
+          console.log('ParentStudy', id);
           setStudyInfo(studyInfo);
           if (studyInfo.MainDicomTags?.StudyInstanceUID) {
             console.log('window.location.href', window.location.href);
@@ -461,6 +461,7 @@ const UploadImageForm = ({
           name="cancel"
           type={ButtonEnums.type.secondary}
           onClick={onClose}
+          si
         >
           {t('Cancel')}
         </Button>
