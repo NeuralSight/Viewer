@@ -176,10 +176,21 @@ const UploadImageForm = ({
           console.log('StudyInfo', studyInfo);
           console.log('ParentStudy', id);
           setStudyInfo(studyInfo);
-          if (studyInfo.MainDicomTags?.StudyInstanceUID) {
+
+          // check for window object first
+          if (!window) {
+            console.error(
+              'Error-> window must be used avoid ssr for now',
+              window
+            );
+          }
+
+          if (studyInfo.MainDicomTags?.StudyInstanceUID && window) {
             console.log('window.location.href', window.location.href);
+            const urlInfo = window.location.href.split('/');
+            const baseUrl = urlInfo[0];
             window.open(
-              `${window.location.href}}/viewer?StudyInstanceUIDs=${studyInfo.MainDicomTags.StudyInstanceUID}` //StudyInstanceUID
+              `${baseUrl}/viewer?StudyInstanceUIDs=${studyInfo.MainDicomTags.StudyInstanceUID}` //StudyInstanceUID
             ); //FIXME: If NOT OKAY CHANGE ,,, CURRENT BEHAVIOUR opens every new uploaded dicom image in a seperate tab
           }
           // redirect to
@@ -409,7 +420,9 @@ const UploadImageForm = ({
       FIXME: REMOVE THIS
       {renderErrorHandler('server', serverError)} */}
       {renderSuccessMessageHandler(success)}
-      <Typography variant="h6">{t('Please select a Dicom File.')}</Typography>
+      <Typography variant="h6">
+        {t('Please select a PNG or JPEG File.')}
+      </Typography>
 
       <div className="mt-4 ml-2  space-y-1">
         <input
@@ -432,7 +445,7 @@ const UploadImageForm = ({
         >
           <Typography variant="h5">{t('Image preview')}</Typography>
 
-          {/* we can use the active viewport later if the docto ant the images on the view port probed*/}
+          {/* we can use the active viewport later if the doctor want the images on the view port probed*/}
           {!isFileTypeOkay(selectedFile?.name, [
             'jpg',
             'png',
