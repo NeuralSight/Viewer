@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, ChangeEvent } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { Typography, Button, ButtonEnums } from '@ohif/ui';
+import { Typography, Button, ButtonEnums, Input, Label } from '@ohif/ui';
 import { isFileTypeOkay } from '../utils/isFileOkay';
 import {
   ServerResultFormat,
@@ -10,6 +10,8 @@ import {
   OrthancServerSuccessData,
   StudyInfoType,
   Details,
+  AnyObject,
+  PostImageType,
 } from '../../data';
 import { getStudyInfoFromImageId } from '../utils/api';
 import { readZipFiles } from '../utils/readZipFiles';
@@ -62,13 +64,13 @@ const UploadImageForm = ({
 }: Props): React.ReactNode => {
   const { t } = useTranslation('Modals');
 
+  // inputs
   const [selectedFile, setSelectedFile] = useState<File | undefined>();
+  const [patientID, setPatientID] = useState<string>('');
+
   const [preview, setPreview] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  interface AnyObject {
-    [key: string]: any;
-  }
   interface BooleanObject extends AnyObject {
     [key: string]: boolean;
   }
@@ -106,10 +108,12 @@ const UploadImageForm = ({
     setSuccess(undefined);
     setIsLoading(true);
     try {
-      const response = await uploadImage({
-        patientID: '35', //TODO:Remove this not need it seems
+      const patientImageData: PostImageType = {
+        patientID,
         file: selectedFile,
-      });
+      };
+      console.log('patientImageData', patientImageData);
+      const response = await uploadImage(patientImageData);
 
       const data = await response.json();
       console.log('Data', data.error);
@@ -269,7 +273,9 @@ const UploadImageForm = ({
       return (
         // Type errors due to required defaults why not put defaults?
         <Typography className="pl-1 my-2" color="error">
-          {`ErrorMessage: ${errorMsg?.Message}, Details:${errorMsg?.Details}`}
+          {t(
+            `ErrorMessage: ${errorMsg?.Message}, Details:${errorMsg?.Details}`
+          )}
         </Typography>
       );
     }
@@ -282,7 +288,7 @@ const UploadImageForm = ({
         <div className="flex flex-col gap-2">
           {errorMsgArr.map((err: Details, index: number) => (
             <Typography className="pl-1 my-2" color="error" key={index}>
-              {`${index}). ErrorType: ${err.type}, Details:${err.msg}`}
+              {t(`${index}). ErrorType: ${err.type}, Details:${err.msg}`)}
             </Typography>
           ))}
         </div>
@@ -310,14 +316,14 @@ const UploadImageForm = ({
           }`}
         >
           <Typography color="inherit">
-            {`${success.Status}: ${
+            {t(`${success.Status}: ${
               success?.Status?.toLocaleLowerCase() == 'success'
                 ? 'in adding '
                 : ''
             } Series -> ${success.ParentSeries} of PatientId -> ${
               success.ParentPatient
             } of Study with Id -> ${success.ParentStudy},
-            `}
+            `)}
           </Typography>
         </div>
       );
@@ -424,7 +430,19 @@ const UploadImageForm = ({
         {t('Please select a PNG or JPEG File.')}
       </Typography>
 
-      <div className="mt-4 ml-2  space-y-1">
+      <div className="mt-4 ml-2 space-y-3 flex flex-col">
+        <div className="flex justify-center items-center gap-4">
+          <Label for="patientId" className="mr-2">
+            {t('Patient ID')}
+          </Label>
+          <Input
+            id="patientId"
+            name="patientId"
+            type="text"
+            className="mr-2"
+            onChange={({ target }) => setPatientID(target.value)}
+          />
+        </div>
         <input
           id="file"
           type="file"

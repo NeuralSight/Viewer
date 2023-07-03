@@ -1,3 +1,6 @@
+interface AnyObject {
+  [key: string]: any;
+}
 interface ModelInfoDataType {
   model_name: string;
   organ: string;
@@ -61,13 +64,17 @@ export type StudyInfoType = {
 };
 
 export type Details = {
-  loc: String[] | Number[];
-  msg: String;
-  type: String;
+  loc: string[] | number[];
+  msg: string;
+  type: string;
 };
 
 export type ServerResultFormat = {
   uploaded_details: OrthancServerSuccessData;
   predicted_details: OrthancServerSuccessData;
-  results: Object[];
+  results: AnyObject[];
+};
+export type PostImageType = {
+  patientID: string;
+  file: File | undefined;
 };
