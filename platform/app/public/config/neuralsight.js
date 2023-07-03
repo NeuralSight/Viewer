@@ -24,7 +24,7 @@ window.config = {
           target: '_self',
           rel: 'noopener noreferrer',
           className: 'line-through flex justify-center my-auto items-center',
-          href: NeuralSightUrl,
+          href: '',
         },
         React.createElement('img', {
           src: '../assets/Gif_Logo.gif',

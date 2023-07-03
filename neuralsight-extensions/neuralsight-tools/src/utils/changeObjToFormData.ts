@@ -4,13 +4,12 @@
  * @param {object} data - The JavaScript object to convert.
  * @returns {string} - A string with URL-encoded form data.
  */
-interface AnyObject {
-  [key: string]: any;
-}
+
+import { AnyObject } from '../../data';
 
 export function changeObjToFormUrlencoded(obj: AnyObject): string {
-  let str: string[] = [];
-  for (let key in obj) {
+  const str: string[] = [];
+  for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       str.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
       console.log(key + ' -> ' + obj[key]);
@@ -29,10 +28,10 @@ export function changeObjToFormUrlencoded(obj: AnyObject): string {
  */
 export function changeObjToFormData(obj: AnyObject): FormData {
   // Create a new FormData object
-  let formData = new FormData();
+  const formData = new FormData();
 
   // Loop through the object and add each key/value pair to the FormData object
-  for (let key in obj) {
+  for (const key in obj) {
     formData.append(key, obj[key]);
   }
 

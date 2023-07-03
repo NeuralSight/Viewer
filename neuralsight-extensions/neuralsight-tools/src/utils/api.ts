@@ -1,3 +1,4 @@
+import { AnyObject, PostImageType } from '../../data';
 import {
   changeObjToFormData,
   changeObjToFormUrlencoded,
@@ -21,7 +22,10 @@ const password = 'asdasd';
 // });
 
 // post and predict a patient dicom images
-export const postPatientStudy = async ({ patientId, file }) => {
+export const postPatientStudy = async ({
+  patientID,
+  file,
+}: PostImageType): Promise<AnyObject> => {
   const response = await fetch(
     `https://backend.neuralsight.ai${NeuralSightBackend}/pred  `,
     {
@@ -30,6 +34,7 @@ export const postPatientStudy = async ({ patientId, file }) => {
         file,
         username,
         password,
+        file_refence: patientID,
       }),
     }
   );
@@ -37,7 +42,9 @@ export const postPatientStudy = async ({ patientId, file }) => {
 };
 
 // get studies info
-export const getStudyInfoFromImageId = async (id: string) => {
+export const getStudyInfoFromImageId = async (
+  id: string
+): Promise<AnyObject> => {
   console.log('DICOMWeb', Dicom + id);
   const response = await fetch(`${Dicom}${id}`);
   return response;
