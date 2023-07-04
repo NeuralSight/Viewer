@@ -222,6 +222,7 @@ const UploadImageForm = ({
         });
       } else {
         const errorData = data as OrthancServerErrorData;
+        console.log('errorData', errorData);
         setServerError(errorData);
         setError(initState => ({
           ...initState,
@@ -256,7 +257,7 @@ const UploadImageForm = ({
 
   const error_messages = {
     filename: 'No file selected.',
-    filesize: 'size cannot exceed 100mbs.',
+    filesize: 'size cannot exceed 10mbs.',
     format: 'format allowed are JPG, PNG, ZIP, DICOM only!',
     zip: 'this zip file does not contain only dicom, jpg and png images only',
   };
@@ -358,7 +359,7 @@ const UploadImageForm = ({
 
     const singleFile = e.target.files[0];
     // check if the user as selected the right size 100mbs
-    if (singleFile.size > 100000000) {
+    if (singleFile.size > 10000000) {
       setError(initState => ({
         ...initState,
         filesize: true,
@@ -367,12 +368,10 @@ const UploadImageForm = ({
     }
 
     const checkType = isFileTypeOkay(singleFile.name, [
-      'zip',
       'png',
       'jpg',
       'jpeg',
       'dcm',
-      'dicom',
     ]); // add extension here to be accepted
 
     // check file type and render error messages
