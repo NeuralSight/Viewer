@@ -126,7 +126,6 @@ function modeFactory() {
         'Layout',
         'MPR',
         'Crosshairs',
-        'Upload',
         'MoreTools',
       ]);
     },
@@ -175,7 +174,7 @@ function modeFactory() {
                 dicomSeg.panel,
                 tracked.measurements,
               ],
-              rightPanelDefaultClosed: true, // optional prop to start with collapse panels
+              // rightPanelDefaultClosed: true, // optional prop to start with collapse panels
               viewports: [
                 {
                   namespace: tracked.viewport,
