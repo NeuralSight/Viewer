@@ -1,10 +1,29 @@
+<!-- Neuralsight Docs -->
+<div align="center">
+  <h1>Neuralsight Medical Imaging Viewer</h1>
+  <p>based on <strong>The OHIF Viewer</strong> a zero-footprint medical image viewer
+provided by the <a href="https://ohif.org/">Open Health Imaging Foundation (OHIF)</a>. It is a configurable and extensible progressive web application with out-of-the-box support for image archives which support <a href="https://www.dicomstandard.org/dicomweb/">DICOMweb</a>.</p>
+</div>
+
+<!-- TODO:GetStarted  -->
+<div align="center">
+  <h1>Installing Neuralsight Extensions and Modes</h1>
+  <p>
+
+  </p>
+</div>
+
+*[MORE INFO ON NEURALSIGHT EXTENSIONS](./neuralsight-extensions/neuralsight-tools)*
+
+
+
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
-<div align="center">
+<!-- <div align="center">
   <h1>OHIF Medical Imaging Viewer</h1>
   <p><strong>The OHIF Viewer</strong> is a zero-footprint medical image viewer
 provided by the <a href="https://ohif.org/">Open Health Imaging Foundation (OHIF)</a>. It is a configurable and extensible progressive web application with out-of-the-box support for image archives which support <a href="https://www.dicomstandard.org/dicomweb/">DICOMweb</a>.</p>
-</div>
+</div> -->
 
 
 <div align="center">
