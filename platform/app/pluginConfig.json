@@ -1,6 +1,10 @@
 {
   "extensions": [
     {
+      "packageName": "extension-neuralsight-tools",
+      "version": "0.1.0"
+    },
+    {
       "packageName": "@ohif/extension-default"
     },
     {
@@ -51,22 +55,9 @@
       "packageName": "@ohif/extension-cornerstone-dicom-rt",
       "default": false,
       "version": "3.0.0"
-    },
-    {
-      "packageName": "extension-neuralsight-tools",
-      "version": "0.1.0"
     }
   ],
   "modes": [
-    {
-      "packageName": "@ohif/mode-longitudinal"
-    },
-    {
-      "packageName": "@ohif/mode-tmtv"
-    },
-    {
-      "packageName": "@ohif/mode-microscopy"
-    },
     {
       "packageName": "@ohif/mode-test",
       "default": false,
@@ -80,6 +71,12 @@
     {
       "packageName": "custom-viewer",
       "version": "0.1.0"
+    },
+    {
+      "packageName": "@ohif/mode-tmtv"
+    },
+    {
+      "packageName": "@ohif/mode-microscopy"
     }
   ],
   "public": [
