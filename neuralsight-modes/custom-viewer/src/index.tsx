@@ -48,6 +48,8 @@ const dicomSeg = {
 const neuralSight = {
   aiReport: 'extension-neuralsight-tools.panelModule.aiReport',
   aiSettings: 'extension-neuralsight-tools.panelModule.aiSettings',
+  neuralsightLayout:
+    'extension-neuralsight-tools.layoutTemplateModule.neuralsightLayout',
 };
 
 const extensionDependencies = {
@@ -165,7 +167,7 @@ function modeFactory() {
         // },
         layoutTemplate: () => {
           return {
-            id: ohif.layout,
+            id: neuralSight.neuralsightLayout,
             props: {
               leftPanels: [tracked.thumbnailList],
               rightPanels: [
