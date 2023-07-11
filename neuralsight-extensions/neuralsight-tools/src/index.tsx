@@ -4,6 +4,7 @@ import getPanelModule from './getPanelModule';
 import getCommandsModule from './getCommandModule';
 // import getDataSourcesModule from './getDataSourcesModule';
 import getToolbarModule from './getToolBarModule';
+import getLayoutTemplateModule from './getLayoutTemplateModule';
 
 /**
  * You can remove any of the following modules if you don't need them.
@@ -49,13 +50,7 @@ const neuralsightExtension: Types.Extensions.Extension = {
    * a Header, left and right sidebars, and a viewport section in the middle
    * of the viewer.
    */
-  // getLayoutTemplateModule: ({
-  //   servicesManager,
-  //   commandsManager,
-  //   extensionManager,
-  // }) => {
-  //   console.log('layout template');
-  // },
+  getLayoutTemplateModule,
   /**
    * SopClassHandlerModule should provide a list of sop class handlers that will be
    * available in OHIF for Modes to consume and use to create displaySets from Series.

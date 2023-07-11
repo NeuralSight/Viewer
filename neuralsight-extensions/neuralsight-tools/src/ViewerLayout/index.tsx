@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { any } from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
@@ -17,12 +17,31 @@ import {
   ServicesManager,
   HangingProtocolService,
   hotkeys,
+  ExtensionManager,
   CommandsManager,
+  HotkeysManager,
 } from '@ohif/core';
+import AboutModal from '../components/AboutModal';
+import NeuralSightViewportUploadModal from '../modals/NeuralSightViewportUploadModal';
 import { useAppConfig } from '@state';
 import Toolbar from '../Toolbar/Toolbar';
-import AboutModal from 'extension-neuralsight-tools';
+
 const { availableLanguages, defaultLanguage, currentLanguage } = i18n;
+
+type T = any;
+
+type PropTypes = {
+  extensionManager: ExtensionManager;
+  servicesManager: ServicesManager;
+  hotkeysManager: HotkeysManager;
+  commandsManager: CommandsManager;
+  viewports: any;
+  ViewportGridComp: any;
+  leftPanels: Array<T>;
+  rightPanels: Array<T>;
+  leftPanelDefaultClosed: boolean;
+  rightPanelDefaultClosed: boolean;
+};
 
 function ViewerLayout({
   // From Extension Module Params
@@ -37,7 +56,7 @@ function ViewerLayout({
   rightPanels = [],
   leftPanelDefaultClosed = false,
   rightPanelDefaultClosed = false,
-}): React.FunctionComponent {
+}: PropTypes): React.FunctionComponent {
   const [appConfig] = useAppConfig();
   const navigate = useNavigate();
   const location = useLocation();
@@ -76,20 +95,42 @@ function ViewerLayout({
     appConfig.showLoadingIndicator
   );
 
-  const { hangingProtocolService } = servicesManager.services;
+  const {
+    hangingProtocolService,
+    viewportGridService,
+    uiModalService,
+    cornerstoneViewportService,
+  } = servicesManager.services;
 
   const { hotkeyDefinitions, hotkeyDefaults } = hotkeysManager;
   const versionNumber = process.env.VERSION_NUMBER;
   const commitHash = process.env.COMMIT_HASH;
+  const { activeViewportIndex } = viewportGridService.getState();
 
   const menuOptions = [
+    // {
+    //   title: t('Header:AiProbe'),
+    //   icon: 'tool-ai-probe',
+    //   onClick: () => {
+    //     show({
+    //       content: NeuralSightViewportUploadModal,
+    //       title: t('Upload Image for AI probing'),
+
+    //       contentProps: {
+    //         activeViewportIndex,
+    //         onClose: uiModalService.hide,
+    //         cornerstoneViewportService,
+    //       },
+    //     });
+    //   },
+    // },
     {
       title: t('Header:About'),
       icon: 'info',
       onClick: () =>
         show({
           content: AboutModal,
-          title: 'About OHIF Viewer',
+          title: 'About Neuralsight Viewer',
           contentProps: { versionNumber, commitHash },
         }),
     },
@@ -125,6 +166,7 @@ function ViewerLayout({
     },
   ];
 
+  //TODO: ENABLE THIS logout and login using OIDC
   if (appConfig.oidc) {
     menuOptions.push({
       title: t('Header:Logout'),
@@ -275,21 +317,5 @@ function ViewerLayout({
     </div>
   );
 }
-
-ViewerLayout.propTypes = {
-  // From extension module params
-  extensionManager: PropTypes.shape({
-    getModuleEntry: PropTypes.func.isRequired,
-  }).isRequired,
-  commandsManager: PropTypes.instanceOf(CommandsManager),
-  servicesManager: PropTypes.instanceOf(ServicesManager),
-  // From modes
-  leftPanels: PropTypes.array,
-  rightPanels: PropTypes.array,
-  leftPanelDefaultClosed: PropTypes.bool.isRequired,
-  rightPanelDefaultClosed: PropTypes.bool.isRequired,
-  /** Responsible for rendering our grid of viewports; provided by consuming application */
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
-};
 
 export default ViewerLayout;
