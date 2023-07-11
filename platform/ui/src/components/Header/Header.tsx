@@ -8,6 +8,7 @@ import Svg from '../Svg';
 import Icon from '../Icon';
 import IconButton from '../IconButton';
 import Dropdown from '../Dropdown';
+import Button, { ButtonEnums } from '../Button';
 
 function Header({
   children,
@@ -27,7 +28,6 @@ function Header({
       onClickReturnButton();
     }
   };
-
   return (
     <NavBar
       className="justify-between border-b-4 border-black"
@@ -56,9 +56,19 @@ function Header({
         </div>
         <div className="flex items-center">{children}</div>
         <div className="flex items-center">
-          <span className="mr-3 text-lg text-common-light">
-            {/* {t('INVESTIGATIONAL USE ONLY')} */}
-          </span>
+          <Button
+            type={ButtonEnums.type.primary}
+            size={ButtonEnums.size.medium}
+            className="mr-3 px-2"
+            onClick={() => console.log('no functionality added')}
+          >
+            <span className="mr-1">AI Predict</span>
+            <Icon name="tool-ai-probe" className="h-5 w-5" />
+          </Button>
+
+          {/* <span className="mr-3 text-lg text-common-light">
+            {t('INVESTIGATIONAL USE ONLY')}
+          </span> */}
           <Dropdown id="options" showDropdownIcon={false} list={menuOptions}>
             <IconButton
               id={'options-settings-icon'}
