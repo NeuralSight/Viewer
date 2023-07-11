@@ -16,6 +16,22 @@ import {
 import { getStudyInfoFromImageId } from '../utils/api';
 import { readZipFiles } from '../utils/readZipFiles';
 
+const openStudy = StudyInstanceUID => {
+  const NEURALSIGHT_CUSTOM_VIEWER_PATH = '/neural-viewer?StudyInstanceUIDs=';
+  if (StudyInstanceUID && window) {
+    const urlInfo = window.location.href.split('/');
+    const baseUrl = urlInfo[0];
+    const url = baseUrl + NEURALSIGHT_CUSTOM_VIEWER_PATH;
+    window.open(
+      `${url}${StudyInstanceUID}` //StudyInstanceUID
+    ); //FIXME: If NOT OKAY CHANGE ,,, CURRENT BEHAVIOUR opens every new uploaded dicom image in a seperate tab
+  } else {
+    console.error(
+      'Either studyInstanceUID was not found or window object is undefined'
+    );
+  }
+};
+
 const FILE_TYPE_OPTIONS = [
   {
     value: 'jpg',
@@ -189,14 +205,7 @@ const UploadImageForm = ({
             );
           }
 
-          if (studyInfo.MainDicomTags?.StudyInstanceUID && window) {
-            console.log('window.location.href', window.location.href);
-            const urlInfo = window.location.href.split('/');
-            const baseUrl = urlInfo[0];
-            window.open(
-              `${baseUrl}/viewer?StudyInstanceUIDs=${studyInfo.MainDicomTags.StudyInstanceUID}` //StudyInstanceUID
-            ); //FIXME: If NOT OKAY CHANGE ,,, CURRENT BEHAVIOUR opens every new uploaded dicom image in a seperate tab
-          }
+          openStudy(studyInfo.MainDicomTags?.StudyInstanceUID);
           // redirect to
         } catch (error) {
           console.error('Error ->', error);
