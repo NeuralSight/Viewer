@@ -78,3 +78,9 @@ export type PostImageType = {
   patientID: string;
   file: File | undefined;
 };
+
+export type MenuOptionType = {
+  title: string;
+  icon: string;
+  onClick: () => any;
+};
