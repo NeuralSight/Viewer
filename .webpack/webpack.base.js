@@ -166,7 +166,7 @@ module.exports = (env, argv, { SRC_DIR, ENTRY }) => {
           process.env.REACT_APP_API_URL || 'https://backend.neuralsight.ai'
         ),
         'process.env.REACT_APP_FRONTEND_URL': JSON.stringify(
-          process.env.REACT_APP_FRONTEND_URL || 'https://app.neuralsight.ai'
+          process.env.REACT_APP_FRONTEND_URL || 'https://neuralsight.ai'
         ),
       }),
 
