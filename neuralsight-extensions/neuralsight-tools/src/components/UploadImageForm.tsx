@@ -431,7 +431,7 @@ const UploadImageForm = ({
 
       <div className="mt-4 ml-2 space-y-3 flex flex-col">
         <div className="flex justify-center items-center gap-4">
-          <Label for="patientId" className="mr-2">
+          <Label htmlFor="patientId" className="mr-2">
             {t('Patient ID')}
           </Label>
           <Input
@@ -491,7 +491,7 @@ const UploadImageForm = ({
           name="cancel"
           type={ButtonEnums.type.secondary}
           onClick={onClose}
-          si
+          size={ButtonEnums.size.medium}
         >
           {t('Cancel')}
         </Button>
@@ -499,6 +499,7 @@ const UploadImageForm = ({
           className="ml-2"
           disabled={hasError}
           onClick={upload}
+          size={ButtonEnums.size.medium}
           type={ButtonEnums.type.primary}
           name={'upload'}
         >
