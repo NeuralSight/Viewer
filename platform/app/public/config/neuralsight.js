@@ -1,5 +1,6 @@
-const OrthancServer = 'https://orthanc.neuralsight.ai/dicom-web';
-const NeuralSightUrl = 'https://neuralsight.ai';
+const OrthancServer = 'https://orthanc.neuralsight.ai/dicom-web'; //FIXME: use env instead
+const NeuralSightUrl = 'https://neuralsight.ai'; //FIXME: use env instead
+
 window.config = {
   routerBasename: '/', //router base name
   // oidc: [

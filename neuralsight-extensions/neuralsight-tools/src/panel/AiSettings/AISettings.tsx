@@ -4,6 +4,7 @@ import Select from '../../components/select-ai-model';
 import data from '../../utils/model-test-data.json';
 import { SelectType } from '../../../data';
 import ListItem from '../../components/item-listing';
+import { useTranslation } from 'react-i18next';
 
 import { setStorageItem, getStorageItem } from '../../utils/localStorageAccess';
 
@@ -12,11 +13,13 @@ const SELECTED_MODEL = 'selected_model';
 //FIXME: alternative use a localstorage with expiry
 type Props = {};
 const AISettings = (props: Props) => {
+  const { t } = useTranslation();
+
   const id = 'model';
   let modelValues: SelectType[] = [];
 
   for (let i = 0; i < data.length; i++) {
-    let modelObj: SelectType = {
+    const modelObj: SelectType = {
       value: data[i].model_name,
       label: data[i].model_name,
     };
@@ -31,7 +34,7 @@ const AISettings = (props: Props) => {
   };
 
   useEffect(() => {
-    let currentData: SelectType = getStorageItem(SELECTED_MODEL);
+    const currentData: SelectType = getStorageItem(SELECTED_MODEL);
     setModelValue(() => currentData);
   }, [setModelValue]);
   const currentModel = data.find(
@@ -70,7 +73,7 @@ const AISettings = (props: Props) => {
             </table>
           ) : (
             <p className=" w-full text-lg capitalize text-blue-300">
-              select a model
+              {t('select a model')}
             </p>
           )}
         </div>

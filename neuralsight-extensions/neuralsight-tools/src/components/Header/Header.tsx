@@ -2,13 +2,17 @@ import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
+import { NavBar, Svg, Icon, IconButton, Dropdown } from '@ohif/ui';
+import { AnyObject, MenuOptionType } from '../../../data';
 
-import NavBar from '../NavBar';
-import Svg from '../Svg';
-import Icon from '../Icon';
-import IconButton from '../IconButton';
-import Dropdown from '../Dropdown';
-import Button, { ButtonEnums } from '../Button';
+type PropTypes = {
+  children: ReactNode | VoidFunction;
+  menuOptions: MenuOptionType[];
+  isReturnEnabled: boolean;
+  onClickReturnButton: () => any;
+  WhiteLabeling: AnyObject;
+  isSticky: boolean;
+};
 
 function Header({
   children,
@@ -18,7 +22,7 @@ function Header({
   isSticky,
   WhiteLabeling,
   ...props
-}): ReactNode {
+}: PropTypes): ReactNode {
   const { t } = useTranslation('Header');
 
   // TODO: this should be passed in as a prop instead and the react-router-dom
@@ -57,16 +61,6 @@ function Header({
         </div>
         <div className="flex items-center">{children}</div>
         <div className="flex items-center">
-          <Button
-            type={ButtonEnums.type.primary}
-            size={ButtonEnums.size.medium}
-            className="mr-3 px-2"
-            onClick={() => console.log('no functionality added')}
-          >
-            <span className="mr-1">AI Predict</span>
-            <Icon name="tool-ai-probe" className="h-5 w-5" />
-          </Button>
-
           {/* <span className="mr-3 text-lg text-common-light">
             {t('INVESTIGATIONAL USE ONLY')}
           </span> */}
@@ -95,25 +89,5 @@ function Header({
     </NavBar>
   );
 }
-
-Header.propTypes = {
-  menuOptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      icon: PropTypes.string,
-      onClick: PropTypes.func.isRequired,
-    })
-  ),
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  isReturnEnabled: PropTypes.bool,
-  isSticky: PropTypes.bool,
-  onClickReturnButton: PropTypes.func,
-  WhiteLabeling: PropTypes.object,
-};
-
-Header.defaultProps = {
-  isReturnEnabled: true,
-  isSticky: false,
-};
 
 export default Header;

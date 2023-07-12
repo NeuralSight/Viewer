@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import detect from 'browser-detect';
 
-import Typography from '../Typography';
-import Icon from '../Icon';
+import { Icon, Typography } from '@ohif/ui';
 
-const Link = ({ href, children, showIcon = false }) => {
+type PropTypes = {
+  href: string;
+  children: ReactNode;
+  showIcon: boolean;
+};
+type RowTypes = {
+  title?: string;
+  value?: string;
+  link?: string;
+};
+
+type AboutTypes = {
+  buildNumber: string;
+  versionNumber: string;
+  commitHash: string;
+};
+
+const Link = ({ href, children, showIcon = false }: PropTypes) => {
   return (
     <a href={href} target="_blank" rel="noopener noreferrer">
       <Typography
@@ -23,7 +39,7 @@ const Link = ({ href, children, showIcon = false }) => {
   );
 };
 
-const Row = ({ title, value, link }) => {
+const Row = ({ title, value, link }: RowTypes) => {
   return (
     <div className="flex mb-4">
       <Typography variant="subtitle" component="p" className="w-48 text-white">
@@ -45,7 +61,7 @@ const Row = ({ title, value, link }) => {
   );
 };
 
-const AboutModal = ({ buildNumber, versionNumber, commitHash }) => {
+const AboutModal = ({ buildNumber, versionNumber, commitHash }: AboutTypes) => {
   const { os, version, name } = detect();
   const browser = `${name[0].toUpperCase()}${name.substr(1)} ${version}`;
 

@@ -78,3 +78,60 @@ export type PostImageType = {
   patientID: string;
   file: File | undefined;
 };
+
+export type MenuOptionType = {
+  title: string;
+  icon: string;
+  onClick: () => any;
+};
+export type AiResultError = {
+  detail: string;
+};
+// type Pathogens =
+//   | 'Cardiomegaly'
+//   | 'Aortic enlargement'
+//   | 'Pleural thickening'
+//   | 'ILD'
+//   | 'Nodule/Mass'
+//   | 'Pulmonary fibrosis'
+//   | 'Lung Opacity'
+//   | 'Atelectasis'
+//   | 'Other lesion'
+//   | 'Infiltration'
+//   | 'Pleural effusion'
+//   | 'Calcification'
+//   | 'Consolidation'
+//   | 'Pneumothorax';
+
+export enum Pathogen {
+  Cardiomegaly = 'Cardiomegaly',
+  AorticEnlargement = 'Aortic enlargement',
+  PleuralThickening = 'Pleural thickening',
+  ILD = 'ILD',
+  Nodule = 'Nodule/Mass',
+  PulmonaryFibrosis = 'Pulmonary fibrosis',
+  LungOpacity = 'Lung Opacity',
+  Atelectasis = 'Atelectasis',
+  OtherLesion = 'Other lesion',
+  Inflitration = 'Infiltration',
+  PleuralEffusion = 'Pleural effusion',
+  Calcification = 'Calcification',
+  Consolidation = 'Consolidation',
+  Pneumothorax = 'Pneumothorax',
+}
+
+interface NameObjType extends AnyObject {
+  [key: string]: Pathogen;
+}
+export type PredType = Record<Pathogen, number>;
+export type AiResultType = {
+  ID: string;
+  ParentPatient: string;
+  ParentSeries: string;
+  ParentStudy: string;
+  Path: string;
+  results: {
+    name: NameObjType;
+    preds: PredType;
+  };
+};

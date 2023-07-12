@@ -55,22 +55,5 @@ function getCommandsModule({
     // defaultContext: 'ACTIVE_VIEWPORT::DICOMSR',
   };
 }
-// showUploadViewportModal: () => {
-//   // viewportGridService gets the active ViewPort
-//   const { activeViewportIndex } = viewportGridService.getState();
-//   //
-//   const { uiModalService } = servicesManager.services;
-//   if (uiModalService) {
-//     uiModalService.show({
-//       title: 'Upload A CT Image for AI probing',
-//       content: NeuralSightViewportUploadForm,
-//       contentProps: {
-//         activeViewportIndex,
-//         onClose: uiModalService.hide,
-//         cornerstoneViewportService,
-//       },
-//     });
-//   }
-// }
 
 export default getCommandsModule;

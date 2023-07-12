@@ -20,7 +20,7 @@ const MAX_TEXTURE_SIZE = 10000;
 const VIEWPORT_ID = 'neuralsight-viewport-upload-form';
 
 type Props = {
-  onClose: any;
+  onClose: () => any;
   activeViewportIndex: number;
   cornerstoneViewportService: any;
 };
@@ -257,11 +257,6 @@ const NeuralSightViewportUploadForm = ({
       uploadImage={postPatientStudy}
     />
   );
-};
-
-NeuralSightViewportUploadForm.propTypes = {
-  onClose: PropTypes.func,
-  activeViewportIndex: PropTypes.number.isRequired,
 };
 
 export default NeuralSightViewportUploadForm;

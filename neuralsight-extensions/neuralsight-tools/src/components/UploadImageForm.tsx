@@ -16,6 +16,22 @@ import {
 import { getStudyInfoFromImageId } from '../utils/api';
 import { readZipFiles } from '../utils/readZipFiles';
 
+const openStudy = StudyInstanceUID => {
+  const NEURALSIGHT_CUSTOM_VIEWER_PATH = '/neural-viewer?StudyInstanceUIDs=';
+  if (StudyInstanceUID && window) {
+    const urlInfo = window.location.href.split('/');
+    const baseUrl = urlInfo[0];
+    const url = baseUrl + NEURALSIGHT_CUSTOM_VIEWER_PATH;
+    window.open(
+      `${url}${StudyInstanceUID}` //StudyInstanceUID
+    ); //FIXME: If NOT OKAY CHANGE ,,, CURRENT BEHAVIOUR opens every new uploaded dicom image in a seperate tab
+  } else {
+    console.error(
+      'Either studyInstanceUID was not found or window object is undefined'
+    );
+  }
+};
+
 const FILE_TYPE_OPTIONS = [
   {
     value: 'jpg',
@@ -189,14 +205,7 @@ const UploadImageForm = ({
             );
           }
 
-          if (studyInfo.MainDicomTags?.StudyInstanceUID && window) {
-            console.log('window.location.href', window.location.href);
-            const urlInfo = window.location.href.split('/');
-            const baseUrl = urlInfo[0];
-            window.open(
-              `${baseUrl}/viewer?StudyInstanceUIDs=${studyInfo.MainDicomTags.StudyInstanceUID}` //StudyInstanceUID
-            ); //FIXME: If NOT OKAY CHANGE ,,, CURRENT BEHAVIOUR opens every new uploaded dicom image in a seperate tab
-          }
+          openStudy(studyInfo.MainDicomTags?.StudyInstanceUID);
           // redirect to
         } catch (error) {
           console.error('Error ->', error);
@@ -222,6 +231,7 @@ const UploadImageForm = ({
         });
       } else {
         const errorData = data as OrthancServerErrorData;
+        console.log('errorData', errorData);
         setServerError(errorData);
         setError(initState => ({
           ...initState,
@@ -256,7 +266,7 @@ const UploadImageForm = ({
 
   const error_messages = {
     filename: 'No file selected.',
-    filesize: 'size cannot exceed 100mbs.',
+    filesize: 'size cannot exceed 10mbs.',
     format: 'format allowed are JPG, PNG, ZIP, DICOM only!',
     zip: 'this zip file does not contain only dicom, jpg and png images only',
   };
@@ -358,7 +368,7 @@ const UploadImageForm = ({
 
     const singleFile = e.target.files[0];
     // check if the user as selected the right size 100mbs
-    if (singleFile.size > 100000000) {
+    if (singleFile.size > 10000000) {
       setError(initState => ({
         ...initState,
         filesize: true,
@@ -367,12 +377,10 @@ const UploadImageForm = ({
     }
 
     const checkType = isFileTypeOkay(singleFile.name, [
-      'zip',
       'png',
       'jpg',
       'jpeg',
       'dcm',
-      'dicom',
     ]); // add extension here to be accepted
 
     // check file type and render error messages
@@ -432,7 +440,7 @@ const UploadImageForm = ({
 
       <div className="mt-4 ml-2 space-y-3 flex flex-col">
         <div className="flex justify-center items-center gap-4">
-          <Label for="patientId" className="mr-2">
+          <Label htmlFor="patientId" className="mr-2">
             {t('Patient ID')}
           </Label>
           <Input
@@ -492,7 +500,7 @@ const UploadImageForm = ({
           name="cancel"
           type={ButtonEnums.type.secondary}
           onClick={onClose}
-          si
+          size={ButtonEnums.size.medium}
         >
           {t('Cancel')}
         </Button>
@@ -500,6 +508,7 @@ const UploadImageForm = ({
           className="ml-2"
           disabled={hasError}
           onClick={upload}
+          size={ButtonEnums.size.medium}
           type={ButtonEnums.type.primary}
           name={'upload'}
         >

@@ -158,18 +158,18 @@ module.exports = (env, argv, { SRC_DIR, ENTRY }) => {
         'process.env.REACT_APP_I18N_DEBUG': JSON.stringify(
           process.env.REACT_APP_I18N_DEBUG || ''
         ),
-        'process.env.ORTANC_URL': JSON.stringify(
-          process.env.ORTHANC_URL || 'https://orthanc.neuralsight.ai/dicom-web'
+        /* neuralsight */
+        'process.env.REACT_APP_ORTHANC_URL': JSON.stringify(
+          process.env.REACT_APP_ORTHANC_URL || 'https://orthanc.neuralsight.ai'
         ),
-
-        'process.env.BACKEND_URL': JSON.stringify(
-          process.env.BACKEND_URL || 'https://backend.neuralsight.ai'
+        'process.env.REACT_APP_API_URL': JSON.stringify(
+          process.env.REACT_APP_API_URL || 'https://backend.neuralsight.ai'
         ),
         'process.env.REACT_APP_FRONTEND_URL': JSON.stringify(
-          process.env.REACT_APP_FRONTEND_URL ||
-            'https://frontend.neuralsight.ai'
+          process.env.REACT_APP_FRONTEND_URL || 'https://neuralsight.ai'
         ),
       }),
+
       // Uncomment to generate bundle analyzer
       // new BundleAnalyzerPlugin(),
     ],
