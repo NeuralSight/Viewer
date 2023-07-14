@@ -135,3 +135,19 @@ export type AiResultType = {
     preds: PredType;
   };
 };
+
+export interface AIModelInfoType {
+  model_name: string;
+  organ: string;
+  modality: string;
+  task: string;
+  data_desc: string;
+  model_desc: string;
+  additional_info_required: string;
+  model_performance: string;
+  website: string;
+  citation: string;
+  version: string;
+  active: boolean;
+  model_id: string;
+}
