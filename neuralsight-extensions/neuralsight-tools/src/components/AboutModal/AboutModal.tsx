@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import detect from 'browser-detect';
 
-import { Icon, Typography } from '@ohif/ui';
+import { Icon, Typography } from '@ohif/ui/src';
 
 type PropTypes = {
   href: string;
@@ -47,7 +47,9 @@ const Row = ({ title, value, link }: RowTypes) => {
       </Typography>
 
       {link ? (
-        <Link href={link}>{value}</Link>
+        <Link href={link} showIcon>
+          {value}
+        </Link>
       ) : (
         <Typography
           variant="subtitle"
@@ -61,9 +63,14 @@ const Row = ({ title, value, link }: RowTypes) => {
   );
 };
 
-const AboutModal = ({ buildNumber, versionNumber, commitHash }: AboutTypes) => {
+const AboutModal = ({
+  buildNumber,
+  versionNumber,
+  commitHash,
+}: AboutTypes): ReactElement => {
   const { os, version, name } = detect();
-  const browser = `${name[0].toUpperCase()}${name.substr(1)} ${version}`;
+  const browser = `${name && name[0].toUpperCase()}${name &&
+    name.substr(1)} ${version}`;
 
   const renderRowTitle = title => (
     <div className="pb-3 mb-3 border-b-2 border-black">

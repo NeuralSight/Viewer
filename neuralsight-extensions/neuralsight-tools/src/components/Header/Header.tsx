@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
-import { NavBar, Svg, Icon, IconButton, Dropdown } from '@ohif/ui';
+import { NavBar, Svg, Icon, IconButton, Dropdown } from '@ohif/ui/src';
 import { AnyObject, MenuOptionType } from '../../../data';
 
 type PropType = {
