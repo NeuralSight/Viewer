@@ -56,7 +56,7 @@ const AIReport = (props: Props): React.ReactNode => {
         )}
         {AIresult ? (
           <table
-            className="border-collapse border-spacing-y-4 border-spacing-x-1 border border-secondary-light table-fixed w-full"
+            className="border-collapse border-spacing-y-4 border-spacing-x-1 border border-secondary-light table-auto w-full"
             aria-label="model-specifications"
           >
             <thead className="capitalize font-bold text-sm text-">
@@ -75,6 +75,7 @@ const AIReport = (props: Props): React.ReactNode => {
                     value={formatValueToPercentage(
                       AIresult.results.preds[data]
                     )}
+                    title={t(data)}
                     paddingX="px-3"
                     paddingY="py-3"
                   />
