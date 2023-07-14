@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 type Props = {
   value: string;
   label: string;
+  title: string;
   paddingX:
     | 'px-0'
     | 'px-0.5'
@@ -13,7 +14,6 @@ type Props = {
     | 'px-4'
     | 'px-5'
     | 'px-6';
-
   paddingY:
     | 'py-0'
     | 'py-0.5'
@@ -24,18 +24,31 @@ type Props = {
     | 'py-4'
     | 'py-5'
     | 'py-6';
+  valueClass?: string;
+  labelClass?: string;
 };
 
-const ListItem = ({ value, label, paddingX, paddingY }: Props) => {
+const ListItem = ({
+  value,
+  label,
+  paddingX,
+  paddingY,
+  title,
+  valueClass = '',
+  labelClass = '',
+}: Props): ReactElement => {
   return (
     <tr className="border border-secondary-light">
       <td
-        className={`text-blue-300 text-xs font-medium whitespace-normal ${paddingX} ${paddingY}`}
+        title={title}
+        className={`${labelClass} truncate ... text-blue-300 text-xs font-medium whitespace-normal ${paddingX} ${paddingY}`}
         style={{ verticalAlign: 'top' }}
       >
         {label}
       </td>
-      <td className={`text-common-bright text-xs  ${paddingX} ${paddingY}`}>
+      <td
+        className={`${valueClass} text-common-bright text-xs  ${paddingX} ${paddingY}`}
+      >
         {value}
       </td>
     </tr>

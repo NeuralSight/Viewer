@@ -17,6 +17,7 @@ interface AIModelInfoType {
   version: string;
   active: boolean;
 }
+
 export type UniqueAIModelInfoType = {
   [model_name in keyof AIModelInfoType]-?: AIModelInfoType[model_name] extends Omit<
     AIModelInfoType,
