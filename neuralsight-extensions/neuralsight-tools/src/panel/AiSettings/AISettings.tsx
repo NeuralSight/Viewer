@@ -24,7 +24,7 @@ type Props = {
   extensionManager: ExtensionManager;
 };
 
-enum AIModelInfoEnum {
+enum AIModelLabelEnum {
   model_id = 'Model ID',
   model_name = 'Model name',
   organ = 'Organ',
@@ -39,6 +39,10 @@ enum AIModelInfoEnum {
   version = 'Version',
   active = 'Active Model',
 }
+enum LongLabelRename {
+  additional_info_required = 'extra_info',
+  model_performance = 'performance',
+}
 
 const AISettings = (props: Props) => {
   const { t } = useTranslation();
@@ -47,8 +51,10 @@ const AISettings = (props: Props) => {
   const [AIModelInfo, setAIModelInfo] = useState<AIModelInfoType[]>([]);
   const [error, setError] = useState<AiResultError>();
   const [modelValue, setModelValue] = useState<SelectType | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleAiSettings = async () => {
+    setIsLoading(true);
     try {
       const data = await postAiModelSetting({ modelID });
       console.log('data', data);
@@ -79,11 +85,12 @@ const AISettings = (props: Props) => {
 
   useEffect(() => {
     handleAiSettings();
+    setIsLoading(false);
     const currentData: SelectType = getStorageItem(SELECTED_MODEL);
     console.log('currentData', currentData);
     setModelValue(() => currentData);
-  }, [setModelValue]);
-  const currentModel = AIModelInfo.find(
+  }, [setModelValue, setIsLoading]);
+  const currentModel = AIModelInfo.filter(modelInfo => modelInfo.active).find(
     model => model.model_name === modelValue?.label //FIXME: use model_id instead
   );
 
@@ -93,46 +100,62 @@ const AISettings = (props: Props) => {
     <div className="text-white">
       <Title title="model specifications" />
       <div className="w-full mt-4 space-y-3">
-        {error && (
+        {!isLoading && error && (
           <Typography className="pl-1 my-2" color="error">
             {t(`ErrorMessage: ${error.detail}`)}
           </Typography>
         )}
-        <Select
-          selectData={modelValues}
-          value={modelValue}
-          id={id}
-          onChange={handleModelSelected}
-          labelText={'Available AI Models'}
-        />
-        <div className="overflow-x-auto">
-          {modelValue && currentModel ? (
-            <table
-              className="border-collapse border-spacing-y-4 border-spacing-x-1 border border-secondary-light table-auto overflow-x-auto"
-              aria-label="model-specifications"
-            >
-              <col style={{ width: '20%' }} />
+        {isLoading && (
+          <p className=" w-full text-lg capitalize text-blue-300">
+            {t('Loading...')}
+          </p>
+        )}
 
-              <col style={{ width: '80%' }} />
-              {/* <tbody> */}
-              {keys.map((key, index) => (
-                <ListItem
-                  paddingX="px-3"
-                  paddingY="py-1"
-                  key={key + index}
-                  label={key}
-                  title={AIModelInfoEnum[key]}
-                  value={currentModel && currentModel[key]}
-                />
-              ))}
-              {/* </tbody> */}
-            </table>
-          ) : (
-            <p className=" w-full text-lg capitalize text-blue-300">
-              {t('select a model')}
-            </p>
-          )}
-        </div>
+        {!isLoading && !error && (
+          <>
+            <Select
+              selectData={modelValues}
+              value={modelValue}
+              id={id}
+              onChange={handleModelSelected}
+              labelText={'Available AI Models'}
+            />
+            <div className="overflow-x-auto">
+              {modelValue && currentModel ? (
+                <table
+                  className="border-collapse border-spacing-y-4 border-spacing-x-1 border border-secondary-light table-auto overflow-x-auto"
+                  aria-label="model-specifications"
+                >
+                  <thead></thead>
+                  <tbody>
+                    {keys
+                      .filter(key => key !== 'active')
+                      .map((key, index) => (
+                        <ListItem
+                          paddingX="pl-1"
+                          paddingY="py-1"
+                          key={key + index}
+                          label={LongLabelRename[key] || key}
+                          title={AIModelLabelEnum[key]}
+                          value={currentModel && currentModel[key]}
+                          labelClass="w-1/3"
+                          valueClass="w-2/3"
+                        />
+                      ))}
+                  </tbody>
+                </table>
+              ) : (
+                <p className=" w-full text-lg capitalize text-blue-300">
+                  {t(
+                    !currentModel && modelValue
+                      ? 'This model is not currently Active'
+                      : 'select a model'
+                  )}
+                </p>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
