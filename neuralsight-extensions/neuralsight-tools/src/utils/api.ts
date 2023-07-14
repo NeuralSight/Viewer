@@ -2,7 +2,7 @@ import {
   AiResultError,
   AiResultType,
   AnyObject,
-  ModelInfoDataType,
+  AIModelInfoType,
   PostImageType,
 } from '../../data';
 import {
@@ -73,7 +73,7 @@ export const postAiModelSetting = async ({
   modelID,
 }: {
   modelID: string;
-}): Promise<ModelInfoDataType[]> => {
+}): Promise<AIModelInfoType[]> => {
   const response = await fetch(`${NeuralSightBackend}/models`, {
     method: 'POST',
     body: changeObjToFormData({
@@ -82,7 +82,7 @@ export const postAiModelSetting = async ({
   });
   const data = await response.json();
   if (response.status === 200 || response.status === 201) {
-    return data as ModelInfoDataType[];
+    return data as AIModelInfoType[];
   } else {
     const error = data as AiResultError;
     throw error;
