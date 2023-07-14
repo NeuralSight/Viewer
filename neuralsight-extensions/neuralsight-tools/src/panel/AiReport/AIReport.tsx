@@ -3,10 +3,14 @@ import Title from '../../components/ai-panel-title';
 import ListItem from '../../components/item-listing/ListItem';
 // import testData from '../../utils/pathogen.json'; TODO: REMOVE THIS AND TEST DATAS
 import { useTranslation } from 'react-i18next';
-import { CommandsManager, ExtensionManager, ServicesManager } from '@ohif/core';
+import {
+  CommandsManager,
+  ExtensionManager,
+  ServicesManager,
+} from '@ohif/core/src';
 import { getAIPredResultForStudy } from '../../utils/api';
 import { AiResultError, AiResultType } from '../../../data';
-import { Typography } from '@ohif/ui';
+import { Typography } from '@ohif/ui/src';
 import { formatValueToPercentage } from '../../utils/FloatToPercentageString';
 
 type Props = {
@@ -25,7 +29,6 @@ const AIReport = (props: Props): React.ReactNode => {
   const [id, setID] = useState(StudyInstanceUIDs);
   const [AIresult, setAIResult] = useState<AiResultType>();
   const [error, setError] = useState<AiResultError>();
-
   // do a get request here
   const handleGetResult = async () => {
     try {
@@ -36,8 +39,8 @@ const AIReport = (props: Props): React.ReactNode => {
     }
   };
 
-  console.log('Airesult', AIresult?.results);
-  console.log('error', error);
+  // console.log('Airesult', AIresult?.results);
+  // console.log('error', error);
   useEffect(() => {
     handleGetResult();
   }, []);
@@ -53,7 +56,7 @@ const AIReport = (props: Props): React.ReactNode => {
         )}
         {AIresult ? (
           <table
-            className="border-collapse border-spacing-y-4 border-spacing-x-1 border border-secondary-light table-fixed w-full"
+            className="border-collapse border-spacing-y-4 border-spacing-x-1 border border-secondary-light table-auto w-full"
             aria-label="model-specifications"
           >
             <thead className="capitalize font-bold text-sm text-">
@@ -72,6 +75,7 @@ const AIReport = (props: Props): React.ReactNode => {
                     value={formatValueToPercentage(
                       AIresult.results.preds[data]
                     )}
+                    title={t(data)}
                     paddingX="px-3"
                     paddingY="py-3"
                   />

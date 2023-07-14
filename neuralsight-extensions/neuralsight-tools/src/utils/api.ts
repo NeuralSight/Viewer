@@ -2,6 +2,7 @@ import {
   AiResultError,
   AiResultType,
   AnyObject,
+  AIModelInfoType,
   PostImageType,
 } from '../../data';
 import {
@@ -10,7 +11,7 @@ import {
 } from './changeObjToFormData';
 
 //if not specified use the defaults;
-const NeuralSightBackend = `${process.env.REACT_APP_API_URL}/api/v1/patient/dicom`;
+const NeuralSightBackend = `${process.env.REACT_APP_API_URL}/api/v1/patient`;
 const Dicom = process.env.REACT_APP_ORTHANC_URL;
 
 //TOFIX: remove this when not need again
@@ -31,7 +32,7 @@ export const postPatientStudy = async ({
   patientID,
   file,
 }: PostImageType): Promise<AnyObject> => {
-  const response = await fetch(`${NeuralSightBackend}/pred  `, {
+  const response = await fetch(`${NeuralSightBackend}/dicom/pred  `, {
     method: 'POST',
     body: changeObjToFormData({
       file,
@@ -57,11 +58,31 @@ export const getAIPredResultForStudy = async ({
   uuid: string;
 }): Promise<AiResultType> => {
   const response = await fetch(
-    `${NeuralSightBackend}/{dicom_uuid}?uuid=${uuid}`
+    `${NeuralSightBackend}/dicom/{dicom_uuid}?uuid=${uuid}`
   );
   const data = await response.json();
   if (response.status === 200 || response.status === 201) {
     return data as AiResultType;
+  } else {
+    const error = data as AiResultError;
+    throw error;
+  }
+};
+
+export const postAiModelSetting = async ({
+  modelID,
+}: {
+  modelID: string;
+}): Promise<AIModelInfoType[]> => {
+  const response = await fetch(`${NeuralSightBackend}/models`, {
+    method: 'POST',
+    body: changeObjToFormData({
+      modelID,
+    }),
+  });
+  const data = await response.json();
+  if (response.status === 200 || response.status === 201) {
+    return data as AIModelInfoType[];
   } else {
     const error = data as AiResultError;
     throw error;

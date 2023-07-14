@@ -1,5 +1,5 @@
-import React from 'react';
-import { Select } from '@ohif/ui';
+import React, { ReactElement } from 'react';
+import { Select } from '@ohif/ui/src';
 import { SelectType } from '../../../data';
 
 type Props = {
@@ -16,7 +16,7 @@ const SelectModels = ({
   labelText,
   value,
   id,
-}: Props) => {
+}: Props): ReactElement => {
   return (
     <div className="space-y-1">
       <label className="text-aqua-pale text-xs capitalize" htmlFor={id}>
