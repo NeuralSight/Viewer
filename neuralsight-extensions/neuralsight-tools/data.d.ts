@@ -1,7 +1,9 @@
 interface AnyObject {
   [key: string]: any;
 }
-interface ModelInfoDataType {
+
+interface AIModelInfoType {
+  model_id: string;
   model_name: string;
   organ: string;
   modality: string;
@@ -13,12 +15,13 @@ interface ModelInfoDataType {
   website: string | null;
   citation: string | null;
   version: string;
+  active: boolean;
 }
-export type UniqueModelInfoDataType = {
-  [model_name in keyof ModelInfoDataType]-?: ModelInfoDataType[model_name] extends Omit<
-    ModelInfoDataType,
+export type UniqueAIModelInfoType = {
+  [model_name in keyof AIModelInfoType]-?: AIModelInfoType[model_name] extends Omit<
+    AIModelInfoType,
     model_name
-  >[Exclude<keyof ModelInfoDataType, model_name>]
+  >[Exclude<keyof AIModelInfoType, model_name>]
     ? unknown
     : never;
 };
@@ -135,19 +138,3 @@ export type AiResultType = {
     preds: PredType;
   };
 };
-
-export interface AIModelInfoType {
-  model_name: string;
-  organ: string;
-  modality: string;
-  task: string;
-  data_desc: string;
-  model_desc: string;
-  additional_info_required: string;
-  model_performance: string;
-  website: string;
-  citation: string;
-  version: string;
-  active: boolean;
-  model_id: string;
-}
