@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   value: string;
@@ -13,7 +14,25 @@ type Props = {
     | 'px-3'
     | 'px-4'
     | 'px-5'
-    | 'px-6';
+    | 'px-6'
+    | 'pl-0'
+    | 'pl-0.5'
+    | 'pl-1'
+    | 'pl-1.5'
+    | 'pl-2'
+    | 'pl-3'
+    | 'pl-4'
+    | 'pl-5'
+    | 'pl-6'
+    | 'pr-0'
+    | 'pr-0.5'
+    | 'pr-1'
+    | 'pr-1.5'
+    | 'pr-2'
+    | 'pr-3'
+    | 'pr-4'
+    | 'pr-5'
+    | 'pr-6';
   paddingY:
     | 'py-0'
     | 'py-0.5'
@@ -23,7 +42,25 @@ type Props = {
     | 'py-3'
     | 'py-4'
     | 'py-5'
-    | 'py-6';
+    | 'py-6'
+    | 'pt-0'
+    | 'pt-0.5'
+    | 'pt-1'
+    | 'pt-1.5'
+    | 'pt-2'
+    | 'pt-3'
+    | 'pt-4'
+    | 'pt-5'
+    | 'pt-6'
+    | 'pb-0'
+    | 'pb-0.5'
+    | 'pb-1'
+    | 'pb-1.5'
+    | 'pb-2'
+    | 'pb-3'
+    | 'pb-4'
+    | 'pb-5'
+    | 'pb-6';
   valueClass?: string;
   labelClass?: string;
 };
@@ -37,19 +74,20 @@ const ListItem = ({
   valueClass = '',
   labelClass = '',
 }: Props): ReactElement => {
+  const { t } = useTranslation();
   return (
     <tr className="border border-secondary-light">
       <td
         title={title}
-        className={`${labelClass} truncate ... text-blue-300 text-xs font-medium whitespace-normal ${paddingX} ${paddingY}`}
+        className={`${labelClass}trucate ... text-blue-300 text-xs font-medium whitespace-normal ${paddingX} ${paddingY}`}
         style={{ verticalAlign: 'top' }}
       >
-        {label}
+        {t(label)}
       </td>
       <td
-        className={`${valueClass} text-common-bright text-xs  ${paddingX} ${paddingY}`}
+        className={`${valueClass} text-common-bright text-xs ${paddingX} ${paddingY}`}
       >
-        {value}
+        {t(value)}
       </td>
     </tr>
   );
