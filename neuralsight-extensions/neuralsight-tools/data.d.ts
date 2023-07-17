@@ -139,3 +139,17 @@ export type AiResultType = {
     preds: PredType;
   };
 };
+
+export interface AuthUser {
+  grant_type?: 'password' | string;
+  username: string;
+  password: string;
+  scope?: '' | string | null | undefined;
+  client_id?: string | null | undefined;
+  client_secret?: string | null | undefined;
+}
+
+export type LoginType = {
+  access_token: string;
+  token_type: string;
+};
