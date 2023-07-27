@@ -12,6 +12,7 @@ import {
   changeObjToFormData,
   changeObjToFormUrlencoded,
 } from './changeObjToFormData';
+import { getStorageItemWithExpiry } from './localStorageAccess';
 
 //if not specified use the defaults;
 const NeuralSightBackend = `${process.env.REACT_APP_API_URL}/api/v1`;
@@ -31,6 +32,9 @@ const password = 'asdasd';
 //   Cookie: 'i18next=en-US',
 //   Host: 'localhost:8042',
 // });
+const headers = new Headers({
+  Authorization: `Bearer ${getStorageItemWithExpiry('token')}`,
+});
 
 //TOFIX: send data and throw error instead
 export const postPatientStudy = async ({
@@ -79,6 +83,7 @@ export const postAiModelSetting = async ({
   modelID: string;
 }): Promise<AIModelInfoType[]> => {
   const response = await fetch(`${PatientUri}/models`, {
+    // headers: headers,
     method: 'POST',
     body: changeObjToFormData({
       modelID,
