@@ -45,8 +45,13 @@ window.config = {
   extensions: [],
   modes: [],
   customizationService: {
-    //TODO: Shows a custom route -access via http://localhost:4001/custom
-    // loginRoute: 'extension-neuralsight-tools.customizationModule.auth',
+    loginPage: 'extension-neuralsight-tools.customizationModule.loginPage',
+    // helloPage: '@ohif/extension-default.customizationModule.helloPage',
+    // datasources: '@ohif/extension-default.customizationModule.datasources',
+
+    // custom header
+    worklistHeaderComponent:
+      'extension-neuralsight-tools.customizationModule.customWorklistHeaderComponent',
   },
   showStudyList: true,
   // some windows systems have issues with more than 3 web workers
@@ -108,10 +113,10 @@ window.config = {
   ],
   httpErrorHandler: error => {
     // This is 429 when rejected from the public idc sandbox too often.
-    const { request: xhr, response, status } = error;
+    const { request: xhr, response, status, statusCode } = error;
     const { responseType, statusText } = xhr;
 
-    console.log('xhr', xhr);
+    console.log('XHR', xhr);
     // In local files, status is 0 upon success in Firefox
     if (xhr.readyState === XMLHttpRequest.DONE) {
       console.log(
@@ -124,18 +129,18 @@ window.config = {
     }
 
     //WARNING
-    console.warn(status);
+    console.warn(statusCode);
 
     //TODO: Could use services manager here to bring up a dialog/modal if needed.
     console.warn('test, navigate to https://ohif.org/');
-
     //TODO: alternatively if not authenticated the the user by bring a service manager here to bring up a login modal
-    //Check if the httpErrorStatus is 403 and redirect to neuralsight checki if token is available
+    //Check if the httpErrorStatus is 403 and redirect to neuralsight check if token is available
     if (status === 403) {
-      window.location.replace(NeuralSightUrl);
+      window.location.replace(`${document.baseURI.split('/')[0]}/auth`);
     }
     if (status === 401) {
       console.log('send response password');
+      window.location.replace(`${document.baseURI.split('/')[0]}/auth`);
     }
   },
   defaultDataSourceName: 'dicomweb',

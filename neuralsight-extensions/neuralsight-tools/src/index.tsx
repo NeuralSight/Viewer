@@ -107,10 +107,11 @@ const neuralsightExtension: Types.Extensions.Extension = {
    * native format. DataSources are defined by an object of { name, type, createDataSource }.
    */
   // getDataSourcesModule,
+
   /**
    * CustomizationModule Here for custom ui
    */
-  // getCustomizationModule,
+  getCustomizationModule,
 };
 
 export default neuralsightExtension;
