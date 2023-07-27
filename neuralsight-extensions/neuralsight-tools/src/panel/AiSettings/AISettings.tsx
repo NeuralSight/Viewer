@@ -63,6 +63,7 @@ const AISettings = (props: Props) => {
       console.log('error', error);
       setError(error);
     }
+    setIsLoading(false);
   };
 
   const id = 'model';
@@ -85,11 +86,10 @@ const AISettings = (props: Props) => {
 
   useEffect(() => {
     handleAiSettings();
-    setIsLoading(false);
     const currentData: SelectType = getStorageItem(SELECTED_MODEL);
     console.log('currentData', currentData);
     setModelValue(() => currentData);
-  }, [setModelValue, setIsLoading]);
+  }, [setModelValue]);
   const currentModel = AIModelInfo.filter(modelInfo => modelInfo.active).find(
     model => model.model_name === modelValue?.label //FIXME: use model_id instead
   );
