@@ -42,6 +42,7 @@ export const postPatientStudy = async ({
   file,
 }: PostImageType): Promise<AnyObject> => {
   const response = await fetch(`${PatientUri}/dicom/pred  `, {
+    headers: headers,
     method: 'POST',
     body: changeObjToFormData({
       file,
@@ -58,7 +59,12 @@ export const getStudyInfoFromImageId = async (
   id: string
 ): Promise<AnyObject> => {
   console.log('DICOMWeb', Dicom + id);
-  const response = await fetch(`${Dicom}/studies/${id}`);
+  const response = await fetch(
+    `${Dicom}/studies/${id}&token=${getStorageItemWithExpiry('token')}`,
+    {
+      // headers: headers,
+    }
+  );
   return response;
 };
 
@@ -67,7 +73,12 @@ export const getAIPredResultForStudy = async ({
 }: {
   uuid: string;
 }): Promise<AiResultType> => {
-  const response = await fetch(`${PatientUri}/dicom/{dicom_uuid}?uuid=${uuid}`);
+  const response = await fetch(
+    `${PatientUri}/dicom/{dicom_uuid}?uuid=${uuid}`,
+    {
+      headers: headers,
+    }
+  );
   const data = await response.json();
   if (response.status === 200 || response.status === 201) {
     return data as AiResultType;
@@ -83,7 +94,7 @@ export const postAiModelSetting = async ({
   modelID: string;
 }): Promise<AIModelInfoType[]> => {
   const response = await fetch(`${PatientUri}/models`, {
-    // headers: headers,
+    headers: headers,
     method: 'POST',
     body: changeObjToFormData({
       modelID,
