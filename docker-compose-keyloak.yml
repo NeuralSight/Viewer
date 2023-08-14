@@ -8,18 +8,20 @@ services:
   # Exposed server that's handling incoming web requests
   # Underlying image: openresty/openresty:alpine-fat
   ohif_viewer:
-    build:
+    build: .
       # Project
-      context: ./../../../../
-      # Relative to context
-      dockerfile: Dockerfile
+      # context: .
+      # # Relative to context
+      # dockerfile: Dockerfile
     image: webapp:latest
     container_name: webapp
+    environment:
+      - APP_CONFIG=./platform/app/public/config/docker_openresty-orthanc-keycloak.js
     volumes:
       # Nginx config
-      - ./config/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+      - ./platform/app/.recipes/OpenResty-Orthanc-Keycloak/config/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
       # Logs
-      - ./logs/nginx:/var/logs/nginx
+      - ./platform/app/.recipes/OpenResty-Orthanc-Keycloak/logs/nginx:/var/logs/nginx
       # Let's Encrypt
       # - letsencrypt_certificates:/etc/letsencrypt
       # - letsencrypt_challenges:/var/www/letsencrypt
@@ -40,11 +42,10 @@ services:
     container_name: orthanc
     volumes:
       # Config
-      - ./config/orthanc.json:/etc/orthanc/orthanc.json:ro
+      - ./platform/app/.recipes/OpenResty-Orthanc-Keycloak/config/orthanc.json:/etc/orthanc/orthanc.json:ro
       # Persist data
-      - ./volumes/orthanc-db/:/var/lib/orthanc/db/
+      # - platform/app/.recipes/OpenResty-Orthanc-Keycloak/volumes/orthanc-db/:/var/lib/orthanc/db/
     restart: unless-stopped
-
   # LINK: https://hub.docker.com/r/jboss/keycloak
   keycloak:
     image: jboss/keycloak:6.0.1
@@ -52,9 +53,9 @@ services:
     container_name: keycloak
     volumes:
       # Theme: https://www.keycloak.org/docs/latest/server_development/index.html#_themes
-      - ./volumes/keycloak-themes/ohif:/opt/jboss/keycloak/themes/ohif
+      - ./platform/app/.recipes/OpenResty-Orthanc-Keycloak/volumes/keycloak-themes/ohif:/opt/jboss/keycloak/themes/ohif
       # Previous Realm Config
-      - ./config/ohif-keycloak-realm.json:/tmp/ohif-keycloak-realm.json
+      - ./platform/app/.recipes/OpenResty-Orthanc-Keycloak/config/ohif-keycloak-realm.json:/tmp/ohif-keycloak-realm.json
     environment:
       # Database
       DB_VENDOR: postgres
@@ -79,7 +80,7 @@ services:
 
   # LINK: https://hub.docker.com/_/postgres/
   postgres:
-    image: postgres:11.2
+    image: postgres:latest
     hostname: postgres
     container_name: postgres
     volumes:
