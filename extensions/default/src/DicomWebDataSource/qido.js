@@ -21,9 +21,11 @@
  * | fuzzymatching    | true OR false      |
  * | limit            | {number}           |
  * | offset           | {number}           |
+ * | AuthToken        | {number}           | //TODO: Should not be here
  */
 import { DICOMWeb, utils } from '@ohif/core';
 import { sortStudySeries } from '@ohif/core/src/utils/sortStudy';
+import { getStorageItemWithExpiry } from 'extension-neuralsight-tools/src/utils/localStorageAccess';
 
 const { getString, getName, getModalities } = DICOMWeb;
 
@@ -183,6 +185,7 @@ function mapParams(params, options = {}) {
     offset: params.offset || 0,
     fuzzymatching: options.supportsFuzzyMatching === true,
     includefield: commaSeparatedFields, // serverSupportsQIDOIncludeField ? commaSeparatedFields : 'all',
+    token: getStorageItemWithExpiry('token'), //token to be passed to every reqest
   };
 
   // build the StudyDate range parameter
