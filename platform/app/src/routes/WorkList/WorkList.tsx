@@ -65,6 +65,7 @@ function WorkList({
   servicesManager,
 }) {
   // FIXME STATE FOR storing user info this should be moved to to authenticationService
+  // const {
   //   getAuthorizationHeader,
   //   getUser,
   //   setUser,
@@ -80,12 +81,12 @@ function WorkList({
   }, [setAuthToken]);
   // // TOFIX: remove this either user secure means to store on not store at all
   // if (authToken) {
-  // setServiceImplementation({
-  //   getAuthorizationHeader: () => ({
-  //     Authorization: 'Token ' + getStorageItemWithExpiry('token'),
-  //   }),
-  // });
-
+  //   setServiceImplementation({
+  //     getAuthorizationHeader: () => ({
+  //       Authorization: 'Token ' + getStorageItemWithExpiry('token'),
+  //     }),
+  //   });
+  // }
   const { hotkeyDefinitions, hotkeyDefaults } = hotkeysManager;
   const { show, hide } = useModal();
   const { t } = useTranslation();
