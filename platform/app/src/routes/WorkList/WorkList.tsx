@@ -10,9 +10,19 @@ import { useTranslation } from 'react-i18next';
 import filtersMeta from './filtersMeta.js';
 import { useAppConfig } from '@state';
 import { useDebounce, useSearchParams } from '@hooks';
-import { utils, hotkeys, ServicesManager } from '@ohif/core';
+import {
+  utils,
+  hotkeys,
+  ServicesManager,
+  UserAuthenticationService,
+} from '@ohif/core';
 import Header from 'extension-neuralsight-tools/src/components/Header';
 import NeuralSightViewportUploadModal from 'extension-neuralsight-tools/src/modals/NeuralSightViewportUploadModal';
+import LoginModal from 'extension-neuralsight-tools/src/modals/LoginModal';
+import {
+  removeItemFromStorage,
+  getStorageItemWithExpiry,
+} from 'extension-neuralsight-tools/src/utils/localStorageAccess';
 
 import {
   Icon,
@@ -54,6 +64,28 @@ function WorkList({
   onRefresh,
   servicesManager,
 }) {
+  // FIXME STATE FOR storing user info this should be moved to to authenticationService
+  //   getAuthorizationHeader,
+  //   getUser,
+  //   setUser,
+  //   reset,
+  //   setServiceImplementation,
+  // } = servicesManager.services
+  //   .userAuthenticationService as typeof UserAuthenticationService;
+  const [authToken, setAuthToken] = useState<string | null>(
+    getStorageItemWithExpiry('token') || null
+  );
+  useEffect(() => {
+    setAuthToken(getStorageItemWithExpiry('token'));
+  }, [setAuthToken]);
+  // // TOFIX: remove this either user secure means to store on not store at all
+  // if (authToken) {
+  // setServiceImplementation({
+  //   getAuthorizationHeader: () => ({
+  //     Authorization: 'Token ' + getStorageItemWithExpiry('token'),
+  //   }),
+  // });
+
   const { hotkeyDefinitions, hotkeyDefaults } = hotkeysManager;
   const { show, hide } = useModal();
   const { t } = useTranslation();
@@ -454,6 +486,16 @@ function WorkList({
 
   // console.log('activeViewportIndex', activeViewportIndex);
 
+  //TODO WorkList header customizationService for rightside leftside and center
+  const {
+    component: WorklistHeaderComponent,
+    props: worklistHeaderComponentProps,
+  } = customizationService.get('worklistHeaderComponent') ?? {};
+
+  const headerRight = WorklistHeaderComponent
+    ? WorklistHeaderComponent
+    : undefined;
+
   const { component: dicomUploadComponent } =
     customizationService.get('dicomUploadComponent') ?? {};
   const uploadProps =
@@ -488,6 +530,8 @@ function WorkList({
         isReturnEnabled={false}
         rightSideItems={
           <>
+            {/* header right */}
+            {headerRight}
             <Button
               type={ButtonEnums.type.primary}
               size={ButtonEnums.size.medium}
@@ -512,7 +556,11 @@ function WorkList({
               type={ButtonEnums.type.secondary}
               size={ButtonEnums.size.medium}
               className="mr-3 px-2"
-              onClick={() => console.log('this will logout the current user')}
+              onClick={() => {
+                removeItemFromStorage('token');
+                setAuthToken(null);
+                // reset(); // reset authenticationService
+              }}
             >
               <span className="mr-1">Logout</span>
               <Icon name="power-off" className="h-5 w-5" />
@@ -557,6 +605,11 @@ function WorkList({
           </div>
         )}
       </div>
+      <LoginModal
+        managers={{ servicesManager }}
+        isOpen={!authToken}
+        setAuthToken={setAuthToken}
+      />
     </div>
   );
 }
