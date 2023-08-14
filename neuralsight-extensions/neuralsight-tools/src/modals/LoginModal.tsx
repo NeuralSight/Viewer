@@ -8,12 +8,11 @@ import {
 
 type Props = {
   isOpen: boolean;
-  shouldCloseOnEsc: boolean;
   setAuthToken: Dispatch<SetStateAction<null | string>>;
-  managers: {
+  managers?: {
     servicesManager: ServicesManager;
-    extensionManager: ExtensionManager;
-    commandsManager: CommandsManager;
+    extensionManager?: ExtensionManager;
+    commandsManager?: CommandsManager;
   };
 };
 
@@ -23,7 +22,6 @@ const LoginModal = (props: Props): ReactElement => {
       {...props.managers}
       isOpen={props.isOpen}
       setAuthToken={props.setAuthToken}
-      shouldCloseOnEsc={props.shouldCloseOnEsc}
     />
   );
 };

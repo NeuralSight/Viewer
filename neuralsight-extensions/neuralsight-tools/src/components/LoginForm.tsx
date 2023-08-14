@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import Logo from './Logo';
 import { AuthUser, Details } from '../../data';
 import { loginUser } from '../utils/api';
-import { Services } from '@ohif/core';
+
 import {
   setStorageItemWithExpiry,
   getStorageItem,
@@ -24,10 +24,10 @@ import {
 
 type Props = {
   servicesManager: ServicesManager;
-  extensionManager: ExtensionManager;
-  commandsManager: CommandsManager;
+  extensionManager?: ExtensionManager;
+  commandsManager?: CommandsManager;
   isOpen: boolean;
-  shouldCloseOnEsc: boolean;
+  shouldCloseOnEsc?: boolean;
   setAuthToken: Dispatch<SetStateAction<null | string>>;
 };
 
@@ -40,17 +40,18 @@ const LoginForm = (props: Props): ReactElement => {
     server: false,
     detail: false,
   };
-  const { userAuthenticationService, uiModalService } = props.servicesManager
-    .services as Services;
   const {
-    getAuthorizationHeader,
-    getUser,
-    setUser,
-    reset,
-  } = userAuthenticationService;
+    userAuthenticationService,
+    uiModalService,
+  } = props.servicesManager.services;
+  // const {
+  //   getAuthorizationHeader,
+  //   getUser,
+  //   setUser,
+  //   reset,
+  //   setServiceImplementation,
+  // } = userAuthenticationService;
   console.log('useAuthenticationService', userAuthenticationService);
-  console.log('setUser', getUser());
-
   const [error, setError] = useState<Error>(IntialErrorState);
   const [serverErr, setServerErr] = useState<{ detail: string }>();
   const hasError = Object.values(error).includes(true);
@@ -58,7 +59,7 @@ const LoginForm = (props: Props): ReactElement => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [remember, setIsRemembered] = useState(false);
+  // const [remember, setIsRemembered] = useState(false);
   const { t } = useTranslation();
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
@@ -94,18 +95,24 @@ const LoginForm = (props: Props): ReactElement => {
     };
     try {
       const data = await loginUser(authDetails);
-
-      console.log('data', data);
-      getAuthorizationHeader(data.access_token);
-      console.log('getUser', getUser());
-
       if (data.access_token) {
+        //This the recommended way of passing auth token though doesnot work
+        // setServiceImplementation({
+        //   getAuthorizationHeader: () => ({
+        //     Authorization: 'Bearer ' + data.access_token,
+        //   }),
+        // // });
+        // getAuthorizationHeader(data.access_token);
+        //FIXME alternatively store in the sessionStorage of which both are not secure
         setStorageItemWithExpiry(
           'token',
           data.access_token,
-          30 * 1000 * 60 * 60
+          30 * 1000 * 60 * 60 //time of the token to expire and get deleted
         );
         props.setAuthToken(data.access_token);
+      } else {
+        const error = { detail: 'token was not found' };
+        throw error;
       }
     } catch (error) {
       console.error('error', error);
@@ -155,11 +162,11 @@ const LoginForm = (props: Props): ReactElement => {
     );
   };
   return (
-    // TODO blur everything else
+    // TODO blur everything else NOT IMPORTANT AS LONG AS THE USER DOESNOT SEE ANYTHING
     <div className="max-w-md">
       <Modal
         isOpen={props.isOpen}
-        shouldCloseOnEsc={false}
+        shouldCloseOnEsc={props.shouldCloseOnEsc || false}
         shouldCloseOnOverlayClick={false}
         // title={t('Login To NeuralSightViewer')}
       >
@@ -217,11 +224,10 @@ const LoginForm = (props: Props): ReactElement => {
           <div className="flex justify-center items-center">
             <Button
               className=" w-full"
-              disabled={email.length === 1 || password.length < 6}
+              disabled={email.length < 1 || password.length < 6}
               size={ButtonEnums.size.medium}
               type={ButtonEnums.type.primary}
               name={'upload'}
-              // onClick={handleLogin}
             >
               {isLoading ? t('Logging In...') : t('Login')}
             </Button>
