@@ -25,6 +25,7 @@ import {
   ExtensionManager,
   CommandsManager,
   HotkeysManager,
+  UserAuthenticationService,
 } from '@ohif/core/src';
 import Header from '../components/Header/Header';
 import AboutModal from '../components/AboutModal';
@@ -140,7 +141,10 @@ function ViewerLayout({
         show({
           content: AboutModal,
           title: 'About Neuralsight Viewer',
-          contentProps: { versionNumber, commitHash },
+          contentProps: {
+            versionNumber,
+            commitHash,
+          },
         }),
     },
     {
@@ -267,9 +271,25 @@ function ViewerLayout({
   const rightPanelComponents = rightPanels.map(getPanelData);
   const viewportComponents = viewports.map(getViewportComponentData);
 
+  // TOFIX: remove this either user secure means to store on not store at all
+  // const {
+  //   getAuthorizationHeader,
+  //   getUser,
+  //   setUser,
+  //   reset,
+  //   setServiceImplementation,
+  // } = servicesManager.services
+  //   .userAuthenticationService as typeof UserAuthenticationService;
+  // console.log('getUser()', getUser());
   useEffect(() => {
     setAuthToken(getStorageItemWithExpiry('token'));
   }, [setAuthToken]);
+
+  // setServiceImplementation({
+  //   getAuthorizationHeader: () => ({
+  //     Authorization: 'Bearer ' + getStorageItemWithExpiry('token'),
+  //   }),
+  // });
 
   return (
     <div>
@@ -324,7 +344,9 @@ function ViewerLayout({
       </Header>
       <div
         className="bg-black flex flex-row items-stretch w-full overflow-hidden flex-nowrap relative"
-        style={{ height: 'calc(100vh - 52px' }}
+        style={{
+          height: 'calc(100vh - 52px',
+        }}
       >
         <React.Fragment>
           {showLoadingIndicator && (
@@ -367,9 +389,12 @@ function ViewerLayout({
       </div>
       <LoginModal
         isOpen={!authToken}
-        shouldCloseOnEsc={false}
         setAuthToken={setAuthToken}
-        managers={{ servicesManager, extensionManager, commandsManager }}
+        managers={{
+          servicesManager,
+          extensionManager,
+          commandsManager,
+        }}
       />
     </div>
   );
