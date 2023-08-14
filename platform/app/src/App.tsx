@@ -1,5 +1,5 @@
 // External
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import i18n from '@ohif/i18n';
 import { I18nextProvider } from 'react-i18next';
@@ -36,14 +36,18 @@ let commandsManager: CommandsManager,
 
 function App({ config, defaultExtensions, defaultModes }) {
   const [init, setInit] = useState(null);
-  useEffect(() => {
-    const run = async () => {
-      appInit(config, defaultExtensions, defaultModes)
-        .then(setInit)
-        .catch(console.error);
-    };
+  const initialized = useRef(false);
 
-    run();
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      const run = async () => {
+        appInit(config, defaultExtensions, defaultModes)
+          .then(setInit)
+          .catch(console.error);
+      };
+      run();
+    }
   }, []);
 
   if (!init) {
@@ -78,19 +82,63 @@ function App({ config, defaultExtensions, defaultModes }) {
   } = servicesManager.services;
 
   const providers = [
-    [AppConfigProvider, { value: appConfigState }],
-    [UserAuthenticationProvider, { service: userAuthenticationService }],
+    [
+      AppConfigProvider,
+      {
+        value: appConfigState,
+      },
+    ],
+    [
+      UserAuthenticationProvider,
+      {
+        service: userAuthenticationService,
+      },
+    ],
     [I18nextProvider, { i18n }],
     [ThemeWrapper],
-    [ViewportGridProvider, { service: viewportGridService }],
-    [ViewportDialogProvider, { service: uiViewportDialogService }],
-    [CineProvider, { service: cineService }],
-    [SnackbarProvider, { service: uiNotificationService }],
-    [DialogProvider, { service: uiDialogService }],
-    [ModalProvider, { service: uiModalService, modal: Modal }],
+    [
+      ViewportGridProvider,
+      {
+        service: viewportGridService,
+      },
+    ],
+    [
+      ViewportDialogProvider,
+      {
+        service: uiViewportDialogService,
+      },
+    ],
+    [
+      CineProvider,
+      {
+        service: cineService,
+      },
+    ],
+    [
+      SnackbarProvider,
+      {
+        service: uiNotificationService,
+      },
+    ],
+    [
+      DialogProvider,
+      {
+        service: uiDialogService,
+      },
+    ],
+    [
+      ModalProvider,
+      {
+        service: uiModalService,
+        modal: Modal,
+      },
+    ],
   ];
   const CombinedProviders = ({ children }) =>
-    Compose({ components: providers, children });
+    Compose({
+      components: providers,
+      children,
+    });
 
   let authRoutes = null;
 
