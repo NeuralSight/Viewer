@@ -161,6 +161,14 @@ const LoginForm = (props: Props): ReactElement => {
       </Typography>
     );
   };
+
+  // Timeout for errors
+  React.useEffect(() => {
+    setTimeout(() => {
+      setError(IntialErrorState);
+    }, 30000);
+  }, [IntialErrorState, setError]);
+
   return (
     // TODO blur everything else NOT IMPORTANT AS LONG AS THE USER DOESNOT SEE ANYTHING
     <div className="max-w-md">
