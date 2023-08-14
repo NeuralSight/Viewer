@@ -5,15 +5,15 @@ window.config = {
   routerBasename: '/', //router base name
   // oidc: [
   //   {
-  //     // ~ REQUIRED
-  //     // Authorization Server URL
-  //     authority: 'https://backend.neuralsight.ai', //neuralsight is the authority here
-  //     client_id: 'ohif-viewer',
-  //     redirect_uri: 'http://localhost:3000', // `OHIFStandaloneViewer.js` i think this where to redirect
-  //     response_type: 'code', // "Authorization Code Flow"
-  //     scope: '', // email profile openid
-  //     // ~ OPTIONAL
-  //     post_logout_redirect_uri: 'http://localhost:3000/auth',
+  //     //     // ~ REQUIRED
+  //     //     // Authorization Server URL
+  //     //     authority: 'https://backend.neuralsight.ai', //neuralsight is the authority here
+  //     //     client_id: 'ohif-viewer',
+  //     //     redirect_uri: 'http://localhost:3000', // `OHIFStandaloneViewer.js` i think this where to redirect
+  //     //     response_type: 'code', // "Authorization Code Flow"
+  //     //     scope: '', // email profile openid
+  //     //     // ~ OPTIONAL
+  //     //     post_logout_redirect_uri: 'http://localhost:3000/auth',
   //   },
   // ],
   // whiteLabeling
