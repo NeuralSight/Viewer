@@ -1,5 +1,9 @@
-import { ServicesManager } from '@ohif/core';
 import NeuralSightViewportUploadForm from './modals/NeuralSightViewportUploadModal';
+import {
+  CommandsManager,
+  ExtensionManager,
+  ServicesManager,
+} from '@ohif/core/src';
 
 /**
  * CommandsModule should provide a list of commands that will be available in OHIF
@@ -8,11 +12,16 @@ import NeuralSightViewportUploadForm from './modals/NeuralSightViewportUploadMod
  * object of functions, definitions is an object of available commands, their
  * options, and defaultContext is the default context for the command to run against.
  */
+type Props = {
+  servicesManager: ServicesManager;
+  commandsManager: CommandsManager;
+  extensionManager: ExtensionManager;
+};
 function getCommandsModule({
   servicesManager,
   commandsManager,
   extensionManager,
-}) {
+}: Props) {
   // const { t } = useTranslation('Modals');
   const {
     viewportGridService,

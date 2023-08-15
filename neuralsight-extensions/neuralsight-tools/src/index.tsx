@@ -1,10 +1,11 @@
-import { Types } from '@ohif/core';
+import { Types } from '@ohif/core/src';
 import { id } from './id';
 import getPanelModule from './getPanelModule';
 import getCommandsModule from './getCommandModule';
 // import getDataSourcesModule from './getDataSourcesModule';
 import getToolbarModule from './getToolBarModule';
 import getLayoutTemplateModule from './getLayoutTemplateModule';
+import getCustomizationModule from './getCustomizationModule';
 
 /**
  * You can remove any of the following modules if you don't need them.
@@ -106,6 +107,11 @@ const neuralsightExtension: Types.Extensions.Extension = {
    * native format. DataSources are defined by an object of { name, type, createDataSource }.
    */
   // getDataSourcesModule,
+
+  /**
+   * CustomizationModule Here for custom ui
+   */
+  getCustomizationModule,
 };
 
 export default neuralsightExtension;

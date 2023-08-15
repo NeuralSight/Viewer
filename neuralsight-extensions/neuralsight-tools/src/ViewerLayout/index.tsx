@@ -4,6 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import {
+  removeItemFromStorage,
+  getStorageItemWithExpiry,
+} from '../utils/localStorageAccess';
+import {
   SidePanel,
   ErrorBoundary,
   UserPreferences,
@@ -21,12 +25,14 @@ import {
   ExtensionManager,
   CommandsManager,
   HotkeysManager,
-} from '@ohif/core';
+  UserAuthenticationService,
+} from '@ohif/core/src';
 import Header from '../components/Header/Header';
 import AboutModal from '../components/AboutModal';
 import NeuralSightViewportUploadModal from '../modals/NeuralSightViewportUploadModal';
 import { useAppConfig } from '@state';
 import Toolbar from '../Toolbar/Toolbar';
+import LoginModal from '../modals/LoginModal';
 
 const { availableLanguages, defaultLanguage, currentLanguage } = i18n;
 
@@ -62,6 +68,7 @@ function ViewerLayout({
   const [appConfig] = useAppConfig();
   const navigate = useNavigate();
   const location = useLocation();
+  const [authToken, setAuthToken] = useState<string | null>(null);
 
   const onClickReturnButton = () => {
     const { pathname } = location;
@@ -102,6 +109,7 @@ function ViewerLayout({
     viewportGridService,
     uiModalService,
     cornerstoneViewportService,
+    userAuthenticationService,
   } = servicesManager.services;
 
   const { hotkeyDefinitions, hotkeyDefaults } = hotkeysManager;
@@ -133,7 +141,10 @@ function ViewerLayout({
         show({
           content: AboutModal,
           title: 'About Neuralsight Viewer',
-          contentProps: { versionNumber, commitHash },
+          contentProps: {
+            versionNumber,
+            commitHash,
+          },
         }),
     },
     {
@@ -230,6 +241,7 @@ function ViewerLayout({
   };
 
   useEffect(() => {
+    userAuthenticationService.handleUnauthenticated();
     const { unsubscribe } = hangingProtocolService.subscribe(
       HangingProtocolService.EVENTS.PROTOCOL_CHANGED,
 
@@ -258,6 +270,26 @@ function ViewerLayout({
   const leftPanelComponents = leftPanels.map(getPanelData);
   const rightPanelComponents = rightPanels.map(getPanelData);
   const viewportComponents = viewports.map(getViewportComponentData);
+
+  // TOFIX: remove this either user secure means to store on not store at all
+  // const {
+  //   getAuthorizationHeader,
+  //   getUser,
+  //   setUser,
+  //   reset,
+  //   setServiceImplementation,
+  // } = servicesManager.services
+  //   .userAuthenticationService as typeof UserAuthenticationService;
+  // console.log('getUser()', getUser());
+  useEffect(() => {
+    setAuthToken(getStorageItemWithExpiry('token'));
+  }, [setAuthToken]);
+
+  // setServiceImplementation({
+  //   getAuthorizationHeader: () => ({
+  //     Authorization: 'Bearer ' + getStorageItemWithExpiry('token'),
+  //   }),
+  // });
 
   return (
     <div>
@@ -293,7 +325,10 @@ function ViewerLayout({
               type={ButtonEnums.type.secondary}
               size={ButtonEnums.size.medium}
               className="mr-3 px-2"
-              onClick={() => console.log('this will logout the current user')}
+              onClick={() => {
+                removeItemFromStorage('token');
+                setAuthToken(null);
+              }}
             >
               <span className="mr-1">Logout</span>
               <Icon name="power-off" className="h-5 w-5" />
@@ -309,7 +344,9 @@ function ViewerLayout({
       </Header>
       <div
         className="bg-black flex flex-row items-stretch w-full overflow-hidden flex-nowrap relative"
-        style={{ height: 'calc(100vh - 52px' }}
+        style={{
+          height: 'calc(100vh - 52px',
+        }}
       >
         <React.Fragment>
           {showLoadingIndicator && (
@@ -350,6 +387,15 @@ function ViewerLayout({
           ) : null}
         </React.Fragment>
       </div>
+      <LoginModal
+        isOpen={!authToken}
+        setAuthToken={setAuthToken}
+        managers={{
+          servicesManager,
+          extensionManager,
+          commandsManager,
+        }}
+      />
     </div>
   );
 }

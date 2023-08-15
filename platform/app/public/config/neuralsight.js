@@ -5,15 +5,15 @@ window.config = {
   routerBasename: '/', //router base name
   // oidc: [
   //   {
-  //     // ~ REQUIRED
-  //     // Authorization Server URL
-  //     authority: 'http://localhost:4001/auth/realms/ohif', //neuralsight is the authority here
-  //     client_id: 'ohif-viewer',
-  //     redirect_uri: 'http://localhost:4001', // `OHIFStandaloneViewer.js` i think this where to redirect
-  //     response_type: 'code', // "Authorization Code Flow"
-  //     scope: 'openid', // email profile openid
-  //     // ~ OPTIONAL
-  //     post_logout_redirect_uri: 'http://localhost:4001/auth',
+  //     //     // ~ REQUIRED
+  //     //     // Authorization Server URL
+  //     //     authority: 'https://backend.neuralsight.ai', //neuralsight is the authority here
+  //     //     client_id: 'ohif-viewer',
+  //     //     redirect_uri: 'http://localhost:3000', // `OHIFStandaloneViewer.js` i think this where to redirect
+  //     //     response_type: 'code', // "Authorization Code Flow"
+  //     //     scope: '', // email profile openid
+  //     //     // ~ OPTIONAL
+  //     //     post_logout_redirect_uri: 'http://localhost:3000/auth',
   //   },
   // ],
   // whiteLabeling
@@ -45,12 +45,17 @@ window.config = {
   extensions: [],
   modes: [],
   customizationService: {
-    // Shows a custom route -access via http://localhost:4001/custom
+    loginPage: 'extension-neuralsight-tools.customizationModule.loginPage',
     // helloPage: '@ohif/extension-default.customizationModule.helloPage',
+    // datasources: '@ohif/extension-default.customizationModule.datasources',
+
+    // custom header
+    worklistHeaderComponent:
+      'extension-neuralsight-tools.customizationModule.customWorklistHeaderComponent',
   },
   showStudyList: true,
   // some windows systems have issues with more than 3 web workers
-  maxNumberOfWebWorkers: 4,
+  maxNumberOfWebWorkers: 3,
   // below flag is for performance reasons, but it might not work for all servers
   omitQuotationForMultipartRequest: true,
   showWarningMessageForCrossOrigin: true,
@@ -108,10 +113,10 @@ window.config = {
   ],
   httpErrorHandler: error => {
     // This is 429 when rejected from the public idc sandbox too often.
-    const { request: xhr, response, status } = error;
+    const { request: xhr, response, status, statusCode } = error;
     const { responseType, statusText } = xhr;
 
-    console.log('xhr', xhr);
+    console.log('XHR', xhr);
     // In local files, status is 0 upon success in Firefox
     if (xhr.readyState === XMLHttpRequest.DONE) {
       console.log(
@@ -124,18 +129,18 @@ window.config = {
     }
 
     //WARNING
-    console.warn(status);
+    console.warn(statusCode);
 
     //TODO: Could use services manager here to bring up a dialog/modal if needed.
     console.warn('test, navigate to https://ohif.org/');
-
     //TODO: alternatively if not authenticated the the user by bring a service manager here to bring up a login modal
-    //Check if the httpErrorStatus is 403 and redirect to neuralsight
+    //Check if the httpErrorStatus is 403 and redirect to neuralsight check if token is available
     if (status === 403) {
-      window.location.replace(NeuralSightUrl);
+      window.location.replace(`${document.baseURI.split('/')[0]}/auth`);
     }
     if (status === 401) {
       console.log('send response password');
+      window.location.replace(`${document.baseURI.split('/')[0]}/auth`);
     }
   },
   defaultDataSourceName: 'dicomweb',

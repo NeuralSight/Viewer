@@ -21,7 +21,7 @@ const compare = (a, b, defaultCompare = 0): number => {
  * order or in study instance UID order - not very useful, but
  * if not specifically specified then at least making it consistent is useful.
  */
-const getStudiesfromDisplaySets = (displaysets): StudyMetadata[] => {
+const getStudiesfromDisplaySets = (displaySets): StudyMetadata[] => {
   const studyMap = {};
 
   const ret = displaySets.reduce((prev, curr) => {

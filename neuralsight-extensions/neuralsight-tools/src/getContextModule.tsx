@@ -5,3 +5,8 @@
  * Context is defined by an object of { name, context, provider }. Examples include
  * the measurementTracking context provided by the measurementTracking extension.
  */
+import React from 'react';
+
+export default function getContextModule() {
+  return {};
+}
