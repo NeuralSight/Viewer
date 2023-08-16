@@ -51,7 +51,6 @@ const LoginForm = (props: Props): ReactElement => {
   //   reset,
   //   setServiceImplementation,
   // } = userAuthenticationService;
-  console.log('useAuthenticationService', userAuthenticationService);
   const [error, setError] = useState<Error>(IntialErrorState);
   const [serverErr, setServerErr] = useState<{ detail: string }>();
   const hasError = Object.values(error).includes(true);

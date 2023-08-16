@@ -57,7 +57,7 @@ function createDicomJSONApi(dicomJsonConfig) {
         });
       }
 
-      const response = await fetch(url);
+      const response = await fetch(`${url}`);
       let data = await response.json();
 
       const studyInstanceUIDs = data.studies.map(
