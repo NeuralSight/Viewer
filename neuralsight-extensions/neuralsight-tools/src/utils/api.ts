@@ -33,7 +33,7 @@ const password = 'asdasd';
 //   Host: 'localhost:8042',
 // });
 const headers = new Headers({
-  Authorization: `Bearer ${getStorageItemWithExpiry('token')}`,
+  Authorization: `Bearer ${getStorageItemWithExpiry({ name: 'token' })}`,
 });
 
 //TOFIX: send data and throw error instead
@@ -60,7 +60,9 @@ export const getStudyInfoFromImageId = async (
 ): Promise<AnyObject> => {
   console.log('DICOMWeb', Dicom + id);
   const response = await fetch(
-    `${Dicom}/studies/${id}&token=${getStorageItemWithExpiry('token')}`,
+    `${Dicom}/studies/${id}&token=${getStorageItemWithExpiry({
+      name: 'token',
+    })}`,
     {
       // headers: headers,
     }

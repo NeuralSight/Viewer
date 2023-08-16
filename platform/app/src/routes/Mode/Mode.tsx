@@ -10,6 +10,7 @@ import Compose from './Compose';
 import getStudies from './studiesList';
 import { history } from '../../utils/history';
 import loadModules from '../../pluginImports';
+import { getStorageItemWithExpiry } from 'extension-neuralsight-tools/src/utils/localStorageAccess';
 
 const { getSplitParam } = utils;
 
@@ -52,6 +53,7 @@ function defaultRouteInit(
     dataSource.retrieve.series.metadata({
       StudyInstanceUID,
       filters,
+      token: getStorageItemWithExpiry({ name: 'token' }),
     })
   );
 
@@ -340,7 +342,7 @@ export default function ModeRoute({
        *   seriesInstanceUID: 1.2.276.0.7230010.3.1.3.1791068887.5412.1620253993.114611
        * }
        */
-      const filters =
+      const filters: any =
         Array.from(query.keys()).reduce(
           (acc: Record<string, string>, val: string) => {
             const lowerVal = val.toLowerCase();
@@ -379,7 +381,11 @@ export default function ModeRoute({
           servicesManager,
           studyInstanceUIDs,
           dataSource,
-          filters,
+          filters: {
+            ...filters,
+
+            token: getStorageItemWithExpiry({ name: 'token' }),
+          },
         },
         hangingProtocolIdToUse
       );

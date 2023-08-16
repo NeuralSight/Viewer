@@ -74,10 +74,10 @@ function WorkList({
   // } = servicesManager.services
   //   .userAuthenticationService as typeof UserAuthenticationService;
   const [authToken, setAuthToken] = useState<string | null>(
-    getStorageItemWithExpiry('token') || null
+    getStorageItemWithExpiry({ name: 'token' }) || null
   );
   useEffect(() => {
-    setAuthToken(getStorageItemWithExpiry('token'));
+    setAuthToken(getStorageItemWithExpiry({ name: 'token' }));
   }, [setAuthToken]);
   // // TOFIX: remove this either user secure means to store on not store at all
   // if (authToken) {

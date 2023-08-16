@@ -3,7 +3,7 @@ let user = {
   userLoggedIn: () => false,
   getUserId: () => null,
   getName: () => null,
-  getAccessToken: () => null,
+  getAccessToken: () => 'asdasdad',
   login: () => new Promise((resolve, reject) => reject()),
   logout: () => new Promise((resolve, reject) => reject()),
   getData: key => null,
