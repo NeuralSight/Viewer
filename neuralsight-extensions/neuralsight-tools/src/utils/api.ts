@@ -19,10 +19,6 @@ const NeuralSightBackend = `${process.env.REACT_APP_API_URL}/api/v1`;
 const PatientUri = `${NeuralSightBackend}/patient`;
 const Dicom = process.env.REACT_APP_ORTHANC_URL;
 
-//TOFIX: remove this when not need again
-// const username = 'asdas';
-// const password = 'asdasd';
-
 // const headers = new Headers({
 //   AcceptEncoding: 'gzip, deflate, br',
 //   // AcceptLanguage: "en-US,en;q=0.9"
@@ -40,13 +36,11 @@ export const postPatientStudy = async ({
   patientID,
   file,
 }: PostImageType): Promise<AnyObject> => {
-  const response = await fetch(`${PatientUri}/dicom/pred  `, {
+  const response = await fetch(`${PatientUri}/dicom/pred`, {
     headers: headers,
     method: 'POST',
     body: changeObjToFormData({
       file,
-      // username,
-      // password,
       file_refence: patientID,
     }),
   });
@@ -56,13 +50,10 @@ export const postPatientStudy = async ({
 export const getStudyInfoFromImageId = async (
   id: string
 ): Promise<AnyObject> => {
-  console.log('DICOMWeb', Dicom + id);
-  const response = await fetch(
-    `${Dicom}/studies/${id}&token=${getStorageItemWithExpiry('token')}`,
-    {
-      // headers: headers,
-    }
-  );
+  console.log('DICOMWeb', Dicom + '/studies/' + id);
+  const response = await fetch(`${Dicom}/studies/${id}`, {
+    headers: headers,
+  });
   return response;
 };
 
@@ -71,12 +62,9 @@ export const getAIPredResultForStudy = async ({
 }: {
   uuid: string;
 }): Promise<AiResultType> => {
-  const response = await fetch(
-    `${PatientUri}/dicom/{dicom_uuid}?uuid=${uuid}`,
-    {
-      headers: headers,
-    }
-  );
+  const response = await fetch(`${PatientUri}/dicom/${uuid}`, {
+    // headers: headers,
+  });
   const data = await response.json();
   if (response.status === 200 || response.status === 201) {
     return data as AiResultType;
@@ -92,7 +80,7 @@ export const postAiModelSetting = async ({
   modelID: string;
 }): Promise<AIModelInfoType[]> => {
   const response = await fetch(`${PatientUri}/models`, {
-    headers: headers,
+    // headers: headers,
     method: 'POST',
     body: changeObjToFormData({
       modelID,

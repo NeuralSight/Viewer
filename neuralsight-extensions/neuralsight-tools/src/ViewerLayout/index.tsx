@@ -291,6 +291,22 @@ function ViewerLayout({
   //   }),
   // });
 
+  //TODO: Once authentication works show this
+
+  if (!authToken) {
+    return (
+      <LoginModal
+        isOpen={!authToken}
+        setAuthToken={setAuthToken}
+        managers={{
+          servicesManager,
+          extensionManager,
+          commandsManager,
+        }}
+      />
+    );
+  }
+
   return (
     <div>
       <Header
@@ -349,19 +365,6 @@ function ViewerLayout({
         }}
       >
         <React.Fragment>
-          {/*TODO: Once authentication works show this */}
-          {authToken && (
-            <LoginModal
-              isOpen={!authToken}
-              setAuthToken={setAuthToken}
-              managers={{
-                servicesManager,
-                extensionManager,
-                commandsManager,
-              }}
-            />
-          )}
-
           {showLoadingIndicator && (
             <LoadingIndicatorProgress className="h-full w-full bg-black" />
           )}
