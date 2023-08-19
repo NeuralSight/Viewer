@@ -603,14 +603,17 @@ function WorkList({
             ) : (
               <EmptyStudies />
             )}
+            {/* TODO fix this once authentications works */}
+            {authToken && (
+              <LoginModal
+                managers={{ servicesManager }}
+                isOpen={!authToken}
+                setAuthToken={setAuthToken}
+              />
+            )}
           </div>
         )}
       </div>
-      <LoginModal
-        managers={{ servicesManager }}
-        isOpen={!authToken}
-        setAuthToken={setAuthToken}
-      />
     </div>
   );
 }

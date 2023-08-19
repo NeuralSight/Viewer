@@ -20,8 +20,8 @@ const PatientUri = `${NeuralSightBackend}/patient`;
 const Dicom = process.env.REACT_APP_ORTHANC_URL;
 
 //TOFIX: remove this when not need again
-const username = 'asdas';
-const password = 'asdasd';
+// const username = 'asdas';
+// const password = 'asdasd';
 
 // const headers = new Headers({
 //   AcceptEncoding: 'gzip, deflate, br',
@@ -33,10 +33,9 @@ const password = 'asdasd';
 //   Host: 'localhost:8042',
 // });
 const headers = new Headers({
-  Authorization: `Bearer ${getStorageItemWithExpiry({ name: 'token' })}`,
+  Authorization: `Bearer ${getStorageItemWithExpiry('token')}`,
 });
 
-//TOFIX: send data and throw error instead
 export const postPatientStudy = async ({
   patientID,
   file,
@@ -46,23 +45,20 @@ export const postPatientStudy = async ({
     method: 'POST',
     body: changeObjToFormData({
       file,
-      username,
-      password,
+      // username,
+      // password,
       file_refence: patientID,
     }),
   });
   return response;
 };
 
-//TOFIX: send data and throw error instead
 export const getStudyInfoFromImageId = async (
   id: string
 ): Promise<AnyObject> => {
   console.log('DICOMWeb', Dicom + id);
   const response = await fetch(
-    `${Dicom}/studies/${id}&token=${getStorageItemWithExpiry({
-      name: 'token',
-    })}`,
+    `${Dicom}/studies/${id}&token=${getStorageItemWithExpiry('token')}`,
     {
       // headers: headers,
     }
