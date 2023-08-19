@@ -74,10 +74,10 @@ function WorkList({
   // } = servicesManager.services
   //   .userAuthenticationService as typeof UserAuthenticationService;
   const [authToken, setAuthToken] = useState<string | null>(
-    getStorageItemWithExpiry({ name: 'token' }) || null
+    getStorageItemWithExpiry('token') || null
   );
   useEffect(() => {
-    setAuthToken(getStorageItemWithExpiry({ name: 'token' }));
+    setAuthToken(getStorageItemWithExpiry('token'));
   }, [setAuthToken]);
   // // TOFIX: remove this either user secure means to store on not store at all
   // if (authToken) {
@@ -487,7 +487,7 @@ function WorkList({
 
   // console.log('activeViewportIndex', activeViewportIndex);
 
-  //TODO WorkList header customizationService for rightside leftside and center
+  // //TODO WorkList header customizationService for rightside leftside and center
   const {
     component: WorklistHeaderComponent,
     props: worklistHeaderComponentProps,
@@ -523,8 +523,19 @@ function WorkList({
         }
       : undefined;
 
+  /* TODO fix this once authentications works */
+  if (!authToken) {
+    return (
+      <LoginModal
+        managers={{ servicesManager }}
+        isOpen={!authToken}
+        setAuthToken={setAuthToken}
+      />
+    );
+  }
+
   return (
-    <div className="bg-black h-screen flex flex-col ">
+    <div className="bg-black h-screen flex flex-col">
       <Header
         isSticky
         menuOptions={menuOptions}
@@ -602,14 +613,6 @@ function WorkList({
               <LoadingIndicatorProgress className={'w-full h-full bg-black'} />
             ) : (
               <EmptyStudies />
-            )}
-            {/* TODO fix this once authentications works */}
-            {authToken && (
-              <LoginModal
-                managers={{ servicesManager }}
-                isOpen={!authToken}
-                setAuthToken={setAuthToken}
-              />
             )}
           </div>
         )}
