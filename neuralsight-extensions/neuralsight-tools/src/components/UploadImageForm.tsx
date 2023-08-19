@@ -276,7 +276,7 @@ const UploadImageForm = ({
       const errorMsg = errorDetails as OrthancServerErrorData;
       return (
         // Type errors due to required defaults why not put defaults?
-        <Typography className="pl-1 my-2" color="error">
+        <Typography className="pl-1 my-2" color="error" component={undefined}>
           {t(
             `ErrorMessage: ${errorMsg?.Message}, Details:${errorMsg?.Details}`
           )}
@@ -291,7 +291,12 @@ const UploadImageForm = ({
         // Type errors due to required defaults why not put defaults?
         <div className="flex flex-col gap-2">
           {errorMsgArr.map((err: Details, index: number) => (
-            <Typography className="pl-1 my-2" color="error" key={index}>
+            <Typography
+              className="pl-1 my-2"
+              color="error"
+              key={index}
+              component={undefined}
+            >
               {t(`${index}). ErrorType: ${err.type}, Details:${err.msg}`)}
             </Typography>
           ))}
@@ -300,7 +305,7 @@ const UploadImageForm = ({
     }
     return (
       // Type errors due to required defaults why not put defaults?
-      <Typography className="pl-1 mt-2" color="error">
+      <Typography className="pl-1 mt-2" color="error" component={undefined}>
         {error_messages[errorType]}
       </Typography>
     );
@@ -319,7 +324,11 @@ const UploadImageForm = ({
               : ' text-yellow-500'
           }`}
         >
-          <Typography color="inherit">
+          <Typography
+            color="inherit"
+            component={undefined}
+            className={undefined}
+          >
             {t(`${success.Status}: ${
               success?.Status?.toLocaleLowerCase() == 'success'
                 ? 'in adding '
@@ -428,13 +437,13 @@ const UploadImageForm = ({
       FIXME: REMOVE THIS
       {renderErrorHandler('server', serverError)} */}
       {renderSuccessMessageHandler(success)}
-      <Typography variant="h6">
+      <Typography variant="h6" component={undefined} className={undefined}>
         {t('Please select a PNG or JPEG File.')}
       </Typography>
 
       <div className="mt-4 ml-2 space-y-3 flex flex-col">
         <div className="flex justify-center items-center gap-4">
-          <Label htmlFor="patientId" className="mr-2">
+          <Label htmlFor="patientId" className="mr-2" text={undefined}>
             {t('Patient ID')}
           </Label>
           <Input
@@ -443,6 +452,14 @@ const UploadImageForm = ({
             type="text"
             className="mr-2"
             onChange={({ target }) => setPatientID(target.value)}
+            label={undefined}
+            value={undefined}
+            onFocus={undefined}
+            autoFocus={undefined}
+            onKeyPress={undefined}
+            onKeyDown={undefined}
+            readOnly={undefined}
+            disabled={undefined}
           />
         </div>
         <input
@@ -463,7 +480,9 @@ const UploadImageForm = ({
           className="p-4 rounded bg-secondary-dark border-secondary-primary"
           data-cy="image-preview"
         >
-          <Typography variant="h5">{t('Image preview')}</Typography>
+          <Typography variant="h5" component={undefined} className={undefined}>
+            {t('Image preview')}
+          </Typography>
 
           {/* we can use the active viewport later if the doctor want the images on the view port probed*/}
           {!isFileTypeOkay(selectedFile?.name, [
@@ -472,7 +491,7 @@ const UploadImageForm = ({
             'gif',
             'jpeg',
           ]) ? (
-            <Typography className="mt-4">
+            <Typography className="mt-4" component={undefined}>
               {t('Current Image cannot be displayed')}
             </Typography>
           ) : (

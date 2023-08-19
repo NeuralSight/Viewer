@@ -3,6 +3,7 @@ import React, {
   FormEvent,
   ReactElement,
   SetStateAction,
+  useEffect,
   useState,
 } from 'react';
 import { Button, ButtonEnums, Typography, Input, Modal } from '@ohif/ui/src';
@@ -16,11 +17,7 @@ import Logo from './Logo';
 import { AuthUser, Details } from '../../data';
 import { loginUser } from '../utils/api';
 
-import {
-  setStorageItemWithExpiry,
-  getStorageItem,
-  getStorageItemWithExpiry,
-} from '../utils/localStorageAccess';
+import { setStorageItemWithExpiry } from '../utils/localStorageAccess';
 
 type Props = {
   servicesManager: ServicesManager;
@@ -40,17 +37,17 @@ const LoginForm = (props: Props): ReactElement => {
     server: false,
     detail: false,
   };
-  const {
-    userAuthenticationService,
-    uiModalService,
-  } = props.servicesManager.services;
-  // const {
-  //   getAuthorizationHeader,
-  //   getUser,
-  //   setUser,
-  //   reset,
-  //   setServiceImplementation,
-  // } = userAuthenticationService;
+  useEffect(() => {
+    const { userAuthenticationService } = props.servicesManager.services;
+    // const {
+    //   getAuthorizationHeader,
+    //   getUser,
+    //   setUser,
+    //   reset,
+    //   setServiceImplementation,
+    // } = userAuthenticationService;
+  }, []);
+
   const [error, setError] = useState<Error>(IntialErrorState);
   const [serverErr, setServerErr] = useState<{ detail: string }>();
   const hasError = Object.values(error).includes(true);
@@ -169,7 +166,6 @@ const LoginForm = (props: Props): ReactElement => {
   }, [IntialErrorState, setError]);
 
   return (
-    // TODO blur everything else NOT IMPORTANT AS LONG AS THE USER DOESNOT SEE ANYTHING
     <div className="max-w-md">
       <Modal
         isOpen={props.isOpen}
@@ -178,7 +174,6 @@ const LoginForm = (props: Props): ReactElement => {
         // title={t('Login To NeuralSightViewer')}
       >
         <form onSubmit={handleLogin} className="px-12 py-8 space-y-4">
-          {/* TODO: had title and logo maybe */}
           <div className="flex flex-col space-y-2 text-center justify-center w-full items-center">
             {/* Inputs */}
             {/* Logo section */}
@@ -241,7 +236,6 @@ const LoginForm = (props: Props): ReactElement => {
           </div>
         </form>
         <div className="mt-6 px-10">
-          {/* TODO: problem try viewer here  by changing config temporarily*/}
           <p className="text-sm lg:text-base text-slate-400 font-medium">
             {t('Want to give it a try? ')}
             <a href="mailto:info@neurallabs.africa?subject=Request Of A Demo &body=i would like to request a demo">

@@ -384,7 +384,7 @@ export default function ModeRoute({
           filters: {
             ...filters,
 
-            token: getStorageItemWithExpiry({ name: 'token' }),
+            token: getStorageItemWithExpiry('token'),
           },
         },
         hangingProtocolIdToUse
