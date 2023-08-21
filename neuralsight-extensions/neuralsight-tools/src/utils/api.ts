@@ -37,11 +37,12 @@ export const postPatientStudy = async ({
   file,
 }: PostImageType): Promise<AnyObject> => {
   const response = await fetch(`${PatientUri}/dicom/pred`, {
-    headers: headers,
+    // headers: headers,
     method: 'POST',
     body: changeObjToFormData({
       file,
       file_refence: patientID,
+      token: getStorageItemWithExpiry('token'),
     }),
   });
   return response;
@@ -52,7 +53,7 @@ export const getStudyInfoFromImageId = async (
 ): Promise<AnyObject> => {
   console.log('DICOMWeb', Dicom + '/studies/' + id);
   const response = await fetch(`${Dicom}/studies/${id}`, {
-    headers: headers,
+    // headers: headers,
   });
   return response;
 };
