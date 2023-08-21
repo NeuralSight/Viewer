@@ -283,7 +283,7 @@ function ViewerLayout({
   // console.log('getUser()', getUser());
   useEffect(() => {
     setAuthToken(getStorageItemWithExpiry('token'));
-  }, [setAuthToken]);
+  }, []);
 
   // setServiceImplementation({
   //   getAuthorizationHeader: () => ({
@@ -295,15 +295,72 @@ function ViewerLayout({
 
   if (!authToken) {
     return (
-      <LoginModal
-        isOpen={!authToken}
-        setAuthToken={setAuthToken}
-        managers={{
-          servicesManager,
-          extensionManager,
-          commandsManager,
-        }}
-      />
+      <div>
+        <Header
+          isSticky={true}
+          menuOptions={menuOptions}
+          isReturnEnabled={!!appConfig.showStudyList}
+          onClickReturnButton={onClickReturnButton}
+          WhiteLabeling={appConfig.whiteLabeling}
+          rightSideItems={
+            <>
+              <Button
+                type={ButtonEnums.type.primary}
+                size={ButtonEnums.size.medium}
+                className="mr-3 px-2"
+                onClick={() => {
+                  show({
+                    content: NeuralSightViewportUploadModal,
+                    title: t('Upload Image for AI probing'),
+                    contentProps: {
+                      activeViewportIndex,
+                      onClose: uiModalService?.hide,
+                      cornerstoneViewportService,
+                    },
+                  });
+                }}
+              >
+                <span className="mr-1">AI Predict</span>
+                <Icon name="tool-ai-probe" className="h-5 w-5" />
+              </Button>
+              {/*TODO: Move logout functionality to be added*/}
+              <Button
+                type={ButtonEnums.type.secondary}
+                size={ButtonEnums.size.medium}
+                className="mr-3 px-2"
+                onClick={() => {
+                  removeItemFromStorage('token');
+                  setAuthToken(null);
+                }}
+              >
+                <span className="mr-1">Logout</span>
+                <Icon name="power-off" className="h-5 w-5" />
+              </Button>
+            </>
+          }
+        >
+          <ErrorBoundary context="Primary Toolbar">
+            <div className="relative flex justify-center">
+              <Toolbar servicesManager={servicesManager} />
+            </div>
+          </ErrorBoundary>
+        </Header>
+        <LoginModal
+          isOpen={!authToken}
+          setAuthToken={setAuthToken}
+          managers={{
+            servicesManager,
+            extensionManager,
+            commandsManager,
+          }}
+        />
+        <div
+          className="bg-black flex flex-row items-stretch w-full overflow-hidden flex-nowrap relative"
+          style={{
+            height: 'calc(100vh - 52px',
+          }}
+        ></div>
+      </div>
     );
   }
 

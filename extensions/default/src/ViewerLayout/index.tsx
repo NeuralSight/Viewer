@@ -3,14 +3,19 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
+import Header from 'extension-neuralsight-tools/src/components/Header';
 
 import {
   SidePanel,
   ErrorBoundary,
   UserPreferences,
-  Header,
+  // Header,
+  AboutModal,
   useModal,
   LoadingIndicatorProgress,
+  Button,
+  Icon,
+  ButtonEnums,
 } from '@ohif/ui';
 import i18n from '@ohif/i18n';
 import {
@@ -21,7 +26,7 @@ import {
 } from '@ohif/core';
 import { useAppConfig } from '@state';
 import Toolbar from '../Toolbar/Toolbar';
-import AboutModal from 'extension-neuralsight-tools';
+import NeuralSightViewportUploadModal from 'extension-neuralsight-tools/src/modals/NeuralSightViewportUploadModal';
 const { availableLanguages, defaultLanguage, currentLanguage } = i18n;
 
 function ViewerLayout({
@@ -222,6 +227,42 @@ function ViewerLayout({
         isReturnEnabled={!!appConfig.showStudyList}
         onClickReturnButton={onClickReturnButton}
         WhiteLabeling={appConfig.whiteLabeling}
+        rightSideItems={
+          <>
+            <Button
+              type={ButtonEnums.type.primary}
+              size={ButtonEnums.size.medium}
+              className="mr-3 px-2"
+              onClick={() => {
+                show({
+                  content: NeuralSightViewportUploadModal,
+                  title: t('Upload Image for AI probing'),
+                  contentProps: {
+                    activeViewportIndex,
+                    onClose: uiModalService?.hide,
+                    cornerstoneViewportService,
+                  },
+                });
+              }}
+            >
+              <span className="mr-1">AI Predict</span>
+              <Icon name="tool-ai-probe" className="h-5 w-5" />
+            </Button>
+            {/*TODO: Move logout functionality to be added*/}
+            <Button
+              type={ButtonEnums.type.secondary}
+              size={ButtonEnums.size.medium}
+              className="mr-3 px-2"
+              onClick={() => {
+                removeItemFromStorage('token');
+                setAuthToken(null);
+              }}
+            >
+              <span className="mr-1">Logout</span>
+              <Icon name="power-off" className="h-5 w-5" />
+            </Button>
+          </>
+        }
       >
         <ErrorBoundary context="Primary Toolbar">
           <div className="relative flex justify-center">
@@ -231,7 +272,7 @@ function ViewerLayout({
       </Header>
       <div
         className="bg-black flex flex-row items-stretch w-full overflow-hidden flex-nowrap relative"
-        style={{ height: 'calc(100vh - 52px' }}
+        style={{ height: 'calc(100vh - 52px)' }}
       >
         <React.Fragment>
           {showLoadingIndicator && (

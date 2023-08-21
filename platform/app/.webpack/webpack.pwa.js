@@ -78,6 +78,10 @@ module.exports = (env, argv) => {
           'neuralsight-extensions/neuralsight-tools/node_modules'
         ),
         path.resolve(__dirname, 'neuralsight-modes/custom-viewer/node_modules'),
+        path.resolve(
+          __dirname,
+          '/home/dreamer/Documents/Neurallabs/Viewers/modes/longitudinal/node_modules'
+        ),
       ],
     },
     plugins: [

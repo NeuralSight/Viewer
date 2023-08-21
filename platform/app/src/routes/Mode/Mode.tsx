@@ -53,7 +53,6 @@ function defaultRouteInit(
     dataSource.retrieve.series.metadata({
       StudyInstanceUID,
       filters,
-      token: getStorageItemWithExpiry({ name: 'token' }),
     })
   );
 
@@ -381,7 +380,7 @@ export default function ModeRoute({
           servicesManager,
           studyInstanceUIDs,
           dataSource,
-          filters: filters,
+          filters,
         },
         hangingProtocolIdToUse
       );
