@@ -327,7 +327,7 @@ function ViewerLayout({
                   title: t('Upload Image for AI probing'),
                   contentProps: {
                     activeViewportIndex,
-                    onClose: uiModalService.hide,
+                    onClose: uiModalService?.hide,
                     cornerstoneViewportService,
                   },
                 });

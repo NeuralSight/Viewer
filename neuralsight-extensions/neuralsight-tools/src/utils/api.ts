@@ -52,9 +52,12 @@ export const getStudyInfoFromImageId = async (
   id: string
 ): Promise<AnyObject> => {
   console.log('DICOMWeb', Dicom + '/studies/' + id);
-  const response = await fetch(`${Dicom}/studies/${id}`, {
-    // headers: headers,
-  });
+  const response = await fetch(
+    `${Dicom}/studies/${id}/?token=${getStorageItemWithExpiry('token')}`,
+    {
+      // headers: headers,
+    }
+  );
   return response;
 };
 

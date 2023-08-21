@@ -381,11 +381,7 @@ export default function ModeRoute({
           servicesManager,
           studyInstanceUIDs,
           dataSource,
-          filters: {
-            ...filters,
-
-            token: getStorageItemWithExpiry('token'),
-          },
+          filters: filters,
         },
         hangingProtocolIdToUse
       );
