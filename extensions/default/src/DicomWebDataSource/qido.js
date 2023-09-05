@@ -185,7 +185,7 @@ function mapParams(params, options = {}) {
     offset: params.offset || 0,
     fuzzymatching: options.supportsFuzzyMatching === true,
     includefield: commaSeparatedFields, // serverSupportsQIDOIncludeField ? commaSeparatedFields : 'all',
-    token: getStorageItemWithExpiry('token'), //token to be passed to every request
+    token: getStorageItemWithExpiry('token') || '', //token to be passed to every request
   };
 
   // build the StudyDate range parameter

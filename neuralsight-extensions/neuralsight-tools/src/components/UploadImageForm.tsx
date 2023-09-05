@@ -17,6 +17,10 @@ import { getStudyInfoFromImageId } from '../utils/api';
 import { readZipFiles } from '../utils/readZipFiles';
 
 const openStudy = StudyInstanceUID => {
+  // check for window object first
+  if (!window) {
+    console.error('Error-> window must be used avoid ssr for now', window);
+  }
   const NEURALSIGHT_CUSTOM_VIEWER_PATH = '/neural-viewer?StudyInstanceUIDs=';
   if (StudyInstanceUID && window) {
     const urlInfo = window.location.href.split('/');
@@ -190,14 +194,6 @@ const UploadImageForm = ({
           console.log('StudyInfo', studyInfo);
           console.log('ParentStudy', id);
           setStudyInfo(studyInfo);
-
-          // check for window object first
-          if (!window) {
-            console.error(
-              'Error-> window must be used avoid ssr for now',
-              window
-            );
-          }
 
           openStudy(studyInfo.MainDicomTags?.StudyInstanceUID);
           // redirect to
