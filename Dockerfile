@@ -22,7 +22,7 @@
 
 # Stage 1: Build the application
 # docker build -t ohif/viewer:latest .
-FROM node:20-alpine3.17 as json-copier
+FROM node:21-alpine3.17 as json-copier
 
 
 RUN mkdir /app
