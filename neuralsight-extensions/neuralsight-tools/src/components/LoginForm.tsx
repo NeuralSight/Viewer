@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+
 import { Button, ButtonEnums, Typography, Input, Modal } from '@ohif/ui/src';
 import {
   ServicesManager,
@@ -92,7 +93,7 @@ const LoginForm = (props: Props): ReactElement => {
     try {
       const data = await loginUser(authDetails);
       if (data.access_token) {
-        //This the recommended way of passing auth token though doesnot work
+        //TODO: This the recommended way of passing auth token though doesnot work
         // setServiceImplementation({
         //   getAuthorizationHeader: () => ({
         //     Authorization: 'Bearer ' + data.access_token,
@@ -106,6 +107,9 @@ const LoginForm = (props: Props): ReactElement => {
           30 * 1000 * 60 * 60 //time of the token to expire and get deleted
         );
         props.setAuthToken(data.access_token);
+        if (window !== undefined) {
+          window.location.reload();
+        }
       } else {
         const error = { detail: 'token was not found' };
         throw error;
